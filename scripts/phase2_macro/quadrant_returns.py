@@ -35,7 +35,7 @@ quarterly = (1 + monthly).resample("QE").prod() - 1
 full = monthly["Market"].resample("QE").count() == 3
 quarterly = quarterly[full]
 
-reg = pd.read_csv("data/regimes_smoothed.csv", index_col=0, parse_dates=True)["q"]
+reg = pd.read_csv("data/phase2_macro/regimes_smoothed.csv", index_col=0, parse_dates=True)["q"]
 
 def table(df, title):
     g = df.groupby("q")[["Market", "SmallValue", "Cash"]]
@@ -54,8 +54,8 @@ t1 = table(same, "SAME QUARTER (descriptive: what happened during the regime)")
 nxt = quarterly.join(reg.shift(1).rename("q"), how="inner").dropna()
 t2 = table(nxt, "NEXT QUARTER (predictive: trade on the label after it is known)")
 
-t1.to_csv("data/quadrant_returns_same.csv")
-t2.to_csv("data/quadrant_returns_next.csv")
+t1.to_csv("data/phase2_macro/quadrant_returns_same.csv")
+t2.to_csv("data/phase2_macro/quadrant_returns_next.csv")
 import numpy as np
 
 print("\n" + "=" * 60)

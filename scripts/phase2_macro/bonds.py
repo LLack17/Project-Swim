@@ -14,7 +14,7 @@ dur = (1 - (1 + y_prev / 2) ** -20) / y_prev     # modified duration of a 10Y pa
 bond = (y_prev / 4 - dur * (y - y_prev)).dropna()
 bond.name = "Bond10Y"
 
-reg = pd.read_csv("data/regimes_smoothed.csv", index_col=0, parse_dates=True)["q"]
+reg = pd.read_csv("data/phase2_macro/regimes_smoothed.csv", index_col=0, parse_dates=True)["q"]
 
 def report(df, title):
     g = df.groupby("q")["Bond10Y"]
@@ -40,5 +40,5 @@ def report(df, title):
 same = pd.concat([bond, reg], axis=1, join="inner")
 nxt = pd.concat([bond, reg.shift(1).rename("q")], axis=1, join="inner").dropna()
 
-report(same, "BONDS, SAME QUARTER (descriptive)").to_csv("data/bond_returns_same.csv")
-report(nxt, "BONDS, NEXT QUARTER (predictive)").to_csv("data/bond_returns_next.csv")
+report(same, "BONDS, SAME QUARTER (descriptive)").to_csv("data/phase2_macro/bond_returns_same.csv")
+report(nxt, "BONDS, NEXT QUARTER (predictive)").to_csv("data/phase2_macro/bond_returns_next.csv")

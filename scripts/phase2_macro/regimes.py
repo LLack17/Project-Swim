@@ -28,7 +28,7 @@ def quadrant(r):
 df["quadrant"] = df.apply(quadrant, axis=1)
 
 os.makedirs("data", exist_ok=True)
-df.to_csv("data/regimes.csv")
+df.to_csv("data/phase2_macro/regimes.csv")
 
 print("Quarters per quadrant:")
 print(df["quadrant"].value_counts().sort_index())

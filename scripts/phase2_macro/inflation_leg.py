@@ -11,7 +11,7 @@ from fredapi import Fred
 warnings.simplefilter("ignore")
 BASE = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
 WB_URL = "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
-WB_PATH = "data/CMO-Historical-Data-Monthly.xlsx"
+WB_PATH = "data/phase2_macro/CMO-Historical-Data-Monthly.xlsx"
 
 def french(name):
     req = urllib.request.Request(BASE + name + "_CSV.zip", headers={"User-Agent": "Mozilla/5.0"})

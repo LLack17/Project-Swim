@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from math import comb
 
-PATH = "data/JSTdatasetR6.xlsx"
+PATH = "data/phase2_macro/JSTdatasetR6.xlsx"
 raw = pd.read_excel(PATH)
 need = ["country", "year", "cpi", "eq_tr", "bond_tr", "bill_rate"]
 d = raw[need].sort_values(["country", "year"]).copy()

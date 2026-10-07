@@ -32,7 +32,7 @@ for name, d in [("RAW", raw), ("SMOOTHED", sm)]:
     print(d.q.value_counts().sort_index().to_dict())
 
 sm = sm.dropna()
-sm.to_csv("data/regimes_smoothed.csv")
+sm.to_csv("data/phase2_macro/regimes_smoothed.csv")
 print("\nSmoothed, last 8 quarters:")
 print(sm[["growth", "inflation", "q"]].tail(8).round(2))
 print("\nSmoothed, 2021-22:")

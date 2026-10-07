@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 URL = "https://www.macrohistory.net/app/download/9834512569/JSTdatasetR6.xlsx?t=1763503850"
-PATH = "data/JSTdatasetR6.xlsx"
+PATH = "data/phase2_macro/JSTdatasetR6.xlsx"
 if not os.path.exists(PATH):
     print("Downloading the JST Macrohistory database (free, non-commercial use)...")
     req = urllib.request.Request(URL, headers={"User-Agent": "Mozilla/5.0"})
