@@ -27,6 +27,7 @@ Self-directed investment research project, built alongside CFA Level II study. A
 | Which recession signal is most usable? | The 10-year minus 3-month yield curve: it caught 6 of 7 recessions since 1972 with 5 to 16 months of warning and one false alarm (2022). | 18 |
 | Does acting on it help? | Only with a hold. Shifting out of stocks only while the curve was inverted did no better than random timing; holding the shift 12 months after the curve un-inverted made the worst drawdown about 2 points shallower than Trigger 1 alone at no return cost (random timing matched it 6% of the time). The hold was designed after seeing history, on a second attempt. | 20, 21 |
 | Do gold, commodities or TIPS solve the inflation problem? | None passed all three pre-committed criteria. Gold diversified but did not protect in high-inflation selloffs; commodities did, but deepened drawdowns elsewhere; TIPS fell with stocks and bonds in 2022. | 19 |
+| Is gold still worth holding as a diversifier? | As a judgment call, yes. A 10% gold sleeve cut the worst drawdown about as much as 10% more Treasuries (-24.2% vs -24.0%, 1975–2026) at a slightly lower return cost, with almost no correlation to stocks (-0.03) or bonds (0.05). It held flat in 2022 while bonds fell 15.5%, but fell 16% in October 2008. It did not beat Treasuries. | 22, 23 |
 
 Two findings changed the plan. The regime framework is kept as a stress-test lens, not a trading signal. And the defensive sleeve cannot rely on nominal bonds alone, because the stock-bond hedge failed at inflation levels close to today's (core PCE 3.0% in August 2026).
 
@@ -39,6 +40,7 @@ Two findings changed the plan. The regime framework is kept as a stress-test len
 - **Trigger 1 (bonds and inflation).** When core PCE has been above 3.25% for three months, trim half of the bond position into cash. Restore when it has been below 3.0% for three months. Current state: not trimmed (core PCE 3.01% in August 2026).
 - **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), and for 12 months after it last was, move 10 points from stocks to bonds, or to cash while Trigger 1 is on. The hold matters because selloffs came after the curve un-inverted in 2001, 2008 and 2020. The Sahm rule is watched but does not trigger anything. Current state: off (the hold from the 2022 inversion ended in December 2025).
 - **Trigger 3 (when to drop the idea).** If core PCE stays above 3.25% for 18 months and the stock-bond correlation over that period is still at or below zero, restore the bonds and rerun the tests.
+- **Gold (declared judgment exception).** Held at 5% as a diversifier, not an inflation hedge; it did not pass the Test 19 criteria. Dropped if its 36-month correlation with stocks rises above +0.3. Trigger 1 still sends trimmed bonds to cash.
 - **Monthly review.** On the first of each month, record core PCE, the 12- and 24-month stock-bond correlation, the yield-curve spread and the state of each trigger, before looking at performance.
 
 The thresholds are judgment calls, not fitted values. Results barely changed across nearby settings (Test 13), and the data cannot tell a break at 3% from one anywhere between about 2.5% and 3.5% (Test 9).
@@ -66,6 +68,7 @@ Run each script from the repo root, in the `project-swim` conda environment. FRE
 | `inflation_leg.py` | 19 | `inflation_leg_results.txt` |
 | `trigger_interaction.py` | 20 (Triggers 1 and 2 together) | `trigger_interaction_results.txt` |
 | `trigger2_hold.py` | 21 (Trigger 2 with a 12-month hold) | `trigger2_hold_results.txt` |
+| `gold_tests.py` | 22 (gold vs. more Treasuries), 23 (crisis replay) | `gold_tests_results.txt` |
 | `inflation.py` | none (quick check of current core PCE) | printed only |
 
 ```bash
@@ -75,7 +78,7 @@ python scripts/phase2_macro/robustness.py > data/phase2_macro/robustness_results
 
 Inside `robustness.py`, the printed labels TEST 1 to 3 correspond to Tests 4 to 6 above; the other labels match.
 
-Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 21) are kept as working docs and will be exported to `research/` with the allocation decision.
+Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 23) are kept as working docs and will be exported to `research/` with the allocation decision.
 
 ## Structure
 
