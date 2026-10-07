@@ -6,7 +6,7 @@ Self-directed investment research project, built alongside CFA Level II study. A
 
 ## Status
 
-🟡 **Phase 2 (top-down macro view)**: testing is complete and the macro thesis is final. The allocation step (equity / fixed income / alternatives split) is next. No positions selected yet. Checkpoint: assets selected and paper trading set up by 2026-10-22.
+🟡 **Phase 2 (top-down macro view)**: testing is complete and the macro thesis is final. The base allocation is set (55% stocks / 40% Treasuries / 5% gold); the benchmark, tilts and a red-team review remain. No positions selected yet. Checkpoint: assets selected and paper trading set up by 2026-10-22.
 
 ## Phase 2: Top-down macro view
 
@@ -28,6 +28,7 @@ Self-directed investment research project, built alongside CFA Level II study. A
 | Does acting on it help? | Only with a hold. Shifting out of stocks only while the curve was inverted did no better than random timing; holding the shift 12 months after the curve un-inverted made the worst drawdown about 2 points shallower than Trigger 1 alone at no return cost (random timing matched it 6% of the time). The hold was designed after seeing history, on a second attempt. | 20, 21 |
 | Do gold, commodities or TIPS solve the inflation problem? | None passed all three pre-committed criteria. Gold diversified but did not protect in high-inflation selloffs; commodities did, but deepened drawdowns elsewhere; TIPS fell with stocks and bonds in 2022. | 19 |
 | Is gold still worth holding as a diversifier? | As a judgment call, yes. A 10% gold sleeve cut the worst drawdown about as much as 10% more Treasuries (-24.2% vs -24.0%, 1975–2026) at a slightly lower return cost, with almost no correlation to stocks (-0.03) or bonds (0.05). It held flat in 2022 while bonds fell 15.5%, but fell 16% in October 2008. It did not beat Treasuries. | 22, 23 |
+| How much in stocks? | 55% stocks / 40% intermediate Treasuries / 5% gold: the most stocks whose drawdown, with a concentrated stock sleeve (six random industries), stays no deeper than the plain 60/40 (-27.8% vs -28.6%). 60% in a concentrated sleeve came out at -30.8%. | 24 |
 
 Two findings changed the plan. The regime framework is kept as a stress-test lens, not a trading signal. And the defensive sleeve cannot rely on nominal bonds alone, because the stock-bond hedge failed at inflation levels close to today's (core PCE 3.0% in August 2026).
 
@@ -36,6 +37,8 @@ Two findings changed the plan. The regime framework is kept as a stress-test len
 > Since the 1950s, the main threat to the defensive sleeve of a diversified portfolio without leverage is not failing to predict the next regime but a shift to inflation-driven markets, when stocks and bonds fall together. I cannot time regimes, and my tests showed the growth and inflation quadrant labels did not predict returns, so I will not trade them. What I can do is recognize the dangerous state from a slow signal (core inflation above about 3.25%) and avoid relying on one hedge: nominal bonds for growth shocks, cash and my options overlay for inflation shocks. Across 16 countries from 1950 to 2020, trimming bonds into cash when inflation was high made the worst drawdown about 2 points shallower on average at essentially no cost in return. This is modest insurance, not a forecast, and I will drop it if the stock-bond correlation stays at or below zero through 18 months of high inflation.
 
 ### Rules the portfolio follows
+
+**Base allocation:** 55% stocks, 40% intermediate (7 to 10-year) Treasuries, 5% gold. The triggers below move it within stocks 45–55%, Treasuries 20–50% and cash 0–30%. The 25% single-position cap applies to individual stocks only.
 
 - **Trigger 1 (bonds and inflation).** When core PCE has been above 3.25% for three months, trim half of the bond position into cash. Restore when it has been below 3.0% for three months. Current state: not trimmed (core PCE 3.01% in August 2026).
 - **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), and for 12 months after it last was, move 10 points from stocks to bonds, or to cash while Trigger 1 is on. The hold matters because selloffs came after the curve un-inverted in 2001, 2008 and 2020. The Sahm rule is watched but does not trigger anything. Current state: off (the hold from the 2022 inversion ended in December 2025).
@@ -69,6 +72,7 @@ Run each script from the repo root, in the `project-swim` conda environment. FRE
 | `trigger_interaction.py` | 20 (Triggers 1 and 2 together) | `trigger_interaction_results.txt` |
 | `trigger2_hold.py` | 21 (Trigger 2 with a 12-month hold) | `trigger2_hold_results.txt` |
 | `gold_tests.py` | 22 (gold vs. more Treasuries), 23 (crisis replay) | `gold_tests_results.txt` |
+| `split_test.py` | 24 (stock / Treasury / gold split) | `split_test_results.txt` |
 | `inflation.py` | none (quick check of current core PCE) | printed only |
 
 ```bash
@@ -78,7 +82,7 @@ python scripts/phase2_macro/robustness.py > data/phase2_macro/robustness_results
 
 Inside `robustness.py`, the printed labels TEST 1 to 3 correspond to Tests 4 to 6 above; the other labels match.
 
-Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 23) are kept as working docs and will be exported to `research/` with the allocation decision.
+Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 24) are kept as working docs and will be exported to `research/` with the allocation decision.
 
 ## Structure
 

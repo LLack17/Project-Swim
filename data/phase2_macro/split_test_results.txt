@@ -1,0 +1,42 @@
+Core data: 1970-01-31 to 2026-08-31, 680 months
+World Bank columns used: gold = 'Gold', energy index = 'Energy', non-energy index = 'Non-energy **'
+Test sample (gold available): 1975-01-31 to 2026-08-31, 620 months
+
+Industries with full data over the sample: 49
+
+Reference: plain index 60/40, no triggers, no gold: return 10.4%, max drawdown -28.6%
+
+TEST 24a: equity sleeve = whole market, with Triggers 1 and 2
+         ann_ret_%  vol_%  max_dd_%  worst_12m_%
+60/35/5      10.33    9.2     -27.3        -25.3
+57/38/5      10.13    8.7     -25.7        -23.8
+55/40/5      10.00    8.5     -24.6        -22.8
+50/45/5       9.65    7.8     -21.9        -20.2
+
+TEST 24b: equity sleeve = N random industries (lower bound on single-stock concentration), 1,000 draws
+  median [10th percentile = bad draw] of return and max drawdown; also the equity sleeve's own volatility
+
+  N = 4 (median equity-sleeve volatility 18.2% vs market 15.5%)
+   60/35/5  return 10.53% [ 9.83]   max drawdown  -30.6% [ -38.6]
+   57/38/5  return 10.33% [ 9.66]   max drawdown  -28.8% [ -36.3]
+   55/40/5  return 10.18% [ 9.55]   max drawdown  -27.5% [ -34.8]
+   50/45/5  return  9.83% [ 9.25]   max drawdown  -24.6% [ -31.3]
+
+  N = 6 (median equity-sleeve volatility 17.7% vs market 15.5%)
+   60/35/5  return 10.62% [10.00]   max drawdown  -30.8% [ -37.1]
+   57/38/5  return 10.41% [ 9.82]   max drawdown  -29.0% [ -35.0]
+   55/40/5  return 10.26% [ 9.70]   max drawdown  -27.8% [ -33.7]
+   50/45/5  return  9.90% [ 9.39]   max drawdown  -24.6% [ -30.3]
+
+  N = 8 (median equity-sleeve volatility 17.4% vs market 15.5%)
+   60/35/5  return 10.62% [10.14]   max drawdown  -30.4% [ -35.4]
+   57/38/5  return 10.41% [ 9.95]   max drawdown  -28.7% [ -33.4]
+   55/40/5  return 10.27% [ 9.82]   max drawdown  -27.5% [ -32.1]
+   50/45/5  return  9.89% [ 9.49]   max drawdown  -24.5% [ -28.8]
+
+DECISION (rule fixed before running): most stocks with median max drawdown (N = 6) no deeper than the reference (-28.6%)
+  60/35/5  median max drawdown  -30.8%  -> too deep
+  57/38/5  median max drawdown  -29.0%  -> too deep
+  55/40/5  median max drawdown  -27.8%  -> qualifies
+  50/45/5  median max drawdown  -24.6%  -> qualifies
+  -> base split: 55/40/5
