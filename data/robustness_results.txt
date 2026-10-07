@@ -1,0 +1,254 @@
+Data: 1970-01-31 to 2026-08-31, 680 months
+
+TEST 1: stock-bond correlation (monthly), by core PCE inflation
+  Inflation > 3%:  0.33  (304 months)
+  Inflation <= 3%: -0.14  (376 months)
+  Difference (high minus low): 0.47, 95% CI [0.30, 0.65]
+
+TEST 2: portfolios (monthly rebalanced)
+
+  Full sample: 644 months
+        ann_return_%  ann_vol_%  max_drawdown_%  worst_12m_%
+Stocks          11.2       15.8           -50.3        -42.6
+60/40            9.4       10.2           -29.5        -26.7
+InvVol           7.7        7.2           -18.5        -17.2
+
+  Before 2000: 324 months
+        ann_return_%  ann_vol_%  max_drawdown_%  worst_12m_%
+Stocks          13.8       16.0           -44.9        -41.2
+60/40           11.9       10.8           -29.5        -26.7
+InvVol          10.2        8.1           -14.4        -12.8
+
+  2000 onward: 320 months
+        ann_return_%  ann_vol_%  max_drawdown_%  worst_12m_%
+Stocks           8.5       15.7           -50.3        -42.6
+60/40            6.9        9.4           -28.6        -24.6
+InvVol           5.3        6.0           -18.5        -17.2
+
+  60/40 minus Stocks, volatility (pts): -5.7, 95% CI [-6.4 -4.9]
+  60/40 minus Stocks, max drawdown (pts, positive = shallower): 20.9, 95% CI [ 9.4 29.8]
+
+TEST 3: worst 10% of stock quarters (23 quarters, stocks <= -8.4%)
+  All worst quarters: n=23, avg bond return 2.8% per quarter, bonds positive in 65%
+    with inflation > 3%: n=10, avg bond return -1.3% per quarter, bonds positive in 30%
+    with inflation <= 3%: n=13, avg bond return 6.0% per quarter, bonds positive in 92%
+  All other quarters: n=203, avg bond return 1.5% per quarter, bonds positive in 63%
+  Avg bond return in worst quarters, 95% CI: [0.7 4.9] (% per quarter)
+
+TEST 7: cash vs bonds in the worst 10% of stock quarters
+  Inflation > 3%: n=10, bonds -1.3%, cash 1.8% per quarter, cash beat bonds in 8 of 10 quarters
+  Inflation <= 3%: n=13, bonds 6.0%, cash 0.6% per quarter, cash beat bonds in 1 of 13 quarters
+
+TEST 8: stock-bond correlation by core PCE inflation band
+  0% to 2%: correlation -0.15, 241 months, 95% CI [-0.32, 0.01]
+  2% to 3%: correlation -0.11, 135 months, 95% CI [-0.34, 0.12]
+  3% to 4%: correlation 0.22, 95 months, 95% CI [0.06, 0.46]
+  4% to 20%: correlation 0.38, 209 months, 95% CI [0.24, 0.53]
+
+TEST 9a: stock-bond correlation, 0.5-point inflation bands
+     0% to  1.5%: corr -0.07,  93 months, 95% CI [-0.31,  0.06]
+   1.5% to  2.0%: corr -0.20, 148 months, 95% CI [-0.45,  0.07]
+   2.0% to  2.5%: corr -0.14,  81 months, 95% CI [-0.45,  0.17]
+   2.5% to  3.0%: corr -0.05,  54 months, 95% CI [-0.28,  0.26]
+   3.0% to  3.5%: corr  0.29,  47 months, 95% CI [ 0.08,  0.57]
+   3.5% to  4.0%: corr  0.17,  48 months, 95% CI [-0.09,  0.48]
+   4.0% to  4.5%: corr  0.37,  40 months, 95% CI [ 0.01,  0.60]
+   4.5% to  5.0%: corr  0.53,  32 months, 95% CI [ 0.06,  0.73]
+     5% to   20%: corr  0.36, 137 months, 95% CI [ 0.19,  0.56]
+
+TEST 9b: threshold sweep, correlation difference (inflation >= X minus < X)
+  X = 2.00%: difference  0.41, 95% CI [ 0.21,  0.62], 439 months above
+  X = 2.25%: difference  0.45, 95% CI [ 0.28,  0.64], 381 months above
+  X = 2.50%: difference  0.46, 95% CI [ 0.28,  0.65], 358 months above
+  X = 2.75%: difference  0.45, 95% CI [ 0.28,  0.64], 339 months above
+  X = 3.00%: difference  0.47, 95% CI [ 0.31,  0.66], 304 months above
+  X = 3.25%: difference  0.44, 95% CI [ 0.26,  0.64], 277 months above
+  X = 3.50%: difference  0.43, 95% CI [ 0.25,  0.62], 257 months above
+  X = 3.75%: difference  0.45, 95% CI [ 0.28,  0.63], 235 months above
+  X = 4.00%: difference  0.43, 95% CI [ 0.25,  0.62], 209 months above
+  X = 4.25%: difference  0.40, 95% CI [ 0.21,  0.60], 186 months above
+  X = 4.50%: difference  0.39, 95% CI [ 0.19,  0.60], 169 months above
+  X = 4.75%: difference  0.35, 95% CI [ 0.15,  0.57], 148 months above
+
+TEST 10: Trigger 1 backtest (60/40 baseline; trimmed bonds go to cash)
+  Months in trimmed state: 337 of 680 (50%), switches: 3
+                ann_ret_%  vol_%  max_dd_%  worst_12m_%
+Baseline 60/40        9.5   10.2     -30.7        -26.7
+Trim 1/3              9.4    9.9     -29.5        -25.9
+Trim 1/2              9.4    9.8     -28.9        -25.6
+Trim all bonds        9.4    9.5     -28.6        -24.6
+
+  Return and max drawdown by half (baseline vs trim 1/2):
+   1970-1999: baseline 11.8% / -30.7%, trim 1/2 11.5% / -28.9%
+   2000-2026: baseline 6.9% / -28.6%, trim 1/2 7.2% / -28.6%
+
+  Calendar-year returns, baseline vs trim 1/2 (%):
+   1974:  -16.4 vs  -15.5
+   1979:   13.8 vs   16.1
+   1980:   17.2 vs   20.9
+   1981:    1.3 vs    2.6
+   2008:  -17.8 vs  -17.8
+   2022:  -17.8 vs  -14.6
+
+  Placebo (trim 1/2, random timing, same time spent trimmed):
+   Real rule: 9.4% return, -28.9% max drawdown
+   Share of placebos with return at least as high: 32%
+   Share of placebos with a drawdown at least as shallow: 28%
+
+TEST 11: current stock-bond correlation and inflation state
+  Last 12 months: correlation  0.00  (history median  0.16; 34% of past windows were lower)
+  Last 24 months: correlation -0.26  (history median  0.16; 15% of past windows were lower)
+  Last 36 months: correlation  0.23  (history median  0.17; 60% of past windows were lower)
+  Latest data month: 2026-08-31
+  Core PCE inflation now: 3.01%  (above 3.25%: False)
+  Inflation variability (36-month std of YoY inflation): 0.25  (25th percentile of history)
+  Trigger 1 state in the backtest at the last month: TRIMMED
+  Rolling 12-month correlation, last 12 months (every 3rd):
+2025-09-30   -0.36
+2025-12-31   -0.48
+2026-03-31    0.21
+2026-06-30   -0.01
+Freq: 3ME
+
+TEST 12: what predicts the NEXT 12 months of stock-bond correlation?
+  Level and variability are correlated with each other: 0.71
+  Predictors              R2 in-sample 1970-99    R2 out-of-sample 2000-26
+  level                                   0.05                        0.18
+  vol                                     0.12                        0.17
+  level+vol                               0.12                        0.17
+  past                                    0.00                       -0.06
+  past+level                              0.06                        0.10
+  past+level+vol                          0.13                        0.05
+
+  Full sample, standardized coefficients (effect of a 1-std-dev change on next-12m correlation):
+    Inflation level:        0.15, 95% CI [ 0.04,  0.39]
+    Inflation variability:  0.06, 95% CI [-0.09,  0.14]
+
+TRIMMED PERIODS (Trigger 1 backtest):
+  1970-05-31 to 1993-06-30
+  2021-09-30 to still trimmed
+
+DATA COVERAGE CHECK
+  Main dataset: 1970-01-31 to 2026-08-31, 680 months
+  Missing months inside the range: 0
+  Years with fewer than 12 months: {2026: 8}
+  Portfolio comparison (Test 2) starts: 1973-01-31, 644 months
+  Correlation prediction (Test 12) uses: 1972-12-31 to 2025-08-31, 633 months
+  Trigger 1 backtest covers: 1970-01-31 to 2026-08-31
+
+TEST 13: Trigger 1 sensitivity (trim 1/2). Baseline 60/40 for reference:
+  Baseline: return 9.5%, max drawdown -30.7%, 2022 -17.8%
+   Act above  Restore below  % months trimmed  periods  return %  max DD %  2022 %  trimmed now
+        3.00           2.50                51        2       9.4     -28.9   -14.6         True
+        3.00           2.75                50        2       9.4     -28.9   -14.6         True
+        3.00           3.00                44        6       9.4     -29.4   -14.6         True
+        3.25           2.50                51        2       9.4     -28.9   -14.6         True
+        3.25           2.75                50        2       9.4     -28.9   -14.6         True
+        3.25           3.00                43        4       9.4     -29.7   -14.6        False
+        3.50           2.50                51        2       9.4     -28.9   -14.6         True
+        3.50           2.75                49        2       9.4     -28.9   -14.6         True
+        3.50           3.00                42        4       9.4     -29.7   -14.6        False
+
+TEST 14: trigger shoot-out (trim 1/2 of bonds into cash when the rule is on), 1970-2026
+                               ann_ret_%  vol_%  max_dd_%  worst_12m_%  % trimmed  switches
+Baseline 60/40                       9.5   10.2     -30.7        -26.7        0.0       0.0
+Inflation rule (3.25/3.0)            9.4    9.8     -29.7        -25.6       43.0       8.0
+Bond trend filter (10-mo avg)        9.5   10.0     -30.1        -26.1       28.0      85.0
+Past-12m correlation > 0             9.4    9.8     -28.9        -25.6       65.0      57.0
+Inflation OR trend                   9.4    9.8     -29.7        -25.6       60.0      51.0
+Inflation AND trend                  9.6   10.0     -30.1        -26.1       11.0      34.0
+
+  Return % / max drawdown % by half:
+   Baseline 60/40                   1970-99:  11.8 /  -30.7    2000-26:   6.9 /  -28.6
+   Inflation rule (3.25/3.0)        1970-99:  11.5 /  -29.7    2000-26:   7.1 /  -28.6
+   Bond trend filter (10-mo avg)    1970-99:  11.9 /  -30.1    2000-26:   6.9 /  -28.6
+   Past-12m correlation > 0         1970-99:  11.6 /  -28.9    2000-26:   6.9 /  -28.5
+   Inflation OR trend               1970-99:  11.6 /  -29.7    2000-26:   7.0 /  -28.6
+   Inflation AND trend              1970-99:  11.8 /  -30.1    2000-26:   7.0 /  -28.6
+
+  Calendar-year returns (%):
+                                       1974    1980    2008    2022
+   Baseline 60/40                     -16.4    17.2   -17.8   -17.8
+   Inflation rule (3.25/3.0)          -15.5    20.9   -17.8   -14.6
+   Bond trend filter (10-mo avg)      -15.9    18.8   -17.8   -15.1
+   Past-12m correlation > 0           -15.5    20.9   -17.8   -15.1
+   Inflation OR trend                 -15.5    20.9   -17.8   -14.6
+   Inflation AND trend                -15.9    18.8   -17.8   -15.1
+
+  Placebo (same time spent trimmed, timing shifted at random; 500 draws):
+   Inflation rule (3.25/3.0)        placebos matching return:  23%   matching drawdown:  33%
+   Bond trend filter (10-mo avg)    placebos matching return:   3%   matching drawdown:  33%
+   Past-12m correlation > 0         placebos matching return:  17%   matching drawdown:   8%
+   Inflation OR trend               placebos matching return:  12%   matching drawdown:  21%
+   Inflation AND trend              placebos matching return:   2%   matching drawdown:  10%
+
+TEST 15: risk parity replica, 1973-01-31 to 2026-08-31 (644 months)
+  Assumptions: inverse-vol weights from trailing 36 months, leverage up to 3x, financing at T-bill + 0.5%/yr
+                                 ann_ret_%  vol_%  max_dd_%  worst_12m_%
+Stocks                                11.2   15.8     -50.3        -42.6
+60/40                                  9.4   10.2     -29.5        -26.7
+Risk parity, unlevered                 7.7    7.2     -18.5        -17.2
+Risk parity, levered to 10% vol        9.1   11.0     -30.6        -27.5
+
+  Leverage used: average 1.63x, max 2.66x, at 2021-12: 1.99x, at 2022-12: 1.22x
+
+  Calendar-year returns (%):
+                                         1974    1981    2008    2022
+   Stocks                               -27.8    -3.3   -36.7   -19.9
+   60/40                                -16.4     1.3   -17.8   -17.8
+   Risk parity, unlevered                -5.5     3.4    -1.2   -16.4
+   Risk parity, levered to 10% vol      -16.0     3.9    -9.7   -27.2
+
+TEST 18: growth-shock signals vs. NBER recessions
+  Recession starts since 1972: 1973-12, 1980-02, 1981-08, 1990-08, 2001-04, 2008-01, 2020-03
+  Lead = months from signal onset to recession start (negative = signal came after the start)
+
+  Sahm rule (unemployment +0.5)
+    Recessions caught: 6 of 7; leads (months): [-1, 17, -3, -3, -2, -2]
+    Signal onsets: 10, false alarms (no recession underway or within 24 months): 3
+    Months signal is on: 23%
+    Next 12 months after onset (n=10): stocks  16.9%, bonds  10.0%   | all months: stocks  12.8%, bonds   6.5%
+
+  Yield curve inverted (10Y-3M < 0)
+    Recessions caught: 6 of 7; leads (months): [5, 13, 8, 7, 16, 8]
+    Signal onsets: 8, false alarms (no recession underway or within 24 months): 1
+    Months signal is on: 13%
+    Next 12 months after onset (n=8): stocks   4.5%, bonds   8.0%   | all months: stocks  12.8%, bonds   6.5%
+
+  Industrial production YoY < 0
+    Recessions caught: 6 of 7; leads (months): [1, 19, 12, 1, -4, 10]
+    Signal onsets: 13, false alarms (no recession underway or within 24 months): 4
+    Months signal is on: 28%
+    Next 12 months after onset (n=13): stocks  11.7%, bonds  10.7%   | all months: stocks  12.8%, bonds   6.5%
+
+  Portfolio rule: when signal is on, hold 40% stocks / 60% bonds instead of 60/40 (1970-2026)
+                                   ann_ret_%  vol_%  max_dd_%  worst_12m_%  % on
+Baseline 60/40                           9.5   10.2     -30.7        -26.7   NaN
+Sahm rule (unemployment +0.5)            9.4    9.5     -27.8        -23.6  23.0
+Yield curve inverted (10Y-3M < 0)        9.5    9.9     -28.6        -24.6  13.0
+Industrial production YoY < 0            9.0    9.5     -30.7        -26.7  28.0
+  Calendar-year returns (%), baseline vs. each signal:
+                                           1974    1981    2001    2008    2020    2022
+   Baseline 60/40                         -16.4     1.3    -3.9   -17.8    19.5   -17.8
+   Sahm rule (unemployment +0.5)          -13.3     1.4    -2.1    -9.1    11.7   -17.8
+   Yield curve inverted (10Y-3M < 0)      -13.8     2.8    -4.5   -17.8    24.3   -16.3
+   Industrial production YoY < 0          -16.8     1.4    -2.1    -8.6    16.5   -17.8
+  Placebo (same time on, random timing): share matching return / share matching drawdown
+   Sahm rule (unemployment +0.5)         29% /   6%
+   Yield curve inverted (10Y-3M < 0)     13% /  11%
+   Industrial production YoY < 0         82% /  81%
+
+YIELD-CURVE ONSETS (month the inversion signal turned on):
+  1970-01: recession starts 1973-12 (47 months later)
+  1973-07: recession starts 1973-12 (5 months later)
+  1979-01: recession starts 1980-02 (13 months later)
+  1980-12: recession starts 1981-08 (8 months later)
+  2000-09: recession starts 2001-04 (7 months later)
+  2006-09: recession starts 2008-01 (16 months later)
+  2019-07: recession starts 2020-03 (8 months later)
+  2022-12: no recession after
+
+CURRENT READINGS (latest month with data):
+  10Y minus 3M spread: 1.05 points  (inverted if below 0)
+  Sahm rule value: 0.23  (signal at 0.50 or more)
+  Industrial production YoY: 1.4%  (signal if below 0)
