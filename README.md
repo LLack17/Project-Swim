@@ -25,6 +25,7 @@ Self-directed investment research project, built alongside CFA Level II study. A
 | Does leverage fix it, as risk parity claims? | No. A stock-bond risk parity replica levered to 10% volatility lost 27% in 2022, worse than stocks (-20%) and 60/40 (-18%). | 15 |
 | Can a slow inflation rule help? | Modestly. Trimming half the bonds into cash when core inflation is high made the worst drawdown about 2 points shallower at essentially no return cost, in the US and on average across 16 countries. | 10, 13, 14, 17 |
 | Which recession signal is most usable? | The 10-year minus 3-month yield curve: it caught 6 of 7 recessions since 1972 with 5 to 16 months of warning and one false alarm (2022). | 18 |
+| Does acting on it help? | Only with a hold. Shifting out of stocks only while the curve was inverted did no better than random timing; holding the shift 12 months after the curve un-inverted made the worst drawdown about 2 points shallower than Trigger 1 alone at no return cost (random timing matched it 6% of the time). The hold was designed after seeing history, on a second attempt. | 20, 21 |
 | Do gold, commodities or TIPS solve the inflation problem? | None passed all three pre-committed criteria. Gold diversified but did not protect in high-inflation selloffs; commodities did, but deepened drawdowns elsewhere; TIPS fell with stocks and bonds in 2022. | 19 |
 
 Two findings changed the plan. The regime framework is kept as a stress-test lens, not a trading signal. And the defensive sleeve cannot rely on nominal bonds alone, because the stock-bond hedge failed at inflation levels close to today's (core PCE 3.0% in August 2026).
@@ -36,7 +37,7 @@ Two findings changed the plan. The regime framework is kept as a stress-test len
 ### Rules the portfolio follows
 
 - **Trigger 1 (bonds and inflation).** When core PCE has been above 3.25% for three months, trim half of the bond position into cash. Restore when it has been below 3.0% for three months. Current state: not trimmed (core PCE 3.01% in August 2026).
-- **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), shift part of the portfolio from stocks to bonds. The size is set in the allocation step. The Sahm rule is watched but does not trigger anything. Current state: off (spread +1.05 points).
+- **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), and for 12 months after it last was, move 10 points from stocks to bonds, or to cash while Trigger 1 is on. The hold matters because selloffs came after the curve un-inverted in 2001, 2008 and 2020. The Sahm rule is watched but does not trigger anything. Current state: off (the hold from the 2022 inversion ended in December 2025).
 - **Trigger 3 (when to drop the idea).** If core PCE stays above 3.25% for 18 months and the stock-bond correlation over that period is still at or below zero, restore the bonds and rerun the tests.
 - **Monthly review.** On the first of each month, record core PCE, the 12- and 24-month stock-bond correlation, the yield-curve spread and the state of each trigger, before looking at performance.
 
@@ -46,7 +47,7 @@ The thresholds are judgment calls, not fitted values. Results barely changed acr
 
 - **Few independent episodes.** The inflation evidence rests mainly on the 1970s to early 1980s and 2021 to 2023, plus similar periods abroad.
 - **Approximate data.** US bond returns are estimated from yields; the cross-country data is annual and uses headline CPI; gold and commodity prices are monthly averages, which understate volatility and drawdowns. Everything is in-sample, uses today's revised data and ignores transaction costs.
-- **Small effects.** Both triggers are modest insurance worth about 2 points of worst drawdown, not an edge. In the US, random timing matched Trigger 1's drawdown gain 28% of the time and Trigger 2's 11%.
+- **Small effects.** Both triggers are modest insurance worth about 2 points of worst drawdown, not an edge. In the US, random timing matched Trigger 1's drawdown gain 28% of the time and Trigger 2's (with its hold) 6%, the latter on a second attempt.
 - **Not tested.** Verdad's market-based signals (high-yield spreads), real-time data vintages, and the options overlay (no free historical options data).
 
 ### Reproducing the results
@@ -63,6 +64,8 @@ Run each script from the repo root, in the `project-swim` conda environment. FRE
 | `cross_country.py` | 16 | `cross_country_results.txt` |
 | `cross_country_rule.py` | 17 | `cross_country_rule_results.txt` |
 | `inflation_leg.py` | 19 | `inflation_leg_results.txt` |
+| `trigger_interaction.py` | 20 (Triggers 1 and 2 together) | `trigger_interaction_results.txt` |
+| `trigger2_hold.py` | 21 (Trigger 2 with a 12-month hold) | `trigger2_hold_results.txt` |
 | `inflation.py` | none (quick check of current core PCE) | printed only |
 
 ```bash
@@ -72,7 +75,7 @@ python scripts/phase2_macro/robustness.py > data/phase2_macro/robustness_results
 
 Inside `robustness.py`, the printed labels TEST 1 to 3 correspond to Tests 4 to 6 above; the other labels match.
 
-Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 19) are kept as working docs and will be exported to `research/` with the allocation decision.
+Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 21) are kept as working docs and will be exported to `research/` with the allocation decision.
 
 ## Structure
 

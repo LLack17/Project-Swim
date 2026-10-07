@@ -1,0 +1,40 @@
+Data: 1970-01-31 to 2026-08-31, 680 months
+
+Trigger states (share of months on):
+  Trigger 1 (inflation): 43%   Trigger 2 (curve inverted): 13%   both: 9% (62 months)
+  Share of Trigger 2 months that overlap Trigger 1: 70%
+  Years with overlap months: [1973, 1974, 1979, 1980, 1981, 2022, 2023, 2024]
+
+TEST 20a: full sample, 1970-2026
+                           ann_ret_%  vol_%  max_dd_%  worst_12m_%
+Baseline 60/40                  9.47   10.2     -30.7        -26.7
+Trigger 1 only                  9.42    9.8     -29.7        -25.6
+T1 + T2 10pt, route bonds       9.44    9.6     -28.6        -24.6
+T1 + T2 10pt, route cash        9.51    9.6     -28.6        -24.6
+T1 + T2 20pt, route bonds       9.46    9.5     -28.6        -24.6
+T1 + T2 20pt, route cash        9.59    9.4     -28.6        -24.6
+
+TEST 20b: calendar-year returns (%)
+                                 1973   1974   1979   1980   1981   1982   2001   2008   2020   2022   2023   2024
+  Baseline 60/40                -10.4  -16.4   13.8   17.2    1.3   26.9   -3.9  -17.8   19.5  -17.8   15.6   15.0
+  Trigger 1 only                -10.8  -15.5   16.1   20.9    2.6   22.1   -3.9  -17.8   19.5  -14.6   16.7   14.9
+  T1 + T2 10pt, route bonds     -10.0  -14.1   13.7   21.3    3.4   22.1   -4.2  -17.8   21.9  -13.9   14.0   12.5
+  T1 + T2 10pt, route cash      -10.2  -13.5   14.8   21.6    4.8   22.1   -4.2  -17.8   21.9  -14.1   14.6   12.4
+  T1 + T2 20pt, route bonds      -9.2  -12.8   11.3   21.8    4.1   22.1   -4.5  -17.8   24.3  -13.1   11.4   10.1
+  T1 + T2 20pt, route cash       -9.6  -11.6   13.5   22.2    7.1   22.1   -4.5  -17.8   24.3  -13.5   12.4   10.0
+
+TEST 20c: return in overlap months only (both triggers on), stocks / bonds / cash, annualized %
+  stocks     3.8
+  bonds      2.4
+  cash       9.0
+
+TEST 20d: placebo (Trigger 2's on/off pattern shifted at random, same time on; 500 draws)
+  T1 + T2 10pt, route bonds    share matching return  15%, matching drawdown  21%
+  T1 + T2 10pt, route cash     share matching return   4%, matching drawdown  21%
+  T1 + T2 20pt, route bonds    share matching return  12%, matching drawdown  28%
+  T1 + T2 20pt, route cash     share matching return   4%, matching drawdown  29%
+
+DECISIONS (rules fixed before running)
+  Routing at 10pt: cash minus bonds = drawdown +0.0 pts, return +0.07 pts -> keep cash routing
+  Routing at 20pt: cash minus bonds = drawdown +0.0 pts, return +0.13 pts -> keep cash routing
+  Size (cash routing): 20pt minus 10pt drawdown +0.0 pts, 20pt placebo drawdown match 29% -> use 10 points
