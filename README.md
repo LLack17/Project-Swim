@@ -6,7 +6,7 @@ Self-directed investment research project, built alongside CFA Level II study. A
 
 ## Status
 
-🟡 **Phase 2 (top-down macro view)**: testing is complete and the macro thesis is final. The base allocation is set (55% stocks / 40% Treasuries / 5% gold); the benchmark, tilts and a red-team review remain. No positions selected yet. Checkpoint: assets selected and paper trading set up by 2026-10-22.
+🟡 **Phase 2 (top-down macro view)**: testing is complete and the macro thesis is final. The base allocation is set (55% stocks / 40% Treasuries / 5% gold); the benchmark is set (55% VTI / 40% IEF / 5% GLD); equity tilts and a red-team review remain. No positions selected yet. Checkpoint: assets selected and paper trading set up by 2026-10-22.
 
 ## Phase 2: Top-down macro view
 
@@ -39,6 +39,8 @@ Two findings changed the plan. The regime framework is kept as a stress-test len
 ### Rules the portfolio follows
 
 **Base allocation:** 55% stocks, 40% intermediate (7 to 10-year) Treasuries, 5% gold. The triggers below move it within stocks 45–55%, Treasuries 20–50% and cash 0–30%. The 25% single-position cap applies to individual stocks only.
+
+**Benchmark:** 55% VTI (total US stock market) + 40% IEF (7–10-year Treasuries) + 5% GLD, total return, rebalanced monthly. It holds these weights at all times, so the triggers are measured against it rather than built into it.
 
 - **Trigger 1 (bonds and inflation).** When core PCE has been above 3.25% for three months, trim half of the bond position into cash. Restore when it has been below 3.0% for three months. Current state: not trimmed (core PCE 3.01% in August 2026).
 - **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), and for 12 months after it last was, move 10 points from stocks to bonds, or to cash while Trigger 1 is on. The hold matters because selloffs came after the curve un-inverted in 2001, 2008 and 2020. The Sahm rule is watched but does not trigger anything. Current state: off (the hold from the 2022 inversion ended in December 2025).
