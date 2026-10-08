@@ -1,0 +1,33 @@
+v2 data (bonds: estimate then IEF; gold: averages then GLD): 1975-01-31 to 2026-08-31, 620 months
+
+TEST 32a: split on v2 data. Reference plain 60/40 max drawdown -29.0% (was -28.6% on v1)
+  60/35/5  whole market  -28.9%, six industries median  -31.0% [bad draw  -37.3%]
+  57/38/5  whole market  -27.0%, six industries median  -29.1% [bad draw  -35.3%]
+  55/40/5  whole market  -25.7%, six industries median  -27.8% [bad draw  -33.9%]
+  50/45/5  whole market  -22.5%, six industries median  -24.6% [bad draw  -30.5%]
+  DECISION (Test 24 rule): base split 55/40/5  ->  unchanged
+
+TEST 32d: split for the current portfolio (static, no gold, no triggers), same Test 24 rule
+  60/40  whole market  -29.0%, six industries median  -31.0% [bad draw  -37.4%]
+  57/43  whole market  -27.2%, six industries median  -29.2% [bad draw  -35.3%]
+  55/45  whole market  -25.9%, six industries median  -27.9% [bad draw  -33.9%]
+  50/50  whole market  -22.6%, six industries median  -24.9% [bad draw  -30.4%]
+  DECISION (Test 24 rule): 55/45 stocks/Treasuries
+
+TEST 32b: gold vs more Treasuries on v2 data (Test 22 setup, Trigger 2 off)
+                          ann_ret_%  vol_%  max_dd_%
+Core (60/40 + Trigger 1)      10.50    9.6     -29.0
++10% Treasuries               10.12    8.9     -25.2
++10% cash                      9.91    8.6     -26.3
++10% gold                     10.24    8.9     -25.0
+  Reading guide: drawdown +0.3 pts (needs >= +1), return cost -0.12 (needs <= 0.5), both halves False -> FAVORS TREASURIES (or neither)  (was 'neither' on v1)
+  Monthly correlation: gold-stocks 0.02, gold-bonds 0.06 (v1: -0.03, 0.05)
+
+TEST 32c: Trigger 1 in the US on v2 data, 55/40/5
+                                      ann_ret_%  vol_%  max_dd_%  real_max_dd_%  2022_%
+Static 55/40/5                            10.26    9.4     -25.7          -27.0   -16.8
+Trigger 1, revised data                   10.24    8.9     -25.7          -27.0   -13.6
+Trigger 1, real-time where available      10.24    8.9     -25.7          -27.0   -13.6
+  Drawdown gain from Trigger 1 (revised): +0.0 pts; random timing matched it 32% of the time
+
+  Next: python scripts/phase2_macro/final_tests.py (Tests 27-30, on v2 data)

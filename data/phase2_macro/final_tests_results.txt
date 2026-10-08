@@ -1,0 +1,78 @@
+TEST 27: gold in real terms (v2 gold: averages to 2004, GLD after; divided by US CPI), 1975-2026
+  Worst real drawdown: -83.0% (trough 2001-04)
+  Longest real underwater spells (from a real peak until it was regained):
+    1980-02 to 2025-03: 45.1 years
+    1975-03 to 1979-02: 3.9 years
+    2026-03 to still underwater: 0.4 years
+
+  Today's real price is above 99% of months since 1975
+  Average 10-year real return by starting real-price fifth (overlapping windows; only starts up to 2016):
+    1 (cheapest)     9.4% a year (range  -2.1% to  17.4%, 124 start months)
+    2               -1.0% a year (range  -6.5% to   5.9%, 124 start months)
+    3               -2.0% a year (range  -8.0% to  11.0%, 124 start months)
+    4                1.5% a year (range  -8.2% to  11.7%, 77 start months)
+    5 (dearest)     -3.5% a year (range  -9.8% to   1.5%, 51 start months)
+    top-fifth start years with 10 years of data: [1979, 1980, 1981, 2010, 2011, 2012, 2013]
+
+  DECISION (fixed before running): today in top fifth: True; top-fifth starts averaged -3.5% a year -> REMOVE gold
+
+
+TEST 28 (US, monthly, 1975-2026, v2 data): 55/40/5 static vs with Trigger 1
+                ret_%  max_dd_%  real_ret_%  real_max_dd_%  real_worst_12m_%
+Static 55/40/5  10.26     -25.7        6.36          -27.0             -23.3
+With Trigger 1  10.24     -25.7        6.34          -27.0             -23.3
+  Real max drawdown gain from Trigger 1: +0.0 pts; random timing matched it 6% of the time
+
+TEST 29 (US): after inflation
+  cash   real return while Trigger 1 was on:   1.4% a year (244 months); while off:   0.1%
+  bonds  real return while Trigger 1 was on:   1.7% a year (244 months); while off:   3.0%
+  stocks real return while Trigger 1 was on:  10.4% a year (244 months); while off:   7.8%
+  gold   real return while Trigger 1 was on:  -1.4% a year (244 months); while off:   4.9%
+  1975-1981: cumulative real return, static   16.5%, with Trigger 1   25.4%
+  2021-2023: cumulative real return, static   -8.7%, with Trigger 1   -4.6%
+
+
+TEST 28 (16 countries, annual, 1976-2020, local-currency gold): Trigger 1 vs static 55/40/5, after inflation
+             yrs  t1_on_%  real_dd_static  real_dd_gain  real_ret_chg
+country                                                              
+Australia     45     37.8           -24.6           1.5          -0.0
+Belgium       45     24.4           -33.9           0.0           0.0
+Denmark       45     33.3           -22.9           0.0          -0.2
+Finland       45     37.8           -34.2           1.2           0.1
+France        45     37.8           -23.5           1.7           0.0
+Germany       45     26.7           -29.7           0.0          -0.1
+Italy         45     48.9           -30.8          -0.0          -0.1
+Japan         45     15.6           -25.8           0.0          -0.0
+Netherlands   45     22.2           -27.4           0.0          -0.1
+Norway        45     37.8           -24.5           0.0          -0.2
+Portugal      45     48.9           -68.0          -2.0          -0.3
+Spain         44     50.0           -58.1           3.7           0.1
+Sweden        45     42.2           -25.6          -0.0          -0.3
+Switzerland   45     24.4           -20.0           0.0          -0.2
+UK            45     40.0           -15.7           0.0          -0.2
+USA           45     37.8           -13.5           0.0          -0.0
+  Non-US 15: real drawdown gain 0.40 pts [-0.17, 1.03], better in 4, worse in 1; real return -0.10 pts/yr [-0.16, -0.03]; placebos matching 5%
+
+  DECISION (fixed before running): Trigger 1 becomes WATCH-ONLY (static 55/40/5)
+
+
+TEST 30: 12 industries, return minus the market while Trigger 1 is on (annualized %)
+    1970-1997  1998-2026
+1         3.8       -4.0
+2        -0.3       -2.1
+3        -1.5       -0.3
+4         1.6       19.9
+5         0.1       -5.0
+6        -3.1        4.0
+7         0.1      -15.5
+8        -1.0        1.3
+9         3.3       -0.9
+10        0.9       -3.2
+11        0.7        1.1
+12        0.2        0.1
+  Trigger 1 months: 1970-1997 254, 1998-2026 36
+  Picked on 1970-1997: [1, 9]; in 1998-2026 Trigger 1 months: -2.4% a year vs market [-7.8, +7.4], 36 months
+  Picked on 1998-2026: [4, 6]; in 1970-1997 Trigger 1 months: -0.7% a year vs market [-4.5, +3.0], 254 months
+
+  DECISION (fixed before running, picks from 1970-1997 tested on 1998-2026): NO top-down sector tilts
+  (Industry columns are Ken French's 12 industries, numbered in file order: 1 NoDur, 2 Durbl, 3 Manuf, 4 Enrgy, 5 Chems, 6 BusEq, 7 Telcm, 8 Utils, 9 Shops, 10 Hlth, 11 Money, 12 Other)
