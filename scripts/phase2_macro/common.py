@@ -98,38 +98,53 @@ RT_DETAILS = []   # one row per first release, for checking the real-time series
 
 
 def realtime_core_pce():
-    """Core PCE year-over-year inflation as it was first published (ALFRED vintages), indexed by the month it was
-    released (the decision month). FRED computes the year-over-year change inside each vintage (units=pc1), so a
-    rebasing of the price index (e.g. December 2003) cannot mix old-base and new-base numbers."""
+    """Core PCE year-over-year inflation as it was first published (ALFRED), indexed by the month it was released
+    (the decision month). For each release date, FRED is asked for that single vintage with units=pc1, so the
+    year-over-year change is computed inside one vintage and a rebasing of the price index (e.g. December 2003) cannot
+    mix old-base and new-base numbers. About 330 small requests, paced under FRED's limit of 120 a minute."""
     import json
+    import time
     from dotenv import load_dotenv
     load_dotenv()
     key = os.getenv("FRED_API_KEY")
-    rows = []
-    for y0 in range(1995, 2030, 5):
-        end = min(pd.Timestamp(f"{y0 + 4}-12-31"), pd.Timestamp.today().normalize()).strftime("%Y-%m-%d")
-        url = ("https://api.stlouisfed.org/fred/series/observations?series_id=PCEPILFE&units=pc1&file_type=json"
-               f"&realtime_start={y0}-01-01&realtime_end={end}&limit=100000&api_key={key}")
+    base = "https://api.stlouisfed.org/fred"
+    def call(path):
         try:
-            obs = json.loads(get_url(url))["observations"]
-        except Exception:
-            continue
-        print(f"  ALFRED vintages {y0}-{y0 + 4}: {len(obs)} rows")
-        rows += [(o["date"], o["realtime_start"], o["value"]) for o in obs]
-    if not rows:
+            return json.loads(get_url(f"{base}/{path}&file_type=json&api_key={key}"))
+        except Exception as e:
+            body = ""
+            if hasattr(e, "read"):
+                try:
+                    body = e.read().decode("utf-8", "replace")[:300]
+                except Exception:
+                    pass
+            print(f"  ALFRED request failed: {type(e).__name__}: {e} {body}".replace(key or "<no key>", "<key>"))
+            return None
+    vd = call("series/vintagedates?series_id=PCEPILFE&realtime_start=1995-01-01")
+    if not vd:
         return None
-    a = pd.DataFrame(rows, columns=["date", "realtime_start", "value"])
-    a["date"] = pd.to_datetime(a["date"])
-    a["realtime_start"] = pd.to_datetime(a["realtime_start"])
-    a["value"] = pd.to_numeric(a["value"], errors="coerce")
-    a = a.dropna(subset=["value"]).sort_values("realtime_start")
-    first = a.groupby("date").head(1)                       # earliest vintage that contains each month
+    vintages = [v for v in vd.get("vintage_dates", []) if v >= "1999-01-01"]
+    print(f"  ALFRED: {len(vintages)} release dates; downloading each (about {len(vintages) * 0.55 / 60:.0f} minutes)")
     out = {}
-    for _, row in first.iterrows():
-        if 0 < (row.realtime_start - row.date).days <= 120:  # true first releases only (window starts clip older ones)
-            out[row.realtime_start] = row.value
-            RT_DETAILS.append({"obs": row.date, "released": row.realtime_start, "yoy": row.value})
-    s = pd.Series(out).sort_index()
+    for n, v in enumerate(vintages):
+        r = call(f"series/observations?series_id=PCEPILFE&units=pc1&realtime_start={v}&realtime_end={v}&sort_order=desc&limit=1")
+        time.sleep(0.55)
+        if not r or not r.get("observations"):
+            continue
+        o = r["observations"][0]
+        d, rel = pd.Timestamp(o["date"]), pd.Timestamp(v)
+        try:
+            val = float(o["value"])
+        except ValueError:
+            continue
+        if d not in out and 0 < (rel - d).days <= 120:      # first vintage that contains month d
+            out[d] = (rel, val)
+            RT_DETAILS.append({"obs": d, "released": rel, "yoy": val})
+        if (n + 1) % 100 == 0:
+            print(f"    {n + 1} of {len(vintages)}")
+    if not out:
+        return None
+    s = pd.Series({rel: val for rel, val in out.values()}).sort_index()
     s.index = pd.DatetimeIndex(s.index) + pd.offsets.MonthEnd(0)
     return s.groupby(level=0).last()
 
