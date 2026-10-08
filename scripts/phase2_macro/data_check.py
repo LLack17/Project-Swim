@@ -121,7 +121,7 @@ else:
     if len(det):
         det["revised_yoy"] = det.obs.map(lambda o: M.infl.get(o + pd.offsets.MonthEnd(0), np.nan))
         det["gap"] = det.yoy - det.revised_yoy
-        cols = ["obs", "released", "yoy", "revised_yoy", "gap", "index_now", "index_year_ago", "year_ago_vintage"]
+        cols = ["obs", "released", "yoy", "revised_yoy", "gap"]
         print("  DIAGNOSTIC: first releases more than 1 point away from revised data")
         bad = det[det.gap.abs() > 1]
         print(bad[cols].round(3).to_string(index=False) if len(bad) else "    none")

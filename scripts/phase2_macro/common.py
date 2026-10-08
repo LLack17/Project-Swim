@@ -98,43 +98,37 @@ RT_DETAILS = []   # one row per first release, for checking the real-time series
 
 
 def realtime_core_pce():
-    """Core PCE year-over-year inflation as it was first published (ALFRED vintages).
-    Indexed by the month in which the number was released (the decision month)."""
-    f = fred()
-    parts = []
+    """Core PCE year-over-year inflation as it was first published (ALFRED vintages), indexed by the month it was
+    released (the decision month). FRED computes the year-over-year change inside each vintage (units=pc1), so a
+    rebasing of the price index (e.g. December 2003) cannot mix old-base and new-base numbers."""
+    import json
+    from dotenv import load_dotenv
+    load_dotenv()
+    key = os.getenv("FRED_API_KEY")
+    rows = []
     for y0 in range(1995, 2030, 5):
+        end = min(pd.Timestamp(f"{y0 + 4}-12-31"), pd.Timestamp.today().normalize()).strftime("%Y-%m-%d")
+        url = ("https://api.stlouisfed.org/fred/series/observations?series_id=PCEPILFE&units=pc1&file_type=json"
+               f"&realtime_start={y0}-01-01&realtime_end={end}&limit=100000&api_key={key}")
         try:
-            end = min(pd.Timestamp(f"{y0 + 4}-12-31"), pd.Timestamp.today().normalize()).strftime("%Y-%m-%d")
-            a = f.get_series_all_releases("PCEPILFE", realtime_start=f"{y0}-01-01", realtime_end=end)
-            if a is not None and len(a):
-                parts.append(a)
-                print(f"  ALFRED vintages {y0}-{y0 + 4}: {len(a)} rows")
+            obs = json.loads(get_url(url))["observations"]
         except Exception:
-            pass
-    if not parts:
+            continue
+        print(f"  ALFRED vintages {y0}-{y0 + 4}: {len(obs)} rows")
+        rows += [(o["date"], o["realtime_start"], o["value"]) for o in obs]
+    if not rows:
         return None
-    a = pd.concat(parts)
+    a = pd.DataFrame(rows, columns=["date", "realtime_start", "value"])
     a["date"] = pd.to_datetime(a["date"])
     a["realtime_start"] = pd.to_datetime(a["realtime_start"])
     a["value"] = pd.to_numeric(a["value"], errors="coerce")
     a = a.dropna(subset=["value"]).sort_values("realtime_start")
-    by_date = {d: g for d, g in a.groupby("date")}
-    first_rel = a.groupby("date").realtime_start.min()
+    first = a.groupby("date").head(1)                       # earliest vintage that contains each month
     out = {}
-    for d, r in first_rel.items():
-        if not (0 < (r - d).days <= 120):      # keep true first releases only (window starts clip older vintages)
-            continue
-        prior = d - pd.DateOffset(years=1)
-        if prior not in by_date:
-            continue
-        p = by_date[prior]
-        p = p[p.realtime_start <= r]
-        now = by_date[d]
-        now = now[now.realtime_start <= r]
-        if len(p) and len(now):
-            out[r] = (now.value.iloc[-1] / p.value.iloc[-1] - 1) * 100
-            RT_DETAILS.append({"obs": d, "released": r, "index_now": now.value.iloc[-1], "index_year_ago": p.value.iloc[-1],
-                               "year_ago_vintage": p.realtime_start.iloc[-1], "yoy": out[r]})
+    for _, row in first.iterrows():
+        if 0 < (row.realtime_start - row.date).days <= 120:  # true first releases only (window starts clip older ones)
+            out[row.realtime_start] = row.value
+            RT_DETAILS.append({"obs": row.date, "released": row.realtime_start, "yoy": row.value})
     s = pd.Series(out).sort_index()
     s.index = pd.DatetimeIndex(s.index) + pd.offsets.MonthEnd(0)
     return s.groupby(level=0).last()
