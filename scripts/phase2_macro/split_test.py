@@ -1,5 +1,6 @@
 # Test 24: the stock / Treasury / gold split, with a concentrated equity sleeve.
 # Run from the repo root:  python scripts/phase2_macro/split_test.py > data/phase2_macro/split_test_results.txt
+# Without Trigger 2:      python scripts/phase2_macro/split_test.py --no-t2 > data/phase2_macro/split_test_no_t2_results.txt
 #
 # Splits (stocks / Treasuries / gold): 60/35/5, 57/38/5, 55/40/5, 50/45/5. All run with Triggers 1 and 2
 # (Trigger 1 trims half of the base bond weight into cash; Trigger 2 moves 10 points from stocks, to cash while
@@ -140,6 +141,12 @@ t1 = pd.Series(t1f, index=M.index).reindex(idx).values.astype(float)
 t2 = pd.Series(t2f, index=M.index).reindex(idx).values.astype(float)
 
 
+# --no-t2: rerun with Trigger 2 off (watch-only after Test 25). Same splits, same decision rule.
+import sys
+if "--no-t2" in sys.argv:
+    t2 = np.zeros_like(t2)
+    print("RUN WITHOUT TRIGGER 2 (watch-only after Test 25)\n")
+
 def max_dd(r):
     w = np.cumprod(1 + np.asarray(r))
     return (w / np.maximum.accumulate(w) - 1).min()
@@ -173,7 +180,7 @@ print(f"Reference: plain index 60/40, no triggers, no gold: return {ref_s['ann_r
 splits = [(0.60, 0.35), (0.57, 0.38), (0.55, 0.40), (0.50, 0.45)]
 name = lambda s, b: f"{int(round(s*100))}/{int(round(b*100))}/5"
 
-print("TEST 24a: equity sleeve = whole market, with Triggers 1 and 2")
+print("TEST 24a: equity sleeve = whole market, with Trigger 1" + (" (Trigger 2 off)" if "--no-t2" in sys.argv else " and Trigger 2"))
 print(pd.DataFrame({name(s, b): stats(port(D.stocks.values, s, b)) for s, b in splits}).T.to_string())
 
 rng = np.random.default_rng(24)

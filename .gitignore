@@ -217,3 +217,5 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 .env
+data/phase2_macro/PPUT_History.csv
+data/phase2_macro/CLL_History.csv

@@ -4,95 +4,81 @@ Self-directed investment research project, built alongside CFA Level II study. A
 
 **Named for the old idea of throwing a kid in the deep end to teach them to swim.** This project is deliberately structured to force real learning under real (if simulated) stakes, not just studying the concepts in the abstract.
 
-## Status
+## Phase 2 in one paragraph: the top-down allocation
 
-🟡 **Phase 2 (top-down macro view)**: testing is complete and the macro thesis is final. The base allocation is set (55% stocks / 40% Treasuries / 5% gold); the benchmark is set (55% VTI / 40% IEF / 5% GLD); equity tilts and a red-team review remain. No positions selected yet. Checkpoint: assets selected and paper trading set up by 2026-10-22.
+Since the 1950s, the main threat to a diversified portfolio without leverage has been a shift to inflation-driven markets, when stocks and bonds fall together. I tested whether I could time that shift, with growth and inflation quadrants, an inflation trigger and a yield-curve trigger, and none survived every out-of-sample test I set before running it. So the portfolio does not try. It holds **55% stocks and 45% intermediate Treasuries**, which roughly halved the worst loss in 2008-type crashes, and it accepts that bonds will not protect it in an inflation shock like 2022. Position limits control the risk of holding few stocks. I watch core inflation, the yield curve and gold's price every month, and a rule comes back only if its forward record earns it.
 
-## Phase 2: Top-down macro view
+![Two kinds of crash](docs/figures/fig1_two_crashes.png)
 
-**The question.** Before picking any position, decide how the portfolio splits across equities, fixed income and alternatives, and when, if ever, that split should change. The standard tool is the growth/inflation "regime" framework behind all-weather and risk parity portfolios. Phase 2 tested whether that framework holds up before relying on it.
+![Stock-bond correlation by inflation level](docs/figures/fig2_stock_bond_correlation.png)
 
-**How the tests were run.** Each test fixed its metrics, thresholds and pass/fail criteria before running, and a written prediction was recorded beforehand. Rules were compared against random timing (shuffled labels or placebo on/off schedules), so a rule had to beat luck, not just the baseline. All data is free and public: FRED, the Ken French Data Library, the Jordà-Schularick-Taylor Macrohistory Database, World Bank commodity prices and yfinance.
+### What survived testing
 
-### What we found
+Each rule was built on US data, given pass/fail criteria before it ran, compared against random timing, and then tested on 15 other countries.
 
-| Question | Result | Tests |
+| Rule | US result | Other countries | Status |
+|---|---|---|---|
+| Hold a fixed stock/bond mix | Worst loss cut from -50% to about -26% | Same pattern after 1950 | **Kept** (the core) |
+| Bonds hedge stocks when inflation is low | Correlation -0.23 below 2% inflation, +0.38 above 4% | Higher at high inflation in 14 of 16 countries | **Kept** (the core finding) |
+| Trade growth/inflation quadrants | No better than random | Not tested | Dropped |
+| Trigger 1: trim bonds into cash at high inflation | Helped in 2022 and the 1970s, not in the worst drawdown | Gain not distinguishable from zero after inflation | **Watch-only** |
+| Trigger 2: cut stocks when the yield curve inverts | Passed on a second attempt | Failed: 57 of 76 inversions were false alarms | **Watch-only** |
+| Hold gold as a diversifier | Near-zero correlation; as good as Treasuries | Correlation held | Removed for valuation (re-entry rule) |
+| Tilt toward inflation-winning sectors | Picks did not hold up out of sample | Not tested | Dropped |
+
+![Timing rules tested in other countries](docs/figures/fig3_timing_rules.png)
+
+### The decisions
+
+| Decision | Main evidence | Tests |
 |---|---|---|
-| Do growth/inflation quadrant labels predict next-quarter returns? | No. Random label shuffles matched the real spread between quadrants 30.5% of the time for stocks and 56.8% for bonds. | 1–3 |
-| Does diversification work? | Yes. A fixed 60/40 mix cut the worst drawdown from about -50% to about -30% (1970–2026), at a cost of about 1.8 points of annual return, in both halves of the sample. | 5 |
-| Do bonds always hedge stocks? | No. The stock-bond correlation was +0.33 when core PCE inflation was above 3% and -0.14 below it. In the worst stock quarters, bonds gained 6.0% a quarter at low inflation and lost 1.3% at high inflation, and cash beat bonds in 8 of 10 high-inflation quarters. | 4, 6–9 |
-| Does that hold outside the US? | After 1950, yes: the correlation was higher at high inflation in 14 of 16 countries. Before 1950, no. Bonds abroad were hurt less than in the US. | 16 |
-| Does leverage fix it, as risk parity claims? | No. A stock-bond risk parity replica levered to 10% volatility lost 27% in 2022, worse than stocks (-20%) and 60/40 (-18%). | 15 |
-| Can a slow inflation rule help? | Modestly. Trimming half the bonds into cash when core inflation is high made the worst drawdown about 2 points shallower at essentially no return cost, in the US and on average across 16 countries. | 10, 13, 14, 17 |
-| Which recession signal is most usable? | The 10-year minus 3-month yield curve: it caught 6 of 7 recessions since 1972 with 5 to 16 months of warning and one false alarm (2022). | 18 |
-| Does acting on it help? | Only with a hold. Shifting out of stocks only while the curve was inverted did no better than random timing; holding the shift 12 months after the curve un-inverted made the worst drawdown about 2 points shallower than Trigger 1 alone at no return cost (random timing matched it 6% of the time). The hold was designed after seeing history, on a second attempt. | 20, 21 |
-| Do gold, commodities or TIPS solve the inflation problem? | None passed all three pre-committed criteria. Gold diversified but did not protect in high-inflation selloffs; commodities did, but deepened drawdowns elsewhere; TIPS fell with stocks and bonds in 2022. | 19 |
-| Is gold still worth holding as a diversifier? | As a judgment call, yes. A 10% gold sleeve cut the worst drawdown about as much as 10% more Treasuries (-24.2% vs -24.0%, 1975–2026) at a slightly lower return cost, with almost no correlation to stocks (-0.03) or bonds (0.05). It held flat in 2022 while bonds fell 15.5%, but fell 16% in October 2008. It did not beat Treasuries. | 22, 23 |
-| How much in stocks? | 55% stocks / 40% intermediate Treasuries / 5% gold: the most stocks whose drawdown, with a concentrated stock sleeve (six random industries), stays no deeper than the plain 60/40 (-27.8% vs -28.6%). 60% in a concentrated sleeve came out at -30.8%. | 24 |
+| 55% stocks / 45% intermediate Treasuries, static | The most stocks whose drawdown, with a concentrated stock sleeve, stays within a plain 60/40's (-27.9% vs -29.0%) | 24, 32d |
+| No market timing | Every timing rule was worth about 2 points of drawdown at most, and none passed every out-of-sample test | 1-3, 17, 25, 28 |
+| No gold today | Its real price is above 99% of its history; every start from the top fifth lost money or broke even over 10 years | 27 |
+| Position limits: at least 6 stocks, max 12% per stock, max 20% per sector | 55% stocks passes the risk bar by only about a point, so sizing is the risk control | 24, red-team |
+| Benchmark: 55% VTI / 45% IEF | Matches the allocation; fixed weights | — |
 
-Two findings changed the plan. The regime framework is kept as a stress-test lens, not a trading signal. And the defensive sleeve cannot rely on nominal bonds alone, because the stock-bond hedge failed at inflation levels close to today's (core PCE 3.0% in August 2026).
+Three decisions were reversed during Phase 2, each by a rule set before the test that reversed it. See the [decision log](docs/decision_log.md).
 
-### The macro thesis (final, 2026-10-06)
+![Drawdowns, stocks vs 55/45](docs/figures/fig4_drawdowns.png)
 
-> Since the 1950s, the main threat to the defensive sleeve of a diversified portfolio without leverage is not failing to predict the next regime but a shift to inflation-driven markets, when stocks and bonds fall together. I cannot time regimes, and my tests showed the growth and inflation quadrant labels did not predict returns, so I will not trade them. What I can do is recognize the dangerous state from a slow signal (core inflation above about 3.25%) and avoid relying on one hedge: nominal bonds for growth shocks, cash and my options overlay for inflation shocks. Across 16 countries from 1950 to 2020, trimming bonds into cash when inflation was high made the worst drawdown about 2 points shallower on average at essentially no cost in return. This is modest insurance, not a forecast, and I will drop it if the stock-bond correlation stays at or below zero through 18 months of high inflation.
+![Gold's real price](docs/figures/fig5_gold_real_price.png)
 
-### Rules the portfolio follows
+## How the research is run
 
-**Base allocation:** 55% stocks, 40% intermediate (7 to 10-year) Treasuries, 5% gold. The triggers below move it within stocks 45–55%, Treasuries 20–50% and cash 0–30%. The 25% single-position cap applies to individual stocks only.
+1. **Rules before results.** Every test states its metric, its pass/fail rule and a prediction before it runs. The test script is committed to GitHub before it is run, and its results in a separate commit afterwards, so the timestamps show the order. (This started 2026-10-07; earlier tests were committed together with their results.)
+2. **Beat luck, not just the baseline.** Timing rules are compared against the same rule with its timing shifted at random.
+3. **Out of sample.** Rules built on US data are retested on 15 other countries (Jordà-Schularick-Taylor Macrohistory Database).
+4. **Follow the rule when it hurts.** Trigger 2, Trigger 1 and gold were all removed by rules set in advance, after earlier tests had kept them.
+5. **Check the data.** Test 31 compared every estimated series with an investable one and replaced the ones that failed.
 
-**Benchmark:** 55% VTI (total US stock market) + 40% IEF (7–10-year Treasuries) + 5% GLD, total return, rebalanced monthly. It holds these weights at all times, so the triggers are measured against it rather than built into it.
+Full test log, grouped by question: [docs/phase2_tests.md](docs/phase2_tests.md). Predictions made before each test, scored: [docs/predictions.md](docs/predictions.md).
 
-- **Trigger 1 (bonds and inflation).** When core PCE has been above 3.25% for three months, trim half of the bond position into cash. Restore when it has been below 3.0% for three months. Current state: not trimmed (core PCE 3.01% in August 2026).
-- **Trigger 2 (growth shock).** When the 10-year Treasury yield is below the 3-month yield (prior month's data), and for 12 months after it last was, move 10 points from stocks to bonds, or to cash while Trigger 1 is on. The hold matters because selloffs came after the curve un-inverted in 2001, 2008 and 2020. The Sahm rule is watched but does not trigger anything. Current state: off (the hold from the 2022 inversion ended in December 2025).
-- **Trigger 3 (when to drop the idea).** If core PCE stays above 3.25% for 18 months and the stock-bond correlation over that period is still at or below zero, restore the bonds and rerun the tests.
-- **Gold (declared judgment exception).** Held at 5% as a diversifier, not an inflation hedge; it did not pass the Test 19 criteria. Dropped if its 36-month correlation with stocks rises above +0.3. Trigger 1 still sends trimmed bonds to cash.
-- **Monthly review.** On the first of each month, record core PCE, the 12- and 24-month stock-bond correlation, the yield-curve spread and the state of each trigger, before looking at performance.
+## Portfolio rules (current)
 
-The thresholds are judgment calls, not fitted values. Results barely changed across nearby settings (Test 13), and the data cannot tell a break at 3% from one anywhere between about 2.5% and 3.5% (Test 9).
+- **Allocation:** 55% stocks, 45% intermediate (7 to 10-year) Treasuries, rebalanced monthly.
+- **Position limits:** at least 6 stocks; no stock above 12% of the portfolio; no sector above 20%; with fewer than 6 stocks, the stock sleeve drops to 50%.
+- **Benchmark:** 55% VTI (total US stock market) + 45% IEF (7–10-year Treasuries), total return, rebalanced monthly.
+- **Monthly review (first of each month, before looking at performance):** core PCE, the 12- and 24-month stock-bond correlation, the yield-curve spread, gold's real-price percentile, and what each watch-only rule would do. Gold returns at 5% when its real price leaves the top fifth of its 1975–present history.
+- **Rule freeze:** no new rules or threshold changes until 2027-10-08, except changes the existing rules trigger (decided 2026-10-08). The 12 monthly records in between are the forward test.
 
-### What this does not show
+## What this does not show
 
 - **Few independent episodes.** The inflation evidence rests mainly on the 1970s to early 1980s and 2021 to 2023, plus similar periods abroad.
-- **Approximate data.** US bond returns are estimated from yields; the cross-country data is annual and uses headline CPI; gold and commodity prices are monthly averages, which understate volatility and drawdowns. Everything is in-sample, uses today's revised data and ignores transaction costs.
-- **Small effects.** Both triggers are modest insurance worth about 2 points of worst drawdown, not an edge. In the US, random timing matched Trigger 1's drawdown gain 28% of the time and Trigger 2's (with its hold) 6%, the latter on a second attempt.
-- **Not tested.** Verdad's market-based signals (high-yield spreads), real-time data vintages, and the options overlay (no free historical options data).
+- **Remaining data limits.** Bond returns before 2002 are estimated (and overstate losses); gold before 2004 uses monthly averages; cross-country data is annual; month-end data understates crashes (2020: -17.5% daily vs -7.8% month-end). Everything is in-sample except the cross-country tests.
+- **Concentration.** Single stocks were approximated with industry portfolios, which understate their risk.
+- **Options.** The overlay was tested only on index benchmarks from 2008 (Cboe PPUT and CLL), not on single-stock options.
 
-### Reproducing the results
+## Status
 
-Run each script from the repo root, in the `project-swim` conda environment. FRED access needs a free API key in a git-ignored `.env` file as `FRED_API_KEY=...`. Downloaded source files (JST, World Bank) are cached in `data/phase2_macro/`. The CSVs are written by the scripts; the `.txt` results are the printed output, saved with a redirect (example below the table).
+🟡 **Phase 2 complete** (Tests 1–32). Next: crisis and bubble research (2001, 2008, 2022 and the current AI boom), then Phase 3 stock selection. The original 2026-10-22 checkpoint will move.
 
-| Script (`scripts/phase2_macro/`) | Tests | Output (`data/phase2_macro/`) |
-|---|---|---|
-| `regimes.py` | 1 (raw quadrant labels) | `regimes.csv` |
-| `regimes2.py` | 1 (smoothed labels) | `regimes_smoothed.csv` |
-| `quadrant_returns.py` | 2 (stocks by quadrant) | `quadrant_returns_same.csv`, `quadrant_returns_next.csv` |
-| `bonds.py` | 3 (bonds by quadrant) | `bond_returns_same.csv`, `bond_returns_next.csv` |
-| `robustness.py` | 4–15, 18 (US monthly tests, Triggers 1 and 2) | `robustness_results.txt` |
-| `cross_country.py` | 16 | `cross_country_results.txt` |
-| `cross_country_rule.py` | 17 | `cross_country_rule_results.txt` |
-| `inflation_leg.py` | 19 | `inflation_leg_results.txt` |
-| `trigger_interaction.py` | 20 (Triggers 1 and 2 together) | `trigger_interaction_results.txt` |
-| `trigger2_hold.py` | 21 (Trigger 2 with a 12-month hold) | `trigger2_hold_results.txt` |
-| `gold_tests.py` | 22 (gold vs. more Treasuries), 23 (crisis replay) | `gold_tests_results.txt` |
-| `split_test.py` | 24 (stock / Treasury / gold split) | `split_test_results.txt` |
-| `inflation.py` | none (quick check of current core PCE) | printed only |
+## Repository
 
-```bash
-conda activate project-swim
-python scripts/phase2_macro/robustness.py > data/phase2_macro/robustness_results.txt
-```
-
-Inside `robustness.py`, the printed labels TEST 1 to 3 correspond to Tests 4 to 6 above; the other labels match.
-
-Full write-ups: the Macro Thesis and the test log ("Regime Failures Since 2020", Tests 1 to 24) are kept as working docs and will be exported to `research/` with the allocation decision.
-
-## Structure
-
-- `research/` — position theses, macro/top-down notes, sector write-ups
-- `models/` — valuation models (DCF, comps)
-- `scripts/` — Python scripts (data pulls, backtests); Phase 2 tests in `scripts/phase2_macro/`
-- `data/` — local data cache and test outputs (no credentials — see `.gitignore`); Phase 2 in `data/phase2_macro/`
-- `dashboard/` — source for the live portfolio tracking dashboard
+- `scripts/phase2_macro/` — Phase 2 tests. `run_all.py` reproduces them: `python scripts/phase2_macro/run_all.py` (Tests 27–32 and charts) or `--all` (Tests 1–32). Run from the repo root with a free FRED API key in a git-ignored `.env` file as `FRED_API_KEY=...`.
+- `data/phase2_macro/` — cached source files and test outputs (`*_results.txt`).
+- `docs/` — test log, decision log, figures.
+- `research/`, `models/`, `dashboard/` — Phase 3 onward.
 
 ## Disclaimer
 
