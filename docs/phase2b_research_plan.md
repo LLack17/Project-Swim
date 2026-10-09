@@ -58,4 +58,4 @@ Each test has a benchmark rule written now. Results that meet the benchmark are 
 
 | Date | Change | Reason |
 |---|---|---|
-| — | — | — |
+| 2026-10-09 | 2B-A managed futures: besides AQR's official trend factor (1985 on), build a simple trend-following proxy: a 12-month trend rule (long if the past 12 months' excess return is positive, short if negative, equal risk across assets) on AQR's Century of Factor Premia market returns for stock indexes, bonds and commodities, 1926 on. The proxy is used only if its monthly returns correlate 0.7 or more with AQR's official trend factor over 1985 on; if not, 2B-A falls back to the official data and states that it rests on one inflation crash (2022). Commodities use AQR's commodity market returns from 1926. | The data check found the official trend data starts in 1985, so it covers only the 2022 inflation crash; the proxy covers 1973-74, 1977-81 and 2022. Rule written before building or running the proxy. |

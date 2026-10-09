@@ -219,3 +219,6 @@ __marimo__/
 .env
 data/phase2_macro/PPUT_History.csv
 data/phase2_macro/CLL_History.csv
+
+# Phase 2B hand-downloaded third-party files (republishing rights unconfirmed)
+data/phase2b/manual/

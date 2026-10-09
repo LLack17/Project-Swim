@@ -1,0 +1,56 @@
+Phase 2B data access check
+============================================================
+
+Warning signs, policy and macro (FRED)
+OK    BAA10Y (corporate credit spread (Baa minus 10Y)): 1986-01 to 2026-10, 10192 rows
+OK    GS10 (10-year Treasury yield): 1953-04 to 2026-09, 882 rows
+OK    TB3MS (3-month T-bill): 1934-01 to 2026-09, 1113 rows
+OK    FEDFUNDS (fed funds rate): 1954-07 to 2026-09, 867 rows
+OK    CPIAUCSL (CPI): 1947-01 to 2026-08, 955 rows
+OK    PCEPILFE (core PCE): 1959-01 to 2026-08, 812 rows
+OK    UNRATE (unemployment): 1948-01 to 2026-09, 944 rows
+OK    CP (corporate profits): 1947-01 to 2026-04, 318 rows
+OK    GDP (nominal GDP): 1947-01 to 2026-04, 318 rows
+OK    QUSPAMUSDA (credit to private non-financial sector (BIS, % of GDP)): 1945-10 to 2025-10, 321 rows
+OK    USSTHPI (house prices (FHFA)): 1975-01 to 2026-04, 206 rows
+OK    CSUSHPINSA (house prices (Case-Shiller)): 1987-01 to 2026-07, 475 rows
+OK    BOGZ1FL663067003Q (margin credit at brokers (margin-debt proxy)): 1945-10 to 2026-04, 305 rows
+OK    BAA (Baa corporate yield (spread vs GS10 before 1986)): 1919-01 to 2026-09, 1293 rows
+OK    PPIACO (producer prices, all commodities): 1913-01 to 2026-08, 1364 rows
+OK    WALCL (Fed balance sheet): 2002-12 to 2026-10, 1243 rows
+OK    FYFSGDA188S (federal surplus/deficit, % of GDP): 1929-01 to 2025-01, 97 rows
+
+Stock returns, styles and regions (Ken French)
+OK    F-F_Research_Data_Factors (US market and factors): 1926-07 to 2026-08, 1202 rows
+OK    Portfolios_Formed_on_BE-ME (value vs growth): 1926-07 to 2026-08, 1202 rows
+OK    Portfolios_Formed_on_OP (profitability (quality)): 1963-07 to 2026-08, 758 rows
+OK    Portfolios_Formed_on_VAR (low vs high volatility): 1963-07 to 2026-08, 758 rows
+OK    49_Industry_Portfolios (49 industries): 1926-07 to 2026-08, 1202 rows
+OK    Developed_ex_US_3_Factors (developed markets ex-US): 1990-07 to 2026-08, 434 rows
+OK    Developed_3_Factors (developed markets incl. US): 1990-07 to 2026-08, 434 rows
+
+Funds and indexes (yfinance)
+OK    SHY (1-3y Treasuries): 2002-07 to 2026-10, 292 rows
+OK    IEF (7-10y Treasuries): 2002-07 to 2026-10, 292 rows
+OK    TLT (20+y Treasuries): 2002-07 to 2026-10, 292 rows
+OK    VTI (US total market): 2001-06 to 2026-10, 305 rows
+OK    EFA (developed ex-US stocks): 2001-08 to 2026-10, 303 rows
+OK    VNQ (REITs): 2004-09 to 2026-10, 266 rows
+OK    DBC (commodities fund): 2006-02 to 2026-10, 249 rows
+OK    ^SPGSCI (S&P GSCI commodity index): 1985-01 to 2026-10, 502 rows
+OK    ^N225 (Nikkei 225): 1985-01 to 2026-10, 502 rows
+OK    DBMF (managed futures ETF): 2019-05 to 2026-10, 90 rows
+OK    AQMIX (AQR managed futures fund): 2010-01 to 2026-10, 202 rows
+
+Hand-download candidates
+OK    Shiller ie_data.xls (CAPE): downloaded; CAPE 1881-01 to 2024-09, 1725 rows; latest 35.2
+OK    AQR Time Series Momentum factors: downloaded | sheet 'TSMOM Factors': columns ['TSMOM', 'TSMOM^CM', 'TSMOM^EQ', 'TSMOM^FI', 'TSMOM^FX']; 1985-01 to 2026-05, 497 rows | sheet 'Definitions': no Date table | sheet 'Data Sources': no Date table
+OK    AQR Century of Factor Premia: downloaded | sheet 'Century of Factor Premia': columns ['US Stock Selection Value', 'US Stock Selection Momentum', 'US Stock Selection Defensive', 'US Stock Selection Multi-style', 'Intl Stock Selection Value', 'Intl Stock Selection Momentum', 'Intl Stock Selection Defensive', 'Intl Stock Selection Multi-style']; 1926-07 to 2026-02, 1196 rows | sheet 'Definition': no Date table | sheet 'Data Sources': no Date table
+FAIL  FTSE Nareit monthly returns: ValueError: NaTType does not support strftime
+
+Cross-country and company data
+OK    JST Macrohistory (local): 2718 rows, 18 countries
+OK    FMP fundamentals (free tier): JPM income statements: 5 years, earliest 2021-12-31
+
+FRED search: net equity issuance (to pick the right series id)
+OK    search: IBANERNCNI: Net Issues of International Bonds and Notes, Equity-related in Sector 
