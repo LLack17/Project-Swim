@@ -21,3 +21,4 @@ Every Phase 2 decision, the rule or test behind it, and whether it was later rev
 | 2026-10-07 | Final allocation: 55% stocks / 45% intermediate Treasuries, static | Test 32d | Stands |
 | 2026-10-08 | Rule freeze: no new rules or threshold changes until 2027-10-08, except changes existing rules trigger | Red-team attack 1 | Stands |
 | 2026-10-08 | Thesis rewritten: no market timing; static 55/45; signals watched, not traded | Tests 25-32 | Stands |
+| 2026-10-08 | Mandate: funds that use futures, leverage or shorting internally (e.g. managed futures) allowed up to 10% combined, only after a pre-registered test; no daily-reset leveraged or inverse ETFs; direct positions stay unlevered and long-only | Gap found in red-team: no protection in inflation crashes | Stands; first test in the crisis research phase |
