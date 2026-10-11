@@ -222,3 +222,6 @@ data/phase2_macro/CLL_History.csv
 
 # Phase 2B hand-downloaded third-party files (republishing rights unconfirmed)
 data/phase2b/manual/
+
+# Private notes: never published
+private/
