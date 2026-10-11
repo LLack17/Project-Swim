@@ -108,10 +108,12 @@ def aqr(fname, url):
 def nareit():
     b, where = from_web_or_manual(["https://www.reit.com/sites/default/files/returns/MonthlyHistoricalReturns.xls"],
                                   "MonthlyHistoricalReturns.xls")
-    x, sheets = excel_sheets(b)
-    raw = pd.read_excel(x, sheet_name=sheets[0], header=None)
-    dates = pd.to_datetime(raw.iloc[:, 0], errors="coerce").dropna()
-    return f"{where}; sheets {sheets[:4]}; dates in first column {dates.min():%Y-%m} to {dates.max():%Y-%m}"
+    x, _ = excel_sheets(b)
+    raw = pd.read_excel(x, sheet_name="Index Data", header=None)
+    ret = pd.Series(pd.to_numeric(raw[1], errors="coerce").values,
+                    index=pd.to_datetime(raw[0], errors="coerce")).dropna()
+    ret = ret[ret.index.notna()]
+    return f"{where}; All REITs total return {span(ret)}"
 
 
 log("Phase 2B data access check")
