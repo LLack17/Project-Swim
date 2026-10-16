@@ -1,0 +1,84 @@
+DATA CHECKS
+  2y yield-based estimate (method check) vs SHY, 2002-2026: correlation 0.98 (needs 0.9), worst drawdown -6.2% vs -5.4%  OK
+  Treasuries 20y estimate vs TLT, 2002-2026: correlation 0.99 (needs 0.9), worst drawdown -44.4% vs -47.6%  OK
+  AQR commodities vs ^SPGSCI, 1985-2026: correlation 0.83 (needs 0.7), worst drawdown -57.9% vs -70.4%  OK
+  (The 1y series uses the same method as the 2y check; SHY holds 1-3y bonds.)
+  Private credit source: QUSPAM770A (BIS, % of GDP)
+  Private credit / GDP latest value 140 (needs 50-400 to be % of GDP)  OK
+  BAA: Moody's Seasoned Baa Corporate Bond Yield [%]
+  GS10: Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity, Quoted on an I [%]
+  TB3MS: 3-Month Treasury Bill Secondary Market Rate, Discount Basis [%]
+  FEDFUNDS: Federal Funds Effective Rate [%]
+  CPIAUCSL: Consumer Price Index for All Urban Consumers: All Items in U.S. City Average [Index 1982-1984=100]
+  PCEPILFE: Personal Consumption Expenditures Excluding Food and Energy (Chain-Type Price Index) [Index 2017=100]
+  UNRATE: Unemployment Rate [%]
+  CP: Corporate Profits After Tax (without IVA and CCAdj) [Bil. of $]
+  GDP: Gross Domestic Product [Bil. of $]
+  QUSPAM770A: Total Credit to Private Non-Financial Sector, Adjusted for Breaks, for United States [Percentage of GDP]
+  BOGZ1FL663067003Q: Security Brokers and Dealers; Receivables Due from Customers (Margin Loans and Other  [Mil. of U.S. $]
+  USSTHPI: All-Transactions House Price Index for the United States [Index 1980 Q1=100]
+  FYFSGDA188S: Federal Surplus or Deficit [-] as Percent of Gross Domestic Product [% of GDP]
+  WALCL: Assets: Total Assets: Total Assets (Less Eliminations from Consolidation): Wednesday  [Mil. of U.S. $]
+  DGS1: Market Yield on U.S. Treasury Securities at 1-Year Constant Maturity, Quoted on an In [%]
+  DGS2: Market Yield on U.S. Treasury Securities at 2-Year Constant Maturity, Quoted on an In [%]
+  DGS20: Market Yield on U.S. Treasury Securities at 20-Year Constant Maturity, Quoted on an I [%]
+
+Case study 2022: US stocks peak 2021-12, bottom 2022-09 (9 months)
+==============================================================================
+
+BEFORE: warning signs at the peak month (published-by-then lags; today's revised figures)
+signal                                         at peak  24m before  percentile*
+Shiller CAPE (stock valuation)                   38.30       30.33          99%
+Credit spread, Baa minus 10y (pts)                1.83        2.02          48%
+Yield curve, 10y minus 3m (pts)                   1.41        0.29          53%
+Fed funds rate (%)                                0.08        1.55           3%
+CPI inflation, 12m (%)                            6.90        2.09          89%
+Core PCE inflation, 12m (%)                       4.80        1.50          83%
+Unemployment (%)                                  4.10        3.60          17%
+Unemployment rise from 12m low (pts)              0.00        0.10          39%
+Profit margin, profits / GDP (%)                 12.39        9.61         100%
+Private credit / GDP (%)                        162.40      153.40          94%
+Margin loans / GDP (%)                            2.14        1.29          98%
+Real house prices, 12m (%)                       10.70        2.75         100%
+
+  Yield curve inverted in the 24 months before the peak: yes (lowest -0.05 pts in 2020-02)
+  * percentile = share of all months up to the peak with a lower or equal value (100% = highest on record).
+  The 3m T-bill is converted to a bond-equivalent yield so it compares with the 10y.
+
+DURING: asset scorecard, peak to bottom, after inflation
+  Commodities (futures)            +5.3%
+  Cash (T-bills)                   -4.7%
+  Treasuries 1y                    -7.3%
+  Gold                            -14.3%
+  Treasuries 7-10y (ours)         -20.1%
+  US stocks                       -28.8%
+  Treasuries 20y                  -30.9%
+  REITs                           -31.7%
+
+  Depth: stocks -28.8% after inflation, -24.8% before inflation; inflation over the fall +5.5%
+
+  Industries (Ken French 49), real return peak to bottom (49 with complete data)
+    worst 5: Toys -56%, Fun -51%, Clths -48%, Txtls -46%, RlEst -42%
+    best 5:  Coal +71%, Oil +31%, Agric +12%, Guns -1%, FabPr -3%
+
+  Policy response
+    Fed funds: 0.09% a year before the peak, 0.08% at the peak, highest 2.56% (2022-09, searching from 2 years before the peak to the bottom), 2.56% at the bottom, 5.33% a year later
+    Federal budget balance (% of GDP, negative = deficit): -14.5 the year before the peak, -5.3 in the bottom year, -6.1 a year later
+    Fed balance sheet: $8.76tn at the peak, $8.00tn a year after the bottom
+    (Written up separately: what the Fed and government did, and how fast.)
+
+OUR PORTFOLIO: 55% stocks / 45% Treasuries 7-10y, after inflation, from the stock peak to 2026-08
+  rebalanced monthly : at stock bottom -24.8%, worst -24.8% (2022-09), back to start 2025-07
+  rebalanced yearly  : at stock bottom -24.9%, worst -24.9% (2022-09), back to start 2025-06
+  rebalanced never   : at stock bottom -24.9%, worst -24.9% (2022-09), back to start 2025-06
+
+AFTER
+  Stocks back to the old peak (after inflation): 2024-03, 27 months after the peak (2.2 years)
+  Stocks back to the old peak (before inflation): 2023-12, 24 months after the peak (2.0 years)
+  55/45 back to its value at the stock peak (after inflation): 2025-07 (3.6 years)
+  Returns after the bottom, after inflation, a year:
+    1y: stocks +16.2%, 55/45 +6.2%
+    3y: stocks +20.9%, 55/45 +11.5%
+    5y: not enough data yet
+
+Data notes: stocks = Ken French US market; Treasuries 1y and 20y estimated from month-end yields (a simple duration model that understates big rallies slightly); 7-10y = IEF from 2002, a 10y estimate before; gold = World Bank monthly averages before GLD (smooths moves); commodities = AQR commodity futures plus T-bill return; REITs = FTSE Nareit All Equity REITs (from 1972); 'after inflation' uses CPI, which before 1983 counted mortgage rates in housing costs and so overstates 1970s inflation somewhat; CAPE uses Shiller's interpolated earnings (a small look-ahead); real house prices start in 1975.
