@@ -1,0 +1,100 @@
+PHASE 2B DECISION TESTS, STAGE 1: inflation protection (2B-A), commodities (2B-I), bond length (2B-F)
+====================================================================================================
+DATA CHECKS
+  Bond model 1-3y: 0 missing months 1970-2026-08  OK
+  Bond model 7-10y: 0 missing months 1970-2026-08  OK
+  Bond model 20y+: 0 missing months 1970-2026-08  OK
+  Bond model 1-3y vs SHY, 2002-08 to 2026-08: correlation 0.98 (needs 0.9); yearly return gap -0.11 pts  OK
+  Bond model 7-10y vs IEF, 2002-08 to 2026-08: correlation 0.99 (needs 0.9); yearly return gap -0.87 pts  OK
+  Bond model 20y+ vs TLT, 2002-08 to 2026-08: correlation 0.99 (needs 0.9); yearly return gap -0.89 pts  OK
+  AQR commodities vs S&P GSCI, 1985-2026: correlation 0.83 (needs 0.7)  OK
+  Scale check (annual volatility, 2007-2025, not a gate): AQR commodities 15.2%, S&P GSCI 22.1%, GSG fund 22.3%; AQR bonds (used only in the 1927-on check) 6.0%, IEF 6.7%
+  Unpublished months filled: CPI ['2025-10']; core PCE none
+  v2 cash vs Ken French T-bill: largest difference 0.000000 (should be ~0)  OK
+  Trend proxy vs AQR official trend factor, 1985-01 to 2026-02: correlation 0.72 (needs 0.7) -> proxy used from 1970; size scale 1.79 (set from the official factor's 1985-on volatility)
+  S&P GSCI form vs GSG fund, 2007-2025: average yearly gap if excess-return +8.06 pts, if total-return +8.34 pts -> unclear or failed: index variant NOT RUN
+
+  Our 55/45 crash losses (worst fall inside each case-study window, after inflation). The case studies
+  measured from the stock peak instead, so small differences are expected:
+    1973-74  -39.6%   (case study -39.6%)
+    2000-02  -21.7%   (case study -20.7%)
+    2007-09  -27.1%   (case study -27.1%)
+    2022     -26.0%   (case study -24.8%)
+  High-inflation selloff quarters 1970-2026: 10: 1970Q2, 1973Q2, 1973Q4, 1974Q2, 1974Q3, 1975Q3, 1981Q3, 1987Q4, 1990Q3, 2022Q2
+
+====================================================================================================
+2B-A INFLATION PROTECTION: does a 10% slice (taken proportionally from stocks and bonds) earn a place?
+Pass = all three Test 19 criteria, both before AND after inflation, on 55/45:
+  (a) high-inflation selloff quarters: at least 5, average beats cash, positive in more than half
+  (b) 10% slice: shallower worst drawdown than 55/45 AND than a 10% cash slice; costs at most 0.5 pts/yr
+  (c) the drawdown improvement shows up in both halves (1970-97, 1998-2026)
+
+  Managed futures (trend proxy)
+    before inflation 55/45 1970-01-2026-02: (a) PASS n=10, asset +7.6% vs cash +1.8%, positive 80% | (b) PASS worst drawdown -21.4% vs base -28.1% vs cash slice -24.6%, cost -0.57 pts | (c) PASS 1970-1997 +9.87 pts, 1998-2026 +4.47 pts
+    before inflation 60/40 1970-01-2026-02: (a) PASS n=10, asset +7.6% vs cash +1.8%, positive 80% | (b) PASS worst drawdown -24.4% vs base -30.4% vs cash slice -26.8%, cost -0.56 pts | (c) PASS 1970-1997 +9.84 pts, 1998-2026 +4.64 pts   [60/40, for comparison with Test 19 only]
+    after inflation  55/45 1970-01-2026-02: (a) PASS n=10, asset +5.3% vs cash -0.4%, positive 60% | (b) PASS worst drawdown -31.3% vs base -39.6% vs cash slice -36.7%, cost -0.55 pts | (c) PASS 1970-1997 +8.30 pts, 1998-2026 +4.40 pts
+    after inflation  60/40 1970-01-2026-02: (a) PASS n=10, asset +5.3% vs cash -0.4%, positive 60% | (b) PASS worst drawdown -33.2% vs base -41.5% vs cash slice -38.5%, cost -0.54 pts | (c) PASS 1970-1997 +8.27 pts, 1998-2026 +4.57 pts   [60/40, for comparison with Test 19 only]
+    Crash losses after inflation, 55/45 with the 10% slice vs 55/45: 1973-74 -31.3% vs -39.6%; 2000-02 -17.6% vs -21.7%; 2007-09 -22.7% vs -27.1%; 2022 -22.2% vs -26.0%
+    VERDICT: EARNS A PLACE (up to 10%)
+
+  REITs (from 1972)
+    before inflation 55/45 1972-01-2026-08: (a) FAIL n=9, asset -11.5% vs cash +1.8%, positive 0% | (b) FAIL worst drawdown -30.5% vs base -28.1% vs cash slice -24.6%, cost -0.26 pts | (c) FAIL 1972-1997 -0.28 pts, 1998-2026 -4.64 pts
+    before inflation 60/40 1972-01-2026-08: (a) FAIL n=9, asset -11.5% vs cash +1.8%, positive 0% | (b) FAIL worst drawdown -33.2% vs base -30.4% vs cash slice -26.8%, cost -0.23 pts | (c) FAIL 1972-1997 -0.05 pts, 1998-2026 -4.19 pts   [60/40, for comparison with Test 19 only]
+    after inflation  55/45 1972-01-2026-08: (a) FAIL n=9, asset -13.4% vs cash -0.4%, positive 0% | (b) FAIL worst drawdown -39.9% vs base -39.6% vs cash slice -36.7%, cost -0.25 pts | (c) FAIL 1972-1997 -0.28 pts, 1998-2026 -4.57 pts
+    after inflation  60/40 1972-01-2026-08: (a) FAIL n=9, asset -13.4% vs cash -0.4%, positive 0% | (b) FAIL worst drawdown -41.6% vs base -41.5% vs cash slice -38.5%, cost -0.22 pts | (c) FAIL 1972-1997 -0.05 pts, 1998-2026 -4.12 pts   [60/40, for comparison with Test 19 only]
+    Crash losses after inflation, 55/45 with the 10% slice vs 55/45: 1973-74 -39.9% vs -39.6%; 2000-02 -18.1% vs -21.7%; 2007-09 -31.7% vs -27.1%; 2022 -26.0% vs -26.0%
+    VERDICT: not supported
+
+  Commodity futures
+    before inflation 55/45 1970-01-2026-02: (a) PASS n=10, asset +10.9% vs cash +1.8%, positive 90% | (b) FAIL worst drawdown -26.9% vs base -28.1% vs cash slice -24.6%, cost -0.04 pts | (c) FAIL 1970-1997 +9.02 pts, 1998-2026 -0.98 pts
+    before inflation 60/40 1970-01-2026-02: (a) PASS n=10, asset +10.9% vs cash +1.8%, positive 90% | (b) FAIL worst drawdown -29.7% vs base -30.4% vs cash slice -26.8%, cost -0.03 pts | (c) FAIL 1970-1997 +9.43 pts, 1998-2026 -0.64 pts   [60/40, for comparison with Test 19 only]
+    after inflation  55/45 1970-01-2026-02: (a) PASS n=10, asset +8.5% vs cash -0.4%, positive 80% | (b) PASS worst drawdown -30.1% vs base -39.6% vs cash slice -36.7%, cost -0.04 pts | (c) FAIL 1970-1997 +9.50 pts, 1998-2026 -0.97 pts
+    after inflation  60/40 1970-01-2026-02: (a) PASS n=10, asset +8.5% vs cash -0.4%, positive 80% | (b) PASS worst drawdown -32.1% vs base -41.5% vs cash slice -38.5%, cost -0.02 pts | (c) FAIL 1970-1997 +9.44 pts, 1998-2026 -0.63 pts   [60/40, for comparison with Test 19 only]
+    Crash losses after inflation, 55/45 with the 10% slice vs 55/45: 1973-74 -30.1% vs -39.6%; 2000-02 -19.6% vs -21.7%; 2007-09 -28.1% vs -27.1%; 2022 -22.9% vs -26.0%
+    VERDICT: not supported  (weight decided by 2B-I, not here)
+  Supplement (information only, the proxy decides): official trend factor 1985 on, after inflation: (a) FAIL (b) PASS (c) PASS
+
+====================================================================================================
+2B-I COMMODITY FUTURES FUNDED FROM BONDS (after inflation, rebalanced monthly)
+Pass = all of: (a) smaller loss than 55/45 in both inflation crashes AND better in most high-inflation selloff
+quarters; (b) no more than 3 pts worse in each growth crash; (c) costs at most 0.5 pts/yr; (d) (a) and (c) hold in
+each half (1970-97, 1998-2026); (e) 1927-on check points the same way, defined in advance as: better on
+average in high-inflation selloff quarters (CPI-based) and costs at most 0.5 pts/yr.
+  Sample 1970-01 to 2026-02 (AQR data end)
+  Long check sample 1927-01 to 2026-02 (Ken French stocks, AQR bonds, CPI); 16 high-inflation selloff quarters
+
+  55/40/5 (5% commodities, always held)
+    Crash losses (candidate vs 55/45): 1973-74 -36.1% vs -39.6%; 2000-02 -22.5% vs -21.7%; 2007-09 -29.3% vs -27.1%; 2022 -24.6% vs -26.0%
+    Selloff quarters better than 55/45: 80% of 10;  cost -0.14 pts/yr
+    Halves: 1970-1997: better in 89% of 9 selloff quarters, cost -0.27 pts; 1998-2026: better in 0% of 1 selloff quarters, cost -0.02 pts
+    Long check: average selloff-quarter edge +0.10 pts (n=16), cost -0.14 pts/yr
+    (a) PASS (b) PASS (c) PASS (d) FAIL (e) PASS  -> fails
+
+  55/35/10 (10% commodities, always held)
+    Crash losses (candidate vs 55/45): 1973-74 -32.5% vs -39.6%; 2000-02 -23.3% vs -21.7%; 2007-09 -31.4% vs -27.1%; 2022 -23.2% vs -26.0%
+    Selloff quarters better than 55/45: 80% of 10;  cost -0.28 pts/yr
+    Halves: 1970-1997: better in 89% of 9 selloff quarters, cost -0.52 pts; 1998-2026: better in 0% of 1 selloff quarters, cost -0.03 pts
+    Long check: average selloff-quarter edge +0.21 pts (n=16), cost -0.28 pts/yr
+    (a) PASS (b) FAIL (c) PASS (d) FAIL (e) PASS  -> fails
+
+  PRIMARY RESULT: no candidate passes; 55/45 stays (no commodities)
+  Second stage not run (plan rule: variants are judged only against a primary winner).
+
+====================================================================================================
+2B-F BOND LENGTH: 55% stocks / 45% Treasuries of each length, after inflation, rebalanced monthly, 1970 on
+Pass = cuts the worse growth-crash loss AND the worse inflation-crash loss by 1+ pt each vs 7-10y, at <= 0.3 pts/yr
+  1-3y   1973-74 -37.5%; 2000-02 -25.0%; 2007-09 -29.6%; 2022 -21.6%; return +4.7%/yr; worst drawdown 1970 on -37.5%
+  7-10y  1973-74 -39.6%; 2000-02 -21.2%; 2007-09 -27.2%; 2022 -26.7%; return +5.1%/yr; worst drawdown 1970 on -39.6%
+  20y+   1973-74 -43.9%; 2000-02 -21.6%; 2007-09 -28.0%; 2022 -30.6%; return +5.0%/yr; worst drawdown 1970 on -43.9%
+  1-3y vs 7-10y: worse growth-crash loss -2.39 pts, worse inflation-crash loss +2.13 pts, cost +0.33 pts/yr -> not supported
+  20y+ vs 7-10y: worse growth-crash loss -0.83 pts, worse inflation-crash loss -4.35 pts, cost +0.03 pts/yr -> not supported
+  Supplement (information only): actual funds from 2002, 55% stocks / 45% fund, after inflation:
+    SHY: 2007-09 -29.8%; 2022 -21.3%
+    IEF: 2007-09 -27.1%; 2022 -26.0%
+    TLT: 2007-09 -26.0%; 2022 -31.4%
+  Note: the bond model has no convexity term, so it slightly understates long-bond returns when rates
+  move a lot (1970s-80s, 2022); results close to the 1-point bar should be read with that in mind.
+
+Notes: history holds few independent crashes, so every result rests on a handful of episodes. CPI before 1983
+counted mortgage rates in housing costs and overstates 1970s inflation somewhat. AQR series are hypothetical
+index returns before costs (costs deducted here as stated). Monthly rebalancing throughout; 2B-H compares rules.
