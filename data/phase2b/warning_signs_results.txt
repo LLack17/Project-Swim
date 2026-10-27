@@ -1,0 +1,47 @@
+PHASE 2B DECISION TEST 2B-B: WARNING SIGNS (JST annual data, after inflation)
+====================================================================================================
+Countries with stock data: 16 (Australia, Belgium, Denmark, Finland, France, Germany, Italy, Japan, Netherlands, Norway, Portugal, Spain, Sweden, Switzerland, UK, USA)
+Judged on 1986-2017 pooled (1950-1985 shown for reference). Pass = crash rate when on >= 2x when off,
+at least 5 on-years followed by a crash, luck check below 10%.
+A 'crash' = real stocks 30%+ below the year-end level within the next 3 years.
+
+CROSS-COUNTRY SIGNALS
+
+  Credit growth (5y)
+    1950-1985: crash after 14% of 158 on-years vs 10% of 406 off-years (ratio 1.45)
+    1986-2017: crash after 22% of 214 on-years vs 13% of 298 off-years; ratio 1.68 (needs 2.00), hits 47 (needs 5), luck check 1% (needs < 10%) -> not supported
+
+  Dividend yield (low)
+    1950-1985: crash after 20% of 202 on-years vs 6% of 362 off-years (ratio 3.41)
+    1986-2017: crash after 21% of 265 on-years vs 11% of 230 off-years; ratio 1.87 (needs 2.00), hits 56 (needs 5), luck check 0% (needs < 10%) -> not supported
+
+  Inflation (high)
+    1950-1985: crash after 19% of 219 on-years vs 5% of 357 off-years (ratio 3.60)
+    1986-2017: crash after 0% of 11 on-years vs 17% of 501 off-years; ratio 0.00 (needs 2.00), hits 0 (needs 5), luck check 100% (needs < 10%) -> not supported
+
+  Yield curve (flat/inverted)
+    1950-1985: crash after 15% of 72 on-years vs 10% of 496 off-years (ratio 1.52)
+    1986-2017: crash after 17% of 59 on-years vs 17% of 453 off-years; ratio 1.01 (needs 2.00), hits 10 (needs 5), luck check 34% (needs < 10%) -> not supported
+
+US-ONLY SIGNALS (few US crashes, so reaching 5 hits is unlikely; that is a limit of the data)
+
+  US margin loans / GDP
+    1950-1985: crash after 25% of 8 on-years vs 9% of 11 off-years (ratio 2.75)
+    1986-2017: crash after 21% of 24 on-years vs 0% of 8 off-years; ratio inf (needs 2.00), hits 5 (needs 5), luck check 21% (needs < 10%) -> not supported
+
+  US Baa spread (Baa minus 10-year Treasury)
+    1950-1985: crash after 12% of 8 on-years vs 0% of 5 off-years (ratio inf)
+    1986-2017: crash after 15% of 13 on-years vs 16% of 19 off-years; ratio 0.97 (needs 2.00), hits 2 (needs 5), luck check 65% (needs < 10%) -> not supported
+
+  US CAPE
+    1950-1985: crash after 9% of 11 on-years vs 8% of 25 off-years (ratio 1.14)
+    1986-2017: crash after 21% of 24 on-years vs 0% of 8 off-years; ratio inf (needs 2.00), hits 5 (needs 5), luck check 40% (needs < 10%) -> not supported
+
+RESULT: no signal passes; the watch list is unchanged
+
+Notes: values are today's revised figures, not what was known at the time. Crashes cluster in time (1987, 2000-02,
+2007-09 hit many countries at once), which is why the luck check shuffles blocks of years. Annual data misses
+falls that happen and recover within a year. 'History' for the fifths starts at each country's first JST year and
+uses only years BEFORE year t. JST CPI is an annual average, so inflation is average-to-average and real returns mix
+year-end prices with average-price inflation (standard JST practice). The luck check keeps missing years in place,
+so blocks run 1986-90, 1991-95, ... for every country.

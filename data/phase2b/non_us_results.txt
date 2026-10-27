@@ -1,0 +1,37 @@
+PHASE 2B DECISION TEST 2B-D: NON-US STOCKS (after inflation)
+====================================================================================================
+PART 1: JST, 1950-2020, 16 countries with complete data (Australia, Belgium, Denmark, Finland, France, Germany, Italy, Japan, Netherlands, Norway, Portugal, Spain, Sweden, Switzerland, UK, USA)
+  Home only vs 2/3 home + 1/3 the other countries (equal weights, home currency, unhedged), yearly
+                  underwater home  with abroad  worst loss home  with abroad  return home  with abroad
+  Australia                 10 yr         8 yr           -58.8%       -45.4%        +5.6%        +6.5%  shorter by 1+ yr
+  Belgium                   16 yr         9 yr           -60.4%       -54.7%        +5.3%        +6.3%  shorter by 1+ yr
+  Denmark                    7 yr         8 yr           -49.8%       -48.5%        +7.9%        +7.8%  
+  Finland                   19 yr         9 yr           -63.1%       -55.8%        +8.5%        +8.4%  shorter by 1+ yr
+  France                    39 yr        24 yr           -82.9%       -61.6%        +3.4%        +5.1%  shorter by 1+ yr
+  Germany                   13 yr        13 yr           -57.6%       -51.8%        +8.4%        +8.3%  
+  Italy                     36 yr        24 yr           -85.9%       -66.1%        +3.0%        +4.9%  shorter by 1+ yr
+  Japan                     31 yr        10 yr           -63.4%       -43.1%        +6.8%        +7.0%  shorter by 1+ yr
+  Netherlands               17 yr        15 yr           -56.1%       -49.6%        +7.2%        +7.2%  shorter by 1+ yr
+  Norway                    11 yr        10 yr           -64.1%       -55.2%        +4.5%        +5.8%  shorter by 1+ yr
+  Portugal                  47 yr        32 yr           -98.4%       -88.6%        -0.5%        +3.2%  shorter by 1+ yr
+  Spain                     22 yr        13 yr           -85.0%       -71.4%        +4.7%        +5.9%  shorter by 1+ yr
+  Sweden                     5 yr         5 yr           -53.9%       -48.0%        +8.9%        +8.7%  
+  Switzerland               12 yr        12 yr           -55.2%       -50.6%        +6.3%        +6.8%  
+  UK                        10 yr         9 yr           -71.7%       -56.1%        +6.5%        +7.2%  shorter by 1+ yr
+  USA                       13 yr        10 yr           -47.2%       -43.6%        +7.6%        +8.0%  shorter by 1+ yr
+  Shorter by 1+ year in 12 of 16 countries -> PASS (more than half)
+  Sensitivity (report only, the rule uses 1950-2020): starting in 1951 instead, shorter by 1+ year in 12 of 16; Japan 31 vs 10 years
+  Japan: longest underwater 31 years home only vs 10 with stocks abroad; worst loss -63.4% vs -43.1%
+
+PART 2: US investor, 1990-07 to 2026-09, monthly, after US inflation (unpublished CPI months filled: ['2025-10'])
+  US stocks only: return +8.2%/yr, worst loss -52.2%, longest underwater 155 months
+  2/3 US + 1/3 developed ex-US: return +6.8%/yr, worst loss -53.0%, longest underwater 79 months
+  Cost +1.45 pts/yr (limit 0.50) -> fail
+  Crash losses: 2000-02 -47.9% vs -47.9%; 2007-09 -51.1% vs -53.0%; 2022 -28.8% vs -30.1%
+
+RESULT: not supported: the stock part stays US
+
+Notes: JST exchange rates are annual figures (possibly year averages; to confirm in the JST documentation) and
+returns are yearly, so short currency swings are missed. JST's 1950 rates for Germany and Japan look like data
+artifacts (see the 1951 sensitivity line). Equal
+weights across countries differ from a world index. Ken French ex-US returns are in dollars and before fund fees.
