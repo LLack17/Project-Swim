@@ -1,0 +1,89 @@
+PHASE 2B DECISION TEST 2B-H: FINAL MIX (after inflation)
+====================================================================================================
+DATA CHECKS
+  US sample 1970-01 to 2026-02 (674 months, no gaps)
+  Trend proxy vs AQR official factor: correlation 0.72 (stage 1: 0.72), size scale 1.79 (stage 1: 1.79)
+  55/45 1973-74 loss -39.6% (stage 1: -39.6%)
+
+====================================================================================================
+STEP 1: MANAGED-FUTURES WEIGHT (10% must beat 5% on the bar and cut the worst loss in each half)
+  10% vs 5% (1970-2026)      worst loss -31.3% (cut +4.27 pts), longest underwater 118 (cut +3), cost -0.27 pts/yr -> fail
+    1970-1997: worst loss 10% -31.3% vs 5% -35.6%
+    1998-2026: worst loss 10% -22.7% vs 5% -24.9%
+  For reference, 55/45 with no managed futures: worst loss -39.6%, longest underwater 143 months
+  RESULT: managed futures 5%
+
+====================================================================================================
+STEP 2: THE MIX (each split applied to the 95% outside managed futures; vs 55/45 with the same slice)
+  Baseline 55/45 + 5% managed futures: worst loss -35.6%, longest underwater 121 months, return +5.5%/yr
+  JST countries with complete data 1950-2020: 16 (Australia, Belgium, Denmark, Finland, France, Germany, Italy, Japan, Netherlands, Norway, Portugal, Spain, Sweden, Switzerland, UK, USA)
+
+  45/55
+    US 1970-2026               worst loss -31.6% (cut +4.01 pts), longest underwater 123 (cut -2), cost +0.42 pts/yr -> fail
+      crash losses: 1973-74 -31.6% vs -35.6%; 2000-02 -13.0% vs -19.7%; 2007-09 -18.6% vs -24.9%; 2022 -23.6% vs -24.1%
+      countries: passes the bar in 0 of 16 -> no majority
+      VERDICT: fails
+
+  50/50
+    US 1970-2026               worst loss -33.6% (cut +1.98 pts), longest underwater 122 (cut -1), cost +0.21 pts/yr -> fail
+      crash losses: 1973-74 -33.6% vs -35.6%; 2000-02 -16.4% vs -19.7%; 2007-09 -21.8% vs -24.9%; 2022 -23.9% vs -24.1%
+      countries: passes the bar in 0 of 16 -> no majority
+      VERDICT: fails
+
+  60/40
+    US 1970-2026               worst loss -37.5% (cut -1.93 pts), longest underwater 121 (cut +0), cost -0.20 pts/yr -> fail
+      crash losses: 1973-74 -37.5% vs -35.6%; 2000-02 -22.8% vs -19.7%; 2007-09 -27.9% vs -24.9%; 2022 -24.3% vs -24.1%
+      countries: passes the bar in 0 of 16 -> no majority
+      VERDICT: fails
+
+  65/35
+    US 1970-2026               worst loss -39.4% (cut -3.81 pts), longest underwater 121 (cut +0), cost -0.40 pts/yr -> fail
+      crash losses: 1973-74 -39.4% vs -35.6%; 2000-02 -25.9% vs -19.7%; 2007-09 -30.8% vs -24.9%; 2022 -24.6% vs -24.1%
+      countries: passes the bar in 0 of 16 -> no majority
+      VERDICT: fails
+
+  55/40/5 gold
+    US 1970-2026               worst loss -32.6% (cut +2.99 pts), longest underwater 118 (cut +3), cost -0.20 pts/yr -> fail
+      crash losses: 1973-74 -32.6% vs -35.6%; 2000-02 -20.0% vs -19.7%; 2007-09 -24.8% vs -24.9%; 2022 -23.7% vs -24.1%
+    US 1970-1997               worst loss -32.6% (cut +2.99 pts), longest underwater 118 (cut +3), cost -0.06 pts/yr -> fail
+    US 1998-2026               worst loss -24.8% (cut +0.14 pts), longest underwater 41 (cut +6), cost -0.33 pts/yr -> fail
+    US 1975-2026               worst loss -24.8% (cut +0.14 pts), longest underwater 42 (cut +27), cost -0.07 pts/yr -> fail
+      valuation view (report only; gold held in 60% of months from 1980): worst loss -32.6%, underwater 119 months, cost -0.07 pts/yr
+      VERDICT: fails
+
+  50/40/10 gold
+    US 1970-2026               worst loss -27.3% (cut +8.24 pts), longest underwater 90 (cut +31), cost -0.17 pts/yr -> PASS
+      crash losses: 1973-74 -27.3% vs -35.6%; 2000-02 -17.2% vs -19.7%; 2007-09 -21.5% vs -24.9%; 2022 -23.2% vs -24.1%
+    US 1970-1997               worst loss -27.3% (cut +8.24 pts), longest underwater 90 (cut +31), cost +0.07 pts/yr -> PASS
+    US 1998-2026               worst loss -23.2% (cut +1.77 pts), longest underwater 39 (cut +8), cost -0.41 pts/yr -> fail
+    US 1975-2026               worst loss -23.2% (cut +1.77 pts), longest underwater 39 (cut +30), cost +0.15 pts/yr -> fail
+      valuation view (report only; gold held in 60% of months from 1980): worst loss -27.3%, underwater 117 months, cost +0.08 pts/yr
+      VERDICT: fails
+
+  55/35/10 gold
+    US 1970-2026               worst loss -29.5% (cut +6.07 pts), longest underwater 84 (cut +37), cost -0.38 pts/yr -> PASS
+      crash losses: 1973-74 -29.5% vs -35.6%; 2000-02 -20.4% vs -19.7%; 2007-09 -24.7% vs -24.9%; 2022 -23.4% vs -24.1%
+    US 1970-1997               worst loss -29.5% (cut +6.07 pts), longest underwater 84 (cut +37), cost -0.11 pts/yr -> PASS
+    US 1998-2026               worst loss -24.7% (cut +0.28 pts), longest underwater 41 (cut +6), cost -0.65 pts/yr -> fail
+    US 1975-2026               worst loss -24.7% (cut +0.28 pts), longest underwater 41 (cut +28), cost -0.14 pts/yr -> fail
+      valuation view (report only; gold held in 60% of months from 1980): worst loss -29.5%, underwater 94 months, cost -0.13 pts/yr
+      VERDICT: fails
+
+  RESULT: 55/45 stays (with 5% managed futures)
+
+====================================================================================================
+STEP 3: REBALANCING RULE on the winning mix (vs monthly; bar in the full sample and in each half; halves are
+sub-periods of one continuous run)
+  monthly  trades  674; worst loss -35.6%; underwater 121 months; return +5.5%/yr; crashes 1973-74 -35.6%, 2000-02 -19.7%, 2007-09 -24.9%, 2022 -24.1%
+  yearly   trades   56; worst loss -33.2%; underwater 120 months; return +5.6%/yr; crashes 1973-74 -33.2%, 2000-02 -18.2%, 2007-09 -22.2%, 2022 -23.8% -> fail
+  band     trades   34; worst loss -34.0%; underwater 120 months; return +5.6%/yr; crashes 1973-74 -34.0%, 2000-02 -19.6%, 2007-09 -24.3%, 2022 -24.1% -> fail
+
+  RESULT: rebalancing rule = monthly (unchanged)
+
+====================================================================================================
+FINAL MIX: stocks 52.25%, Treasuries 7-10y 42.75%, gold 0%, managed futures 5.0%; rebalancing monthly
+
+Notes: managed futures are a hypothetical trend index (proxy, 1.0 pt/yr fee); live funds can lag it. Few independent
+crashes exist, so every result rests on a handful of episodes. CPI before 1983 overstates 1970s inflation somewhat.
+Gold before the GLD fund (2004) uses World Bank monthly AVERAGE prices, which smooth month-to-month moves and may
+make gold look steadier in crashes than month-end prices would.
