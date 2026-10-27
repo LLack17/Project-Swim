@@ -1,0 +1,22 @@
+MANAGED-FUTURES LIVE-FUND CHECK (sets 5% or 10%)
+====================================================================================================
+Index: AQR official trend factor + T-bill - 1.0 pt/yr, 1985-01 to 2026-05
+Pass = at least 60 months, correlation 0.7+ AND annual return at most 1.0 pt/yr below the index (same months)
+
+  AQMIX  2010-02 to 2026-05 (196 months): correlation 0.76, lags the index by +0.78 pts/yr -> PASS
+  DBMF   2019-06 to 2026-05 (84 months): correlation 0.60, lags the index by -4.59 pts/yr -> fail
+  KMLM   2021-01 to 2026-05 (65 months): correlation 0.65, lags the index by +2.65 pts/yr -> fail
+
+Calendar-year total returns (compare by hand with each fund's published returns before accepting; Yahoo has
+mis-adjusted mutual-fund distributions in the past):
+  AQMIX  2011 -6.4%, 2012 +3.0%, 2013 +9.4%, 2014 +9.7%, 2015 +2.0%, 2016 -8.4%, 2017 -1.0%, 2018 -8.9%, 2019 +1.9%, 2020 -0.4%, 2021 -1.0%, 2022 +35.5%, 2023 +2.1%, 2024 +8.1%, 2025 +14.6%
+  DBMF   2020 +1.8%, 2021 +11.5%, 2022 +21.6%, 2023 -8.9%, 2024 +7.2%, 2025 +13.8%
+  KMLM   2021 +7.0%, 2022 +24.2%, 2023 -5.7%, 2024 -1.7%, 2025 -3.0%
+
+RESULT: managed futures 10% using AQMIX
+  Portfolio: 49.5% US stocks / 40.5% Treasuries 7-10y / 10% managed futures
+
+Notes: fund histories are short (5-16 years) and cover one inflation shock (2022); the comparison checks whether a
+real fund delivers the index, not whether trend-following works (2B-A tested that). Yahoo adjusted closes include
+distributions; the index is hypothetical and charged a 1.0 pt/yr fee. Each fund starts with its first full month
+after launch; '5 years' is counted as months overlapping the index (for these funds the same as by the check date).
