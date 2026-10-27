@@ -389,6 +389,51 @@ check("style: lag limit binding at the boundary", E.style_rule(x_, mk, lag=gap0 
 check("style: equal loss is not a win", E.style_rule(mk.copy(), mk)["wins"] == 0)
 check("style: needs the same months", raises(lambda: E.style_rule(mk.iloc[1:], mk)))
 
+# 25. final-mix bar, tie-break, gold signal, switching portfolio
+i = idx("1970-01", 120)
+b0 = pd.Series(0.005, index=i)
+b0[i[10]] = -0.20                                     # base: -20% then slow recovery
+def cand_(dd, rec_drag=0.0):
+    x = b0.copy()
+    x[i[10]] = dd
+    return x - rec_drag
+rb_ = E.mix_bar(b0.copy(), b0)
+check("mix_bar: identical -> no cut, fails", rb_["dd_cut"] == 0 and rb_["uw_cut"] == 0 and not rb_["pass"])
+x_ = cand_(-0.17)
+r_ = E.mix_bar(x_, b0)
+check("mix_bar: 3 pts smaller loss measured", close(r_["dd_cut"], 0.03))
+uwb, uwc = E.longest_underwater(b0), E.longest_underwater(x_)
+check("mix_bar: underwater measured in months", r_["uw_cut"] == uwb - uwc and uwb > uwc)
+check("mix_bar: passes only if underwater cut >= need", E.mix_bar(x_, b0, need_uw=uwb - uwc)["pass"] and not E.mix_bar(x_, b0, need_uw=uwb - uwc + 1)["pass"])
+check("mix_bar: fails on 2.9 pts", not E.mix_bar(cand_(-0.171), b0, need_uw=0)["pass"])
+check("mix_bar: fails on cost", E.mix_bar(cand_(-0.10, 0.002), b0, need_uw=-999)["cost"] > 0.003 and not E.mix_bar(cand_(-0.10, 0.002), b0, need_uw=-999)["pass"])
+check("mix_bar: annual uses ppy=1", close(E.ann(pd.Series([0.1, 0.1], index=idx("2000-01", 2)), ppy=1), 0.1))
+check("mix_bar: needs same periods", raises(lambda: E.mix_bar(x_.iloc[1:], b0)))
+res = {"a": {"pass": True, "dd_cut": 0.05, "cost": 0.0005}, "b": {"pass": True, "dd_cut": 0.08, "cost": 0.003},
+       "c": {"pass": False, "dd_cut": 0.20, "cost": 0.0}, "d": {"pass": True, "dd_cut": 0.08, "cost": 0.001}}
+check("pick_best: biggest loss cut, then lower cost, ignores failures", E.pick_best(res) == "d")
+check("pick_best: none passes", E.pick_best({"a": {"pass": False, "dd_cut": 1, "cost": 0}}) is None)
+gi = idx("1975-01", 80)
+lvl = pd.Series(range(80), index=gi, dtype=float)    # rising price: always at its high
+sig = E.gold_signal(lvl)
+check("gold signal: held for the first 60 months, judged from month 61", sig.iloc[:60].all() and not sig.iloc[60])
+check("gold signal: off at an all-time high", not sig.iloc[60:].any())
+lvl2 = lvl.copy()
+lvl2.iloc[70:] = 10.0                                  # price falls back into the low part of its history
+sig2 = E.gold_signal(lvl2)
+check("gold signal: uses the prior month (switches on one month after the fall)", not sig2.iloc[70] and sig2.iloc[71])
+lvl3 = lvl.copy()
+lvl3.iloc[-1] = -100.0
+check("gold signal: no look-ahead", E.gold_signal(lvl3).iloc[:-1].equals(sig.iloc[:-1]))
+l85 = pd.Series(list(range(60)) + [51.0, 51.0], index=idx("1975-01", 62), dtype=float)
+check("gold signal: off at the 84th percentile (top fifth)", not E.gold_signal(l85).iloc[61])
+pre = pd.Series(1.0, index=idx("1970-01", 60))
+sg_ = E.gold_signal(pd.concat([pre * 1000, lvl])).loc["1975-01-31":]
+check("gold signal: history starts 1975 (earlier high prices ignored)", sg_.iloc[:60].all() and not sg_.iloc[60])
+Rs = pd.DataFrame({"s": [0.1, 0.1], "b": [0.0, 0.0], "g": [0.2, 0.2]}, index=idx("2000-01", 2))
+ps = E.port_switch(Rs, {"s": 0.5, "b": 0.4, "g": 0.1}, {"s": 0.5, "b": 0.5}, pd.Series([True, False], index=Rs.index))
+check("port_switch: on/off weights by month", close(ps.iloc[0], 0.07) and close(ps.iloc[1], 0.05))
+
 bad_ = [n for n, ok in results if not ok]
 print(f"\n{len(results) - len(bad_)} of {len(results)} checks passed" + (f"; FAILED: {bad_}" if bad_ else ""))
 sys.exit(1 if bad_ else 0)

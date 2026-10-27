@@ -128,9 +128,10 @@ def window_loss(r, name):
     return max_dd(x)
 
 
-def ann(r):
+def ann(r, ppy=12):
+    """Annualized return; ppy = periods per year (12 monthly, 1 annual)."""
     _check(r)
-    return float((1 + r).prod() ** (12 / len(r)) - 1)
+    return float((1 + r).prod() ** (ppy / len(r)) - 1)
 
 
 def qret(r):
@@ -332,3 +333,48 @@ def style_rule(style_r, mkt_r, need=3, lag=0.01):
     wins = sum(a > b for a, b in loss.values())
     gap = ann(mkt_r) - ann(style_r)
     return {"loss": loss, "wins": wins, "lag": gap, "pass": bool(wins >= need and gap <= lag + EPS)}
+
+
+def mix_bar(cand, base, need_dd=0.03, need_uw=12, cost=0.003, ppy=12):
+    """2B-H bar: the candidate cuts the worst after-inflation loss by `need_dd`+ AND the longest time underwater
+    by `need_uw`+ periods (12 months, or 1 year for annual data), and costs at most `cost` a year.
+    Both series are after-inflation returns on the same dates."""
+    if not cand.index.equals(base.index):
+        raise ValueError("candidate and base must cover the same periods")
+    out = {"dd": max_dd(cand), "dd_base": max_dd(base), "uw": longest_underwater(cand),
+           "uw_base": longest_underwater(base), "cost": ann(base, ppy) - ann(cand, ppy)}
+    out["dd_cut"] = out["dd"] - out["dd_base"]
+    out["uw_cut"] = out["uw_base"] - out["uw"]
+    out["pass"] = bool(out["dd_cut"] >= need_dd - EPS and out["uw_cut"] >= need_uw and out["cost"] <= cost + EPS)
+    return out
+
+
+def pick_best(results):
+    """Among passing candidates {name: result with 'pass', 'dd_cut', 'cost'}: the biggest cut in worst loss,
+    then the lower cost. None if nothing passes."""
+    ok = [(-r["dd_cut"], r["cost"], k) for k, r in results.items() if r["pass"]]
+    return min(ok)[2] if ok else None
+
+
+def gold_signal(real_level, hist_start="1975-01", min_months=60, top=0.80):
+    """Valuation view: hold gold in month t only if its after-inflation price at the prior month-end is below
+    the `top` percentile of its history from `hist_start` to that month-end. Held until `min_months` of history
+    exist. Returns a boolean Series on real_level's index (True = hold)."""
+    lv = real_level.dropna()
+    held = pd.Series(True, index=lv.index)
+    h0 = pd.Timestamp(hist_start) + pd.offsets.MonthEnd(0)
+    for k in range(1, len(lv)):
+        prev_t = lv.index[k - 1]
+        hist = lv[h0:prev_t]
+        if len(hist) >= min_months:
+            held.iloc[k] = bool((hist < hist.iloc[-1]).mean() < top)
+    return held
+
+
+def port_switch(R, w_on, w_off, on):
+    """Monthly-rebalanced portfolio whose target weights are w_on in months where `on` is True, else w_off."""
+    a, b = port(R, w_on), port(R, w_off)
+    on = on.reindex(R.index)
+    if on.isna().any():
+        raise ValueError("switch signal missing for some months")
+    return a.where(on.astype(bool), b)
