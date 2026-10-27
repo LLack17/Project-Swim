@@ -349,6 +349,46 @@ check("fill_index: log-linear middle month and reports it",
 f_, months = E.fill_index(pd.Series([1.0, 2.0], index=idx("2000-01", 2)))
 check("fill_index: nothing to fill", months == [] and len(f_) == 2)
 
+# 23. Ken French CSV parser
+txt = """This file was created by CMPT_ME_BEME_RETS using the 202608 CRSP database.
+  Value Weight Returns -- Monthly
+
+,<= 0,Lo 30,Hi 20
+196307,  1.00,  2.00, -99.99
+196308, -1.00,  0.50,  3.00
+
+  Equal Weight Returns -- Monthly
+,<= 0,Lo 30,Hi 20
+196307, 9.00,  9.00,  9.00
+"""
+d = E.parse_french_csv(txt)
+check("french parser: names, first block only, decimals",
+      list(d.columns) == ["<= 0", "Lo 30", "Hi 20"] and len(d) == 2 and close(d.loc["1963-08-31", "Hi 20"], 0.03))
+check("french parser: -99.99 becomes missing", pd.isna(d.loc["1963-07-31", "Hi 20"]))
+check("french parser: month-end dates", d.index[0] == pd.Timestamp("1963-07-31"))
+check("french parser: rejects a short row", raises(lambda: E.parse_french_csv(txt.replace("196308, -1.00,  0.50,  3.00", "196308, -1.00,  0.50"))))
+
+# 24. style rule
+i = idx("1963-07", 12 * 64)
+mk = pd.Series(0.006, index=i)
+for k in E.WINDOWS:
+    mk[pd.Timestamp(E.WINDOWS[k][0]) + pd.offsets.MonthEnd(3)] = -0.30
+def sty(better, drag=0.0):
+    x = mk.copy() - drag
+    for k in better:
+        x[pd.Timestamp(E.WINDOWS[k][0]) + pd.offsets.MonthEnd(3)] = -0.25
+    return x
+r_ = E.style_rule(sty(["1973-74", "2000-02", "2007-09"]), mk)
+check("style: 3 of 4 wins passes", r_["pass"] and r_["wins"] == 3)
+check("style: 2 of 4 fails", not E.style_rule(sty(["1973-74", "2022"]), mk)["pass"])
+r_ = E.style_rule(sty(list(E.WINDOWS), 0.0012), mk)
+check("style: lags over 1 pt/yr fails even with 4 wins", r_["wins"] == 4 and r_["lag"] > 0.01 and not r_["pass"])
+x_ = sty(list(E.WINDOWS))
+gap0 = E.ann(mk) - E.ann(x_)
+check("style: lag limit binding at the boundary", E.style_rule(x_, mk, lag=gap0 + 1e-9)["pass"] and not E.style_rule(x_, mk, lag=gap0 - 1e-9)["pass"])
+check("style: equal loss is not a win", E.style_rule(mk.copy(), mk)["wins"] == 0)
+check("style: needs the same months", raises(lambda: E.style_rule(mk.iloc[1:], mk)))
+
 bad_ = [n for n, ok in results if not ok]
 print(f"\n{len(results) - len(bad_)} of {len(results)} checks passed" + (f"; FAILED: {bad_}" if bad_ else ""))
 sys.exit(1 if bad_ else 0)

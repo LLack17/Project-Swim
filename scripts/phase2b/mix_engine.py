@@ -295,3 +295,40 @@ def gsci_rule(port_broad, port_gsci, need=0.05, cost=0.01):
     l_b, l_g = window_loss(port_broad, "2022"), window_loss(port_gsci, "2022")
     c = ann(port_broad) - ann(port_gsci)
     return bool(l_g - l_b >= need - EPS and c <= cost + EPS), l_b, l_g, c
+
+
+def parse_french_csv(text):
+    """First block of a Ken French CSV (value-weighted returns), with its column names, as decimals.
+    Missing values (-99.99 or -999) become NaN."""
+    lines = text.splitlines()
+    rows, header = [], None
+    for k, line in enumerate(lines):
+        parts = [p.strip() for p in line.split(",")]
+        if len(parts[0]) == 6 and parts[0].isdigit():
+            if header is None:
+                j = k - 1
+                while j >= 0 and not lines[j].strip():
+                    j -= 1
+                header = [p.strip() for p in lines[j].split(",")][1:]
+            rows.append(parts)
+        elif header is not None:
+            break
+    if not rows:
+        raise ValueError("no monthly data rows found")
+    if any(len(r) - 1 != len(header) for r in rows):
+        raise ValueError("header and data rows have different numbers of columns")
+    d = pd.DataFrame([r[1:] for r in rows], columns=header).astype(float)
+    d.index = pd.to_datetime([r[0] for r in rows], format="%Y%m") + pd.offsets.MonthEnd(0)
+    return d.mask(d <= -99.99) / 100
+
+
+def style_rule(style_r, mkt_r, need=3, lag=0.01):
+    """2B-G: a style passes if its after-inflation loss is smaller than the market's in at least `need` of the
+    four case-study crashes AND its full-period annual return is at most `lag` below the market's."""
+    if not style_r.index.equals(mkt_r.index):
+        raise ValueError("style and market must cover the same months")
+    contiguous(style_r, "style sample")
+    loss = {k: (window_loss(style_r, k), window_loss(mkt_r, k)) for k in WINDOWS}
+    wins = sum(a > b for a, b in loss.values())
+    gap = ann(mkt_r) - ann(style_r)
+    return {"loss": loss, "wins": wins, "lag": gap, "pass": bool(wins >= need and gap <= lag + EPS)}
