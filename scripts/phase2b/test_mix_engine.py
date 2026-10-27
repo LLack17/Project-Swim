@@ -503,6 +503,27 @@ ff_ = 1.10 * 2 - 1                                                 # H's +10% is
 check("non-US: works from the other side", close(hv["F"][1].loc[1950], (1 + (2 / 3) * 0.20 + (1 / 3) * ff_) - 1))
 check("non-US: missing data raises", raises(lambda: E.home_vs_abroad(eq_.mask(eq_ > 0.15), fx_, in_)))
 
+# 28. managed-futures fund check
+i = idx("2015-01", 72)
+ir = pd.Series(np.random.default_rng(4).normal(0.004, 0.03, 72), index=i)
+fr = ir - 0.0005                                             # tracks closely, about 0.6 pt/yr behind
+r_ = E.fund_rule(fr, ir)
+check("fund: tracking fund passes", r_["eligible"] and r_["pass_"] and r_["corr"] > 0.99 and 0.005 < r_["lag"] < 0.008)
+check("fund: lagging 1.5 pt/yr fails", not E.fund_rule(ir - 0.00125, ir)["pass_"])
+check("fund: lag limit binding at the boundary",
+      E.fund_rule(fr, ir, max_lag=r_["lag"] + 1e-9)["pass_"] and not E.fund_rule(fr, ir, max_lag=r_["lag"] - 1e-9)["pass_"])
+noise = pd.Series(np.random.default_rng(5).normal(0.004, 0.03, 72), index=i)
+check("fund: unrelated fund fails on correlation", not E.fund_rule(noise, ir)["pass_"])
+check("fund: under 60 months not eligible", not E.fund_rule(fr.iloc[:59], ir)["eligible"])
+check("fund: exactly 60 months eligible", E.fund_rule(fr.iloc[:60], ir)["eligible"])
+check("fund: a missing fund month raises (no silent join across the gap)", raises(lambda: E.fund_rule(fr.drop(fr.index[10]), ir)))
+rs = {"A": {"pass_": True, "eligible": True, "corr": 0.8}, "B": {"pass_": True, "eligible": True, "corr": 0.9},
+      "C": {"pass_": False, "eligible": True, "corr": 0.95}}
+check("fund choice: 10% with best passing fund", E.fund_choice(rs) == (0.10, "B"))
+rs2 = {"A": {"pass_": False, "eligible": True, "corr": 0.6}, "C": {"pass_": False, "eligible": False, "corr": np.nan}}
+check("fund choice: 5% with best eligible fund", E.fund_choice(rs2) == (0.05, "A"))
+check("fund choice: none eligible", E.fund_choice({"C": {"pass_": False, "eligible": False, "corr": np.nan}}) == (0.05, None))
+
 bad_ = [n for n, ok in results if not ok]
 print(f"\n{len(results) - len(bad_)} of {len(results)} checks passed" + (f"; FAILED: {bad_}" if bad_ else ""))
 sys.exit(1 if bad_ else 0)

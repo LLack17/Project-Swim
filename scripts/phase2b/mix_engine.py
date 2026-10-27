@@ -487,3 +487,31 @@ def home_vs_abroad(eq, fx, infl, home_w=2 / 3):
         mix_r = ((1 + mix_n) / (1 + infl[h]) - 1).iloc[1:]
         out[h] = (home_r, mix_r)
     return out
+
+
+# ---------------- managed-futures live-fund check ----------------
+def fund_rule(fund_r, index_r, need_corr=0.7, max_lag=0.01, min_months=60):
+    """Live fund vs the index: eligible with at least `min_months` months; passes if monthly returns correlate
+    `need_corr` or more AND the fund's annual return is at most `max_lag` below the index's (same months)."""
+    d = pd.concat({"f": fund_r, "i": index_r}, axis=1, sort=True).dropna()
+    if len(d):
+        contiguous(d, "fund sample")
+    out = {"n": len(d), "start": d.index[0] if len(d) else None, "end": d.index[-1] if len(d) else None}
+    out["eligible"] = len(d) >= min_months
+    if not out["eligible"]:
+        out.update(corr=np.nan, lag=np.nan, pass_=False)
+        return out
+    out["corr"] = float(d.f.corr(d.i))
+    out["lag"] = ann(d.i) - ann(d.f)
+    out["pass_"] = bool(out["corr"] >= need_corr - EPS and out["lag"] <= max_lag + EPS)
+    return out
+
+
+def fund_choice(results):
+    """{fund: fund_rule result} -> (weight, fund): 10% with the passing fund of highest correlation; otherwise 5%
+    with the eligible fund of highest correlation (None if no fund is eligible)."""
+    passing = {k: r for k, r in results.items() if r["pass_"]}
+    if passing:
+        return 0.10, max(passing, key=lambda k: passing[k]["corr"])
+    elig = {k: r for k, r in results.items() if r["eligible"]}
+    return 0.05, (max(elig, key=lambda k: elig[k]["corr"]) if elig else None)
