@@ -434,6 +434,75 @@ Rs = pd.DataFrame({"s": [0.1, 0.1], "b": [0.0, 0.0], "g": [0.2, 0.2]}, index=idx
 ps = E.port_switch(Rs, {"s": 0.5, "b": 0.4, "g": 0.1}, {"s": 0.5, "b": 0.5}, pd.Series([True, False], index=Rs.index))
 check("port_switch: on/off weights by month", close(ps.iloc[0], 0.07) and close(ps.iloc[1], 0.05))
 
+# 26. warning signs
+yrs = list(range(1900, 1930))
+xs = pd.Series(np.arange(30, dtype=float), index=yrs)       # always a new high
+f_ = E.expanding_flag(xs, "top", min_hist=20)
+check("flag: NaN until 20 earlier values", f_.iloc[:20].isna().all() and f_.iloc[20] == 1.0)
+xs2 = xs.copy()
+xs2.iloc[25] = 0.5
+check("flag: low value is off on 'top', on on 'bottom'",
+      E.expanding_flag(xs2, "top").iloc[25] == 0.0 and E.expanding_flag(xs2, "bottom").iloc[25] == 1.0)
+xs3 = xs.copy()
+xs3.iloc[-1] = -99.0
+check("flag: no look-ahead", E.expanding_flag(xs3, "top").iloc[:-1].equals(f_.iloc[:-1]))
+xs4 = xs.copy()
+xs4.iloc[5] = np.nan
+check("flag: missing values are skipped, not counted", pd.isna(E.expanding_flag(xs4, "top").iloc[5])
+      and pd.isna(E.expanding_flag(xs4, "top").iloc[20]) and E.expanding_flag(xs4, "top").iloc[21] == 1.0)
+q80 = pd.Series(list(range(21)) + [16.0], index=range(1900, 1922), dtype=float)   # 80th pct of 0..20 is 16.0
+check("flag: exactly at the 80th percentile is NOT on", E.expanding_flag(q80, "top").iloc[-1] == 0.0)
+rr = pd.Series([0.0, -0.2, -0.125, 0.5, 0.0, 0.0], index=range(2000, 2006))
+ca = E.crash_ahead(rr)
+check("crash: 0.8*0.875 = -30% within 3 years counts", ca.loc[2000] == 1.0)
+check("crash: needs all 3 later years", pd.isna(ca.loc[2003]) and pd.isna(ca.loc[2005]))
+rr2 = rr.drop(2002)
+check("crash: missing year -> NaN", pd.isna(E.crash_ahead(rr2).loc[2000]))
+check("crash: 29% fall is not a crash", E.crash_ahead(pd.Series([0.0, -0.29, 0.0, 0.0], index=range(2000, 2004))).loc[2000] == 0.0)
+o_ = E.odds(pd.Series([1, 1, 1, 1, 0, 0, 0, 0, 0, 0.0]), pd.Series([1, 1, 0, 0, 1, 0, 0, 0, 0, 0.0]))
+check("odds: rates and ratio", o_["hits"] == 2 and close(o_["rate_on"], 0.5) and close(o_["rate_off"], 1 / 6) and close(o_["ratio"], 3.0))
+check("odds: no crashes when off -> infinite ratio", E.odds(pd.Series([1, 0.0]), pd.Series([1, 0.0]))["ratio"] == np.inf)
+check("signal rule: needs ratio 2, 5 hits, luck < 10%",
+      E.signal_rule({"ratio": 2.0, "hits": 5}, 0.099) and not E.signal_rule({"ratio": 1.99, "hits": 5}, 0.0)
+      and not E.signal_rule({"ratio": 3.0, "hits": 4}, 0.0) and not E.signal_rule({"ratio": 3.0, "hits": 9}, 0.10))
+pan = []
+for c in "ABCD":
+    cr = np.zeros(40)
+    cr[[3, 14, 27, 36]] = 1                                   # scattered crashes
+    pan.append(pd.DataFrame({"country": c, "on": cr.copy(), "crash": cr}))
+pan = pd.concat(pan, ignore_index=True)
+p_good = E.block_shuffle_p(pan, n=300)
+pan_r = pan.copy()
+on_pat = np.zeros(40)
+on_pat[list(range(5, 10)) + list(range(20, 25))] = 1          # on only in years without crashes
+pan_r["on"] = np.tile(on_pat, 4)
+p_rand = E.block_shuffle_p(pan_r, n=300)
+check("luck check: a perfect signal is rarely matched by chance", p_good < 0.05)
+check("luck check: a useless signal is often matched", p_rand > 0.5)
+sb = E.shuffle_blocks(np.arange(12), np.random.default_rng(3), 5)
+sbl = sb.tolist()
+kept = all(sbl[sbl.index(bk[0]):sbl.index(bk[0]) + len(bk)] == bk for bk in [[0, 1, 2, 3, 4], [5, 6, 7, 8, 9], [10, 11]])
+check("luck check: shuffles whole 5-year blocks, keeping each block in order",
+      sorted(sbl) == list(range(12)) and kept and sbl != list(range(12)))
+pan_n = pan.copy()
+pan_n.loc[pan_n.index[50:55], ["on", "crash"]] = np.nan          # a gap inside one country's sequence
+check("luck check: works with gaps kept in place", 0 <= E.block_shuffle_p(pan_n, n=50) <= 1
+      and E.odds(pan_n.on, pan_n.crash)["n_on"] + E.odds(pan_n.on, pan_n.crash)["n_off"] == len(pan_n) - 5)
+check("luck check: same seed, same answer", E.block_shuffle_p(pan_r, n=100) == E.block_shuffle_p(pan_r, n=100))
+
+# 27. non-US mix
+yi = [1949, 1950]
+eq_ = pd.DataFrame({"H": [0.0, 0.10], "F": [0.0, 0.20]}, index=yi)
+fx_ = pd.DataFrame({"H": [1.0, 1.0], "F": [1.0, 2.0]}, index=yi)    # F currency halves vs USD (and vs H)
+in_ = pd.DataFrame({"H": [0.0, 0.05], "F": [0.0, 0.0]}, index=yi)
+hv = E.home_vs_abroad(eq_, fx_, in_)
+fh = 1.2 / 2 - 1                                                   # F's +20% is -40% in H's currency
+check("non-US: home-only real return", close(hv["H"][0].loc[1950], 1.10 / 1.05 - 1) and len(hv["H"][0]) == 1)
+check("non-US: foreign return converted unhedged", close(hv["H"][1].loc[1950], (1 + (2 / 3) * 0.10 + (1 / 3) * fh) / 1.05 - 1))
+ff_ = 1.10 * 2 - 1                                                 # H's +10% is +120% in F's currency
+check("non-US: works from the other side", close(hv["F"][1].loc[1950], (1 + (2 / 3) * 0.20 + (1 / 3) * ff_) - 1))
+check("non-US: missing data raises", raises(lambda: E.home_vs_abroad(eq_.mask(eq_ > 0.15), fx_, in_)))
+
 bad_ = [n for n, ok in results if not ok]
 print(f"\n{len(results) - len(bad_)} of {len(results)} checks passed" + (f"; FAILED: {bad_}" if bad_ else ""))
 sys.exit(1 if bad_ else 0)

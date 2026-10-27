@@ -378,3 +378,112 @@ def port_switch(R, w_on, w_off, on):
     if on.isna().any():
         raise ValueError("switch signal missing for some months")
     return a.where(on.astype(bool), b)
+
+
+# ---------------- 2B-B warning signs ----------------
+def expanding_flag(x, side="top", frac=0.20, min_hist=20):
+    """Signal 'on' in year t if x_t is above the (1-frac) quantile (side='top') or below the frac quantile
+    (side='bottom') of the SAME series' earlier values (years before t, at least `min_hist` of them).
+    Returns a float Series: 1.0 on, 0.0 off, NaN when x_t is missing or history is too short."""
+    x = x.sort_index()
+    out = pd.Series(np.nan, index=x.index)
+    vals = x.values
+    for k in range(len(x)):
+        if np.isnan(vals[k]):
+            continue
+        hist = vals[:k][~np.isnan(vals[:k])]
+        if len(hist) < min_hist:
+            continue
+        if side == "top":
+            out.iloc[k] = float(vals[k] > np.quantile(hist, 1 - frac))
+        elif side == "bottom":
+            out.iloc[k] = float(vals[k] < np.quantile(hist, frac))
+        else:
+            raise ValueError("side must be 'top' or 'bottom'")
+    return out
+
+
+def crash_ahead(real_ret, fall=0.30, horizon=3):
+    """Year t is followed by a crash if the real total-return index falls `fall` or more below its year-t level
+    at some year-end in t+1..t+horizon. real_ret: annual real returns indexed by integer year (return OF that
+    year). NaN if any of those years is missing."""
+    r = real_ret.sort_index()
+    years = r.index
+    out = pd.Series(np.nan, index=years)
+    for t in years:
+        nxt = [t + h for h in range(1, horizon + 1)]
+        if not all(y in r.index for y in nxt) or r.loc[nxt].isna().any():
+            continue
+        path = np.cumprod(1 + r.loc[nxt].values)
+        out.loc[t] = float(path.min() <= 1 - fall + EPS)
+    return out
+
+
+def odds(on, crash):
+    """Pooled crash rates when a signal is on vs off. on, crash: aligned Series of 0/1 (NaN rows dropped)."""
+    d = pd.concat({"on": on, "crash": crash}, axis=1, sort=True).dropna()
+    n_on, n_off = int((d.on == 1).sum()), int((d.on == 0).sum())
+    hits = int(((d.on == 1) & (d.crash == 1)).sum())
+    r_on = hits / n_on if n_on else np.nan
+    r_off = ((d.on == 0) & (d.crash == 1)).sum() / n_off if n_off else np.nan
+    ratio = np.inf if (r_off == 0 and r_on > 0) else (r_on / r_off if r_off else np.nan)
+    return {"n_on": n_on, "n_off": n_off, "hits": hits, "rate_on": r_on, "rate_off": r_off, "ratio": ratio}
+
+
+def shuffle_blocks(seq, rng, block=5):
+    """Cut seq into consecutive `block`-long pieces (the last may be shorter) and return them in random order."""
+    blocks = [seq[i:i + block] for i in range(0, len(seq), block)]
+    order = rng.permutation(len(blocks))
+    return np.concatenate([blocks[k] for k in order])
+
+
+def block_shuffle_p(panel, n=1000, block=5, seed=0):
+    """Luck check. panel: DataFrame with columns country, on, crash (0/1 or NaN), one row per year of the
+    checked window for every country (full grid, missing values kept in place), in year order. Each country's
+    'on' sequence is cut into consecutive `block`-year blocks from the window's first year; the blocks are
+    shuffled and the pooled ratio recomputed (rows with a missing value are left out of the odds only).
+    Returns the share of shuffles whose ratio >= the real ratio."""
+    rng = np.random.default_rng(seed)
+    real_ratio = odds(panel.on, panel.crash)["ratio"]
+    if np.isnan(real_ratio):
+        return np.nan
+    groups = [(g.on.values, g.crash.values) for _, g in panel.groupby("country", sort=True)]
+    count = 0
+    for _ in range(n):
+        ons, crs = [], []
+        for on_, cr_ in groups:
+            ons.append(shuffle_blocks(on_, rng, block))
+            crs.append(cr_)
+        ratio = odds(pd.Series(np.concatenate(ons)), pd.Series(np.concatenate(crs)))["ratio"]
+        count += bool(ratio >= real_ratio) if not np.isnan(ratio) else 0
+    return count / n
+
+
+def signal_rule(o, p, need_ratio=2.0, need_hits=5, need_p=0.10):
+    """2B-B pass: crash rate when on >= need_ratio x rate when off, at least need_hits on-years followed by a
+    crash, and luck-check p below need_p."""
+    return bool(o["ratio"] >= need_ratio - EPS and o["hits"] >= need_hits and p < need_p)
+
+
+# ---------------- 2B-D non-US stocks ----------------
+def home_vs_abroad(eq, fx, infl, home_w=2 / 3):
+    """eq: local-currency stock returns (years x countries); fx: local currency per USD (same shape);
+    infl: inflation (same shape). For each home country: home-only real returns and the mix of `home_w` home
+    stocks plus the rest split equally across the other countries, converted to home currency unhedged,
+    rebalanced yearly. Returns {country: (home_real, mix_real)} from the SECOND row on (the first row only
+    supplies the starting exchange rate). Inputs must have no missing values after the first row."""
+    if not (eq.index.equals(fx.index) and eq.index.equals(infl.index)):
+        raise ValueError("eq, fx and infl must share the same years")
+    for nm, d in [("eq", eq.iloc[1:]), ("fx", fx), ("infl", infl.iloc[1:])]:
+        if d.isna().any().any():
+            raise ValueError(f"{nm} has missing values")
+    fxg = fx / fx.shift(1)                                  # growth in local units per USD
+    out = {}
+    for h in eq.columns:
+        others = [c for c in eq.columns if c != h]
+        conv = (1 + eq[others]).mul(fxg[h], axis=0).div(fxg[others]) - 1   # foreign return in home currency
+        mix_n = home_w * eq[h] + (1 - home_w) * conv.mean(axis=1)
+        home_r = ((1 + eq[h]) / (1 + infl[h]) - 1).iloc[1:]
+        mix_r = ((1 + mix_n) / (1 + infl[h]) - 1).iloc[1:]
+        out[h] = (home_r, mix_r)
+    return out

@@ -40,3 +40,5 @@ Every Phase 2 decision, the rule or test behind it, and whether it was later rev
 | 2026-10-27 | Stock/Treasury split stays 55/45 (of the non-managed-futures part) | 2B-H step 2: no split passed in the US or in any of 16 countries | Stands |
 | 2026-10-27 | Gold stays out; re-entry rule unchanged (5% once its real price leaves the top fifth) | 2B-H step 2: 50/40/10 and 55/35/10 passed 1970-2026 and 1970-97 but failed 1998-2026 and from 1975: the gain came from 1973-74 | Stands |
 | 2026-10-27 | Rebalancing stays monthly | 2B-H step 3: yearly and drift band cut the worst loss 2.4 and 1.6 pts and underwater by 1 month; bar needs 3 pts and 12 months | Stands |
+| 2026-10-27 | Plan amendment: a live-fund check before launch decides 5% vs 10% managed futures (fund correlation 0.7+ with the index and lag of at most 1 pt/yr -> 10%) | 2B-H result: 10% better on loss and cost but failed the underwater part of the bar | Stands |
+| 2026-10-27 | 2B-B and 2B-D details fixed before coding; 2B-B yield-curve direction corrected (inverted/flat curve = warning) before any data was used | Open choices in the plan | Stands |
