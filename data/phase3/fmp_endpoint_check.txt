@@ -1,0 +1,38 @@
+FMP endpoint check, run 2026-10-28 (Starter plan): status per endpoint for the research list
+
+  profile                  ok for 13 of 13
+  income_annual            ok for 13 of 13
+  balance_annual           ok for 13 of 13
+  cashflow_annual          ok for 13 of 13
+  income_quarter           ok for 13 of 13
+  balance_quarter          ok for 13 of 13
+  cashflow_quarter         ok for 13 of 13
+  key_metrics              ok for 13 of 13
+  ratios                   ok for 13 of 13
+  key_metrics_ttm          ok for 13 of 13
+  ratios_ttm               ok for 13 of 13
+  growth                   ok for 13 of 13
+  enterprise_values        ok for 13 of 13
+  segments_product         ok for 13 of 13
+  segments_geographic      ok for 11 of 13   (empty)
+  analyst_estimates        ok for 13 of 13
+  price_target_consensus   ok for 13 of 13
+  price_target_summary     ok for 13 of 13
+  grades_consensus         ok for 13 of 13
+  earnings                 ok for 13 of 13
+  dividends                ok for 11 of 13   (empty)
+  insider_stats            ok for 13 of 13
+  peers                    ok for 13 of 13
+  shares_float             ok for 13 of 13
+  employees                ok for 13 of 13
+  dcf                      ok for 13 of 13
+  prices                   ok for 13 of 13
+  news                     ok for 13 of 13
+
+  market treasury_rates    ok (62 rows)
+  market prices_VTI        ok (1255 rows)
+  market prices_IEF        ok (1255 rows)
+  market prices_SPY        ok (1255 rows)
+  market prices_AQMIX      ok (1255 rows)
+
+Peers pulled: 114. Data saved in private/fmp_research/ (git-ignored).
