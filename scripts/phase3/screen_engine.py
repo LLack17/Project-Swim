@@ -143,3 +143,78 @@ def shortlist(d, n=30, per_sector=4):
         if len(picked) == n:
             break
     return pd.DataFrame(picked).reset_index(drop=True)
+
+
+# ---------------- shortlist clean-up and robustness check (amendments 2026-10-28) ----------------
+import re  # noqa: E402
+
+_LP = re.compile(r"(,\s*|\s)L\.?P\.?$")
+
+
+def is_partnership(name):
+    """True if a company name ends in 'L.P.' / 'LP' (a partnership, not a common stock)."""
+    return bool(_LP.search(str(name).strip()))
+
+
+def _num(d, k):
+    v = d.get(k) if d else None
+    return np.nan if v is None or pd.isna(v) else float(v)
+
+
+def magic_formula_inputs(inc0, bal0, market_cap):
+    """Greenblatt: earnings yield = operating income / EV; return on capital = operating income /
+    (net working capital + net fixed assets). Capital <= 0 -> +inf (ranks highest). NaN if inputs missing."""
+    oi = _num(inc0, "operatingIncome")
+    debt, cash = _num(bal0, "totalDebt"), _num(bal0, "cashAndShortTermInvestments")
+    ca, cl, std = _num(bal0, "totalCurrentAssets"), _num(bal0, "totalCurrentLiabilities"), _num(bal0, "shortTermDebt")
+    ppe = _num(bal0, "propertyPlantEquipmentNet")
+    ev = market_cap + debt - cash
+    ey = np.nan if np.isnan(oi + ev) else (oi / ev if ev > 0 else np.inf)
+    cap = (ca - cash) - (cl - std) + ppe
+    roc = np.nan if np.isnan(oi + cap) else (oi / cap if cap > 0 else np.inf)
+    return ey, roc
+
+
+def piotroski(inc, bal, cf):
+    """F-score 0-9 from statements NEWEST FIRST (inc and cf need 2 years, bal needs 3). NaN if any input missing."""
+    try:
+        i0, i1, c0 = inc[0], inc[1], cf[0]
+        b0, b1, b2 = bal[0], bal[1], bal[2]
+    except (IndexError, TypeError):
+        return np.nan
+    g = lambda d, k: _num(d, k)  # noqa: E731
+    vals = [g(i0, "netIncome"), g(i1, "netIncome"), g(b0, "totalAssets"), g(b1, "totalAssets"), g(b2, "totalAssets"),
+            g(c0, "operatingCashFlow"), g(b0, "longTermDebt"), g(b1, "longTermDebt"), g(b0, "totalCurrentAssets"),
+            g(b1, "totalCurrentAssets"), g(b0, "totalCurrentLiabilities"), g(b1, "totalCurrentLiabilities"),
+            g(i0, "weightedAverageShsOutDil"), g(i1, "weightedAverageShsOutDil"), g(i0, "grossProfit"),
+            g(i1, "grossProfit"), g(i0, "revenue"), g(i1, "revenue")]
+    if any(np.isnan(v) for v in vals) or min(vals[2], vals[3], vals[4], vals[10], vals[11], vals[16], vals[17]) <= 0:
+        return np.nan
+    ni0, ni1, ta0, ta1, ta2, ocf, ltd0, ltd1, ca0, ca1, cl0, cl1, sh0, sh1, gp0, gp1, rv0, rv1 = vals
+    roa0, roa1 = ni0 / ta1, ni1 / ta2
+    tests = [roa0 > 0, ocf > 0, roa0 > roa1, ocf > ni0, ltd0 / ta0 < ltd1 / ta1, ca0 / cl0 > ca1 / cl1,
+             sh0 <= sh1, gp0 / rv0 > gp1 / rv1, rv0 / ta1 > rv1 / ta2]
+    return float(sum(bool(t) for t in tests))
+
+
+def gross_profitability(inc0, bal0):
+    gp, ta = _num(inc0, "grossProfit"), _num(bal0, "totalAssets")
+    return gp / ta if (not np.isnan(gp + ta) and ta > 0) else np.nan
+
+
+def robustness_label(ranks, top=70.0):
+    """ranks: the three alternative percentile ranks (NaN = not rankable). robust: top 30% on 2+; fragile: on 0
+    of those available; mixed otherwise."""
+    hits = sum(1 for r in ranks if not pd.isna(r) and r >= top - EPS)
+    return "robust" if hits >= 2 else ("fragile" if hits == 0 else "mixed")
+
+
+def item_201_after(submissions, after):
+    """8-K / 8-K/A filings that report Item 2.01 (completed acquisition or disposition), filed after `after`.
+    submissions: SEC submissions JSON. Returns a list of (filingDate, form, items, accessionNumber)."""
+    rec = submissions.get("filings", {}).get("recent", {})
+    out = []
+    for f, d, it, acc in zip(rec.get("form", []), rec.get("filingDate", []), rec.get("items", []), rec.get("accessionNumber", [])):
+        if str(f).startswith("8-K") and "2.01" in str(it).split(",") and pd.Timestamp(d) > pd.Timestamp(after):
+            out.append((d, f, it, acc))
+    return out

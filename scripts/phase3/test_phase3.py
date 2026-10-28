@@ -214,6 +214,37 @@ cc = G.cross_check({"revenue": 100.0, "net_income": 10.0, "operating_income": No
                    {"revenue": 101.9, "netIncome": 10.3, "operatingIncome": 5.0})
 check("edgar: cross-check within 2% ok, above flagged", cc["revenue"][3] and not cc["net_income"][3] and cc["operating_income"][3] is None)
 
+# 6. clean-up and robustness functions
+check("partnership: 'L.P.' and 'LP' endings", S.is_partnership("Plains All American Pipeline, L.P.") and S.is_partnership("Energy Transfer LP"))
+check("partnership: 'LPG' and 'Ltd.' are not", not S.is_partnership("Dorian LPG Ltd.") and not S.is_partnership("Alpha Corp"))
+b0 = dict(totalDebt=50.0, cashAndShortTermInvestments=20.0, totalCurrentAssets=70.0, totalCurrentLiabilities=40.0,
+          shortTermDebt=10.0, propertyPlantEquipmentNet=60.0)
+ey_, roc_ = S.magic_formula_inputs({"operatingIncome": 23.0}, b0, 200.0)
+check("magic formula: EY = OI / EV", close(ey_, 23.0 / 230.0))
+check("magic formula: ROC = OI / (NWC + net fixed assets)", close(roc_, 23.0 / ((70 - 20) - (40 - 10) + 60)))
+check("magic formula: capital <= 0 ranks highest", S.magic_formula_inputs({"operatingIncome": 5.0}, {**b0, "propertyPlantEquipmentNet": -100.0}, 200.0)[1] == np.inf)
+check("magic formula: missing input -> NaN", np.isnan(S.magic_formula_inputs({"operatingIncome": None}, b0, 200.0)[0]))
+def fy(ni, gp, rev, sh):
+    return dict(netIncome=ni, grossProfit=gp, revenue=rev, weightedAverageShsOutDil=sh)
+def fb(ta, ltd, ca, cl):
+    return dict(totalAssets=ta, longTermDebt=ltd, totalCurrentAssets=ca, totalCurrentLiabilities=cl)
+inc_g = [fy(12, 45, 110, 100), fy(8, 40, 100, 101)]
+bal_g = [fb(100, 20, 50, 25), fb(100, 30, 40, 25), fb(100, 30, 40, 25)]
+check("piotroski: all nine tests pass -> 9", S.piotroski(inc_g, bal_g, [dict(operatingCashFlow=15)]) == 9)
+inc_b = [fy(-5, 35, 90, 110), fy(8, 40, 100, 101)]
+bal_b = [fb(100, 40, 30, 25), fb(100, 30, 40, 25), fb(100, 30, 40, 25)]
+check("piotroski: all nine fail -> 0", S.piotroski(inc_b, bal_b, [dict(operatingCashFlow=-6)]) == 0)
+check("piotroski: two years only -> NaN", np.isnan(S.piotroski(inc_g, bal_g[:2], [dict(operatingCashFlow=15)])))
+check("piotroski: ROA and turnover use beginning-of-year assets", S.piotroski([fy(12, 45, 110, 100), fy(8, 40, 100, 101)],
+      [fb(100, 20, 50, 25), fb(1000, 30, 40, 25), fb(100, 30, 40, 25)], [dict(operatingCashFlow=15)]) == 6)
+check("gross profitability", close(S.gross_profitability({"grossProfit": 30.0}, {"totalAssets": 120.0}), 0.25))
+check("label: robust / mixed / fragile", S.robustness_label([80, 75, 10]) == "robust" and S.robustness_label([80, 10, np.nan]) == "mixed"
+      and S.robustness_label([10, 20, np.nan]) == "fragile" and S.robustness_label([70, 70, 0]) == "robust")
+sub = {"filings": {"recent": {"form": ["8-K", "8-K", "10-Q", "8-K/A", "8-K"], "filingDate": ["2026-06-02", "2025-11-01", "2026-07-01", "2026-03-01", "2026-04-01"],
+                              "items": ["2.01,9.01", "2.01", "", "2.01", "5.02,2.011"], "accessionNumber": ["a", "b", "c", "d", "e"]}}}
+hits = S.item_201_after(sub, "2025-12-31")
+check("SEC flags: 8-K and 8-K/A with Item 2.01 after year-end only", [h[3] for h in hits] == ["a", "d"])
+
 bad = [n_ for n_, ok in results if not ok]
 print(f"\n{len(results) - len(bad)} of {len(results)} checks passed" + (f"; FAILED: {bad}" if bad else ""))
 sys.exit(1 if bad else 0)
