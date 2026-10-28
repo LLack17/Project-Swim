@@ -1,0 +1,70 @@
+PHASE 3 STOCK SCREEN
+====================================================================================================
+Run date 2026-10-27; rules: docs/phase3_screen_rules.md (and amendment log)
+
+DATA CHECK: FMP vs the companies' own 10-K filings (SEC EDGAR), latest fiscal year both have
+  MSFT 2026-06-30: revenue 0.0% gap; operating_income 0.0% gap; net_income 0.0% gap; operating_cash_flow 0.0% gap; equity 0.0% gap -> OK
+      (information) FMP total debt 128.8B vs 10-K long-term debt 31.1B; a large gap usually means FMP counts leases or short-term debt in total debt
+  PG 2026-06-30: revenue 0.0% gap; operating_income 0.0% gap; net_income 0.6% gap; operating_cash_flow 0.0% gap; equity 0.0% gap -> OK
+      (information) FMP total debt 35.0B vs 10-K long-term debt 22.8B; a large gap usually means FMP counts leases or short-term debt in total debt
+  CAT 2025-12-31: revenue 0.0% gap; operating_income 0.5% gap; net_income 0.0% gap; operating_cash_flow 0.0% gap; equity 0.0% gap -> OK
+      (information) FMP total debt 43.3B vs 10-K long-term debt 30.7B; a large gap usually means FMP counts leases or short-term debt in total debt
+
+UNIVERSE AND FILTERS (companies left after each step)
+  start                                                  1653
+  US, not a fund, actively trading                       1653
+  market value >= $2B                                    1653
+  not financials, real estate or shells                  1279
+  no preferred shares, units or warrants                 1273
+  one share class per company                            1260
+  price history available (Yahoo, 240+ days)             1228   (removed 32 as missing data)
+  average daily trading >= $20M (last 3 months)          1168
+  statements complete, same years, recent                1124   (removed 44 as missing data)
+  positive book equity                                   1058
+  operating income > 0 in each of 3 years                 795
+  net debt <= 3x EBITDA                                   569
+  short-term debt covered by cash + 1 yr cash flow        564
+  3-yr cash flow >= 80% of 3-yr profit                    537
+  operating profitability measurable                      537
+
+SHORTLIST: top 30 by combined score (value, quality, low volatility; 0-100), at most 4 per sector
+  (the portfolio itself holds at most 2 per sector: the 20% sector cap)
+    # symbol  company                            sector                     mkt cap  value   qual lowvol  score
+    1 INGR    Ingredion Incorporated             Consumer Defensive            6.0B   93.2   68.5   99.8   87.2
+    2 UHS     Universal Health Services, Inc.    Healthcare                    9.2B   95.1   91.4   68.7   85.1
+    3 CMCSA   Comcast Corporation                Communication Services       77.3B   98.2   87.9   69.1   85.1
+    4 BMY     Bristol-Myers Squibb Company       Healthcare                  125.7B   70.5   94.0   84.5   83.0
+    5 FDX     FedEx Corporation                  Industrials                  72.7B   76.7   84.4   84.9   82.0
+    6 BYD     Boyd Gaming Corporation            Consumer Cyclical             5.2B   87.6   59.6   91.4   79.6
+    7 T       AT&T Inc.                          Communication Services      141.1B   93.7   61.1   83.8   79.5
+    8 GNTX    Gentex Corporation                 Consumer Cyclical             4.3B   93.9   50.5   93.1   79.1
+    9 CCK     Crown Holdings, Inc.               Consumer Cyclical            12.6B   76.0   68.3   92.9   79.1
+   10 VNT     Vontier Corporation                Technology                    4.7B   78.4   83.1   74.5   78.6
+   11 LVS     Las Vegas Sands Corp.              Consumer Cyclical            23.4B   60.3   98.1   76.2   78.2
+   12 HON     Honeywell International Inc.       Industrials                  69.3B   70.3   73.2   91.1   78.2
+   13 UPS     United Parcel Service, Inc.        Industrials                  79.5B   66.7   90.1   76.9   77.9
+   14 DOX     Amdocs Limited                     Technology                    6.6B   91.2   58.1   81.4   76.9
+   15 NFG     National Fuel Gas Company          Energy                        7.8B   60.1   71.3   99.3   76.9
+   16 SKYW    SkyWest, Inc.                      Industrials                   3.7B   90.9   89.2   49.3   76.5
+   17 CL      Colgate-Palmolive Company          Consumer Defensive           73.5B   31.7  100.0   95.9   75.9
+   18 EHC     Encompass Health Corporation       Healthcare                   12.0B   54.3   89.4   79.5   74.4
+   19 PEP     PepsiCo, Inc.                      Consumer Defensive          181.9B   41.6   83.6   97.6   74.3
+   20 CBT     Cabot Corp.                        Basic Materials               3.8B   89.3   65.5   68.0   74.3
+   21 GILD    Gilead Sciences, Inc.              Healthcare                  197.3B   45.9   86.6   89.0   73.8
+   22 EEFT    Euronet Worldwide, Inc.            Technology                    2.2B   97.1   72.3   50.3   73.2
+   23 PPC     Pilgrim's Pride Corporation        Consumer Defensive            6.5B   94.5   67.4   57.5   73.1
+   24 EOG     EOG Resources, Inc.                Energy                       84.5B   65.2   70.0   81.6   72.3
+   25 CRUS    Cirrus Logic, Inc.                 Technology                    5.7B   86.3   69.1   54.4   69.9
+   26 PAA     Plains All American Pipeline, L.P. Energy                       18.6B   81.6   27.9   99.4   69.7
+   27 LNG     Cheniere Energy, Inc.              Energy                       61.9B   44.4   80.8   82.7   69.3
+   28 CTVA    Corteva, Inc.                      Basic Materials               7.8B  100.0   29.1   73.2   67.4
+   29 CARG    CarGurus, Inc.                     Communication Services        2.8B   66.3   91.8   42.8   67.0
+   30 SHW     The Sherwin-Williams Company       Basic Materials              79.1B   26.8   87.0   85.7   66.5
+
+All 537 scored companies: data/phase3/screen_scores.csv
+
+Notes: FMP annual statements (latest 3 fiscal years as of the run date); market values from FMP on the run date;
+prices and trading volume from Yahoo (adjusted, cached by run date). EBIT = operating income. FMP total debt may
+include lease liabilities, which makes the leverage filter stricter for heavy lessees (retailers, restaurants).
+Spot-check unusually high quality ranks in the memos: FMP may show an unreported cost line as 0. The screen sources ideas only: every
+pick needs a full memo, a red-team review and Landon's approval, and is date-stamped in the repo before it is bought.
