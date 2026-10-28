@@ -225,3 +225,6 @@ data/phase2b/manual/
 
 # Private notes: never published
 private/
+
+# Phase 3: raw FMP / SEC / Yahoo downloads (FMP terms limit redistribution)
+data/phase3/raw/
