@@ -1,0 +1,19 @@
+AT&T RECHECK (judgment check, not a rule): screen numbers vs numbers including the 2026 deals
+====================================================================================================
+Reproduced the screen's scores for all 537 companies (max gap 7.1e-15).
+
+FMP FY2025 (2025-12-31) vs now (FY2025 moved forward by the 10-Q changes), $ billions:
+  total debt                      174.0 ->    197.5
+  cash                             18.2 ->     10.8
+  equity                          110.5 ->    106.8
+  operating income (12 mo)         25.0 ->     24.4
+  EBITDA (12 mo)                   54.7 ->     53.3
+  free cash flow (12 mo)           19.4 ->     17.8
+  net debt / EBITDA                2.85 ->     3.51   (filter: at most 3.00)
+
+Debt filter now: FAIL: AT&T would be removed before scoring
+  screen (FY2025)                               value  93.7  quality  61.1  low vol  83.8  score  79.5  rank 7 of 537  shortlist: #7
+  now (with 2026 deals), ignoring the filter    value  91.5  quality  63.5  low vol  83.8  score  79.6  rank 6 of 537  shortlist: #6
+
+Notes: market value kept at the screen's run date (as for every company); the quality numerator stays at FY2025
+(not in the 10-Q summary). This is a judgment check for one company and changes no rule.
