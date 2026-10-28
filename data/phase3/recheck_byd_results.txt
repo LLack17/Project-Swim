@@ -1,0 +1,7 @@
+BOYD GAMING RECHECK (judgment check, not a rule): screen numbers vs numbers without the FanDuel gain
+====================================================================================================
+Reproduced the screen's scores for all 537 companies (max gap 7.1e-15).
+  equity 2.61B -> 1.21B; EBITDA 2.79B -> 1.18B; net debt / EBITDA 0.85 -> 2.00 (limit 3.00)
+  operating income, free cash flow and price volatility are unchanged (the gain is not in them)
+  screen             book/price rank  86.2  value  87.6  quality  59.6  low vol  91.4  score  79.6  rank 6 of 537
+  without the gain   book/price rank  50.7  value  75.8  quality  87.0  low vol  91.4  score  84.7  rank 4 of 537
