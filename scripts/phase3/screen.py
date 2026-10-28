@@ -82,7 +82,7 @@ for sym in CHECK_COMPANIES:
     bad += [] if must else [sym]
     log(f"  {sym} {end.date()}: " + "; ".join(
         f"{k} {'n/a' if g is None else f'{g * 100:.1f}% gap'}" for k, (_, _, g, _) in cc.items())
-        + f" -> {'OK' if must else 'FAIL (revenue or net income gap above 2%)'}")
+        + f" -> {'OK' if must else ('FAIL (not found in the filings: cannot verify)' if any(cc[k][2] is None for k in ['revenue', 'net_income']) else 'FAIL (revenue or net income gap above 2%)')}")
     ltd = table.loc[near[0]].get("long_term_debt")
     log(f"      (information) FMP total debt {fmp_row.get('totalDebt', float('nan')) / 1e9:.1f}B vs 10-K long-term debt "
         f"{(ltd if ltd is not None and not pd.isna(ltd) else float('nan')) / 1e9:.1f}B; a large gap usually means FMP "

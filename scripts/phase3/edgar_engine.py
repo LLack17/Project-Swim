@@ -2,15 +2,18 @@
 # into annual series. No downloads here, so the logic can be tested on made-up JSON (test_phase3.py).
 import pandas as pd
 
-# Each line: our name -> XBRL tags tried in order (companies use different tags for the same number).
+# Each line: our name -> XBRL tags tried in order (companies use different tags for the same number). Later tags
+# fill only years the earlier ones lack. Net income falls back to income available to common shareholders, then to
+# profit including minority interests (e.g. Caterpillar stopped using NetIncomeLoss after 2010); equity falls back to
+# equity including minority interests (e.g. P&G, Caterpillar), so small gaps against FMP are expected there.
 CONCEPTS = {
     "revenue": ["Revenues", "RevenueFromContractWithCustomerExcludingAssessedTax", "SalesRevenueNet",
                 "RevenueFromContractWithCustomerIncludingAssessedTax"],
     "operating_income": ["OperatingIncomeLoss"],
-    "net_income": ["NetIncomeLoss"],
+    "net_income": ["NetIncomeLoss", "NetIncomeLossAvailableToCommonStockholdersBasic", "ProfitLoss"],
     "operating_cash_flow": ["NetCashProvidedByUsedInOperatingActivities"],
     "capex": ["PaymentsToAcquirePropertyPlantAndEquipment"],
-    "equity": ["StockholdersEquity"],
+    "equity": ["StockholdersEquity", "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"],
     "cash": ["CashAndCashEquivalentsAtCarryingValue"],
     "long_term_debt": ["LongTermDebtNoncurrent", "LongTermDebt"],
 }

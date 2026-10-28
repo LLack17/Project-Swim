@@ -192,6 +192,16 @@ check("edgar: a company that switched tags keeps recent years", list(s3.values) 
 s4, _ = G.annual_series({"facts": {"us-gaap": {"Revenues": {"units": {"USD": [fact("2019-12-29", "2020-12-31", 7, "2021-02-01")]}}}}},
                         ["Revenues"])
 check("edgar: a 53-week year (368 days) counts", len(s4) == 1)
+cat = {"facts": {"us-gaap": {
+    "NetIncomeLoss": {"units": {"USD": [fact("2010-01-01", "2010-12-31", 2.7, "2011-02-01")]}},
+    "NetIncomeLossAvailableToCommonStockholdersBasic": {"units": {"USD": [fact("2025-01-01", "2025-12-31", 9.0, "2026-02-01")]}},
+    "ProfitLoss": {"units": {"USD": [fact("2025-01-01", "2025-12-31", 9.1, "2026-02-01"),
+                                     fact("2024-01-01", "2024-12-31", 10.8, "2025-02-01")]}},
+    "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest": {"units": {"USD": [fact(None, "2025-12-31", 20.0, "2026-02-01")]}}}}}
+ct, cu = G.company_table(cat)
+check("edgar: net income falls back past an old tag (Caterpillar case), common-shareholder figure first",
+      ct.loc["2025-12-31", "net_income"] == 9.0 and ct.loc["2024-12-31", "net_income"] == 10.8 and ct.loc["2010-12-31", "net_income"] == 2.7)
+check("edgar: equity falls back to the tag including minority interests", ct.loc["2025-12-31", "equity"] == 20.0)
 s2, tag2 = G.annual_series(facts, ["Nope", "RevenueFromContractWithCustomerExcludingAssessedTax"])
 check("edgar: falls back to the next tag", tag2 == ["RevenueFromContractWithCustomerExcludingAssessedTax"] and s2.iloc[0] == 90)
 eq, _ = G.annual_series(facts, ["StockholdersEquity"], flow=False)
