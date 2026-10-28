@@ -1,0 +1,60 @@
+PHASE 3 SHORTLIST CHECK: clean-up and robustness
+====================================================================================================
+Companies scored: 537; rankable on Magic Formula 537, Piotroski 537, gross profitability 537
+
+STEP 1: CLEAN-UP
+  Partnerships removed: PAA (Plains All American Pipeline, L.P.)
+  Top 50 candidates (up to 6 per sector) checked for completed acquisitions/dispositions (8-K Item 2.01) after their latest fiscal year-end:
+    FDX    2026-06-01 8-K -> REPLACE: FedEx Freight spin-off completed 2026-06-01, after fiscal year-end 2026-05-31 (https://www.nasdaq.com/press-release/fedex-completes-spin-fedex-freight-2026-06-01)
+    HON    2026-06-29 8-K -> REPLACE: Honeywell Aerospace spin-off completed 2026-06-29, after fiscal year-end 2025-12-31 (https://honeywell.com/us/en/news/press-releases/2026/06/honeywell-aerospace-completes-spin-off-from-honeywell-technologies-and-begins-trading-on-nasdaq)
+    NFG    2026-10-01 8-K -> REPLACE: Bought CenterPoint's Ohio gas utility for $2.62B (34% of its $7.75B market value), completed 2026-10-01, after its latest fiscal year-end (https://www.panabee.com/news/national-fuel-gas-closes-2-62-billion-acquisition-of-ohio-utility)
+    ALSN   2026-01-02 8-K -> REPLACE: Bought Dana's Off-Highway business for about $2.7B (30% of its $8.89B market value), completed early January 2026, after fiscal year-end 2025-12-31 (https://pulse2.com/allison-transmission-closes-2-7-billion-acquisition-of-danas-off-highway-drive-motion-systems-business)
+    CTVA   2026-10-05 8-K -> REPLACE: Seed business (Vylor) spin-off completed 2026-10-01, after fiscal year-end 2025-12-31 (https://www.panabee.com/news/corteva-completes-seed-segment-separation-into-vylor)
+    CRC    2026-03-02 8-K -> KEEP: Berry Corporation merger closed 2025-12-18, BEFORE fiscal year-end 2025-12-31, so the latest balance sheet already includes it; the March 2026 8-K flag is a later filing about that completed deal (https://www.barchart.com/story/news/36690145/california-resources-corporation-closes-combination-with-berry-corporation)
+    WLY    2026-06-02 8-K -> REPLACE: Bought Emerald Publishing for about $452M (17% of its $2.67B market value), completed 2026-06-01, after its latest fiscal year-end (April) (https://www.streetinsider.com/SEC+Filings/Form++8-K++++++++JOHN+WILEY+%26amp%3B+SONS%2C+INC.++For%3A+Jun+01/26588174.html)
+    NRG    2026-01-30 8-K -> REPLACE: Bought a 13 GW generation portfolio from LS Power (announced at about $12B, well over 10% of its $20.0B market value), completed 2026-01-30, after fiscal year-end 2025-12-31 (https://www.itiger.com/news/2607025462)
+    CMCSA  (decided without an 8-K flag) -> REPLACE: Versant cable networks spin-off completed 2026-01-02, after fiscal year-end 2025-12-31: statements include a business no longer owned (https://www.newscaststudio.com/2026/01/05/versant-ipo/)
+
+  Removed from the original top 30: CMCSA, FDX, HON, NFG, PAA, CTVA
+  Added (next-best eligible): AOS, ITW, CRC, CNX, NEU, PPG
+
+STEP 2: ROBUSTNESS (labels only; the main score decides the list)
+    # symbol  company                        sector                  score  magic  F(0-9)  F rank  grossP  label
+    1 INGR    Ingredion Incorporated         Consumer Defensive       87.2   66.5      8    88.4    39.7  mixed
+    2 UHS     Universal Health Services, Inc Healthcare               85.1   63.7      8    88.4    99.6  robust
+    3 BMY     Bristol-Myers Squibb Company   Healthcare               83.0   84.5      8    88.4    72.8  robust
+    4 BYD     Boyd Gaming Corporation        Consumer Cyclical        79.6   67.2      6    45.3    46.7  fragile
+    5 T       AT&T Inc.                      Communication Services   79.5   52.5      8    88.4    25.3  mixed
+    6 GNTX    Gentex Corporation             Consumer Cyclical        79.1   68.4      6    45.3    56.1  fragile
+    7 CCK     Crown Holdings, Inc.           Consumer Cyclical        79.1   63.2      7    69.4    18.1  fragile
+    8 VNT     Vontier Corporation            Technology               78.6   83.7      6    45.3    63.3  mixed
+    9 LVS     Las Vegas Sands Corp.          Consumer Cyclical        78.2   62.7      8    88.4    55.9  mixed
+   10 UPS     United Parcel Service, Inc.    Industrials              77.9   52.5      5    22.5    36.1  fragile
+   11 DOX     Amdocs Limited                 Technology               76.9   84.7      6    45.3    48.2  mixed
+   12 SKYW    SkyWest, Inc.                  Industrials              76.5   53.4      8    88.4    65.0  mixed
+   13 CL      Colgate-Palmolive Company      Consumer Defensive       75.9   55.6      6    45.3    96.8  mixed
+   14 EHC     Encompass Health Corporation   Healthcare               74.4   53.7      9    98.3    70.0  robust
+   15 AOS     A. O. Smith Corporation        Industrials              74.3   77.8      7    69.4    84.0  robust
+   16 PEP     PepsiCo, Inc.                  Consumer Defensive       74.3   51.7      6    45.3    84.2  mixed
+   17 CBT     Cabot Corp.                    Basic Materials          74.3   65.4      6    45.3    42.1  fragile
+   18 ITW     Illinois Tool Works Inc.       Industrials              73.9   60.7      7    69.4    79.5  mixed
+   19 GILD    Gilead Sciences, Inc.          Healthcare               73.8   70.7      8    88.4    74.7  robust
+   20 EEFT    Euronet Worldwide, Inc.        Technology               73.2   92.0      8    88.4    49.5  robust
+   21 PPC     Pilgrim's Pride Corporation    Consumer Defensive       73.1   71.5      4     7.6    39.1  mixed
+   22 EOG     EOG Resources, Inc.            Energy                   72.3   47.1      4     7.6    49.7  fragile
+   23 CRUS    Cirrus Logic, Inc.             Technology               69.9   78.5      8    88.4    78.2  robust
+   24 LNG     Cheniere Energy, Inc.          Energy                   69.3   39.5      7    69.4     7.1  fragile
+   25 CARG    CarGurus, Inc.                 Communication Services   67.0   74.2      7    69.4   100.0  robust
+   26 SHW     The Sherwin-Williams Company   Basic Materials          66.5   48.8      6    45.3    81.4  mixed
+   27 CRC     California Resources Corp      Energy                   66.1   57.5      3     1.2    29.6  fragile
+   28 CNX     CNX Resources Corporation      Energy                   65.8   49.2      7    69.4     6.5  fragile
+   29 NEU     NewMarket Corporation          Basic Materials          65.7   54.8      5    22.5    41.7  fragile
+   30 PPG     PPG Industries, Inc.           Basic Materials          65.1   59.7      7    69.4    49.9  fragile
+
+  Robust 8, mixed 11, fragile 11
+  Overlap of Magic Formula's own top 30 with the shortlist: 4 of 30
+  Overlap of Piotroski F-score's own top 30 with the shortlist: 3 of 30
+  Overlap of Gross profitability's own top 30 with the shortlist: 3 of 30
+
+Saved data/phase3/shortlist_final.csv. Notes: Piotroski ties are common (scores 0-9), so its ranks bunch together;
+labels flag how much a name depends on our own score, they do not remove anyone.
