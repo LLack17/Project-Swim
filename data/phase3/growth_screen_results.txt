@@ -1,0 +1,51 @@
+PHASE 3 GROWTH SCREEN
+====================================================================================================
+Run date 2026-10-29; rules: docs/phase3_growth_screen_rules.md
+
+UNIVERSE (companies left after each step)
+  start                                                  1662
+  US, not a fund, actively trading                       1662
+  market value >= $2B                                    1662
+  not financials, real estate or shells                  1287
+  no preferred shares, units or warrants                 1282
+  one share class per company                            1268
+  not a partnership                                      1257
+  4 years of annual revenue available                    1178   (removed 79 as missing data)
+  3-yr revenue growth >= 20%/yr                           189
+  8 quarters consistent and recent                        177   (removed 12 as missing data)
+  TTM revenue growth >= 15%                               139
+  TTM gross margin >= 40%                                 102
+  Rule of 40 (growth + FCF margin >= 40)                   73
+  FCF margin >= 0%, or >= -10% and improving               68
+  net debt <= 2x TTM EBITDA (or net cash)                  59
+  diluted shares +3%/yr at most                            15
+  EV/sales per point of growth <= 0.8                      14
+  price history available (Yahoo)                          14   (removed 0 as missing data)
+  average daily trading >= $20M (last 3 months)            14
+
+TOP 14 by growth score (average rank of Rule of 40 and valuation per point of growth; 0-100), no sector limit
+    # symbol  company                        sector                  mkt cap  3y gr TTM gr  gross  FCF m   R40  EV/S   val   vol  score
+    1 SNDK    Sandisk Corporation            Technology               192.2B    49%   272%    80%    60%   332   6.5  0.02  113%  100.0
+    2 MU      Micron Technology, Inc.        Technology              1057.1B   105%   256%    81%    44%   301   7.6  0.03   82%   89.3
+    3 CELH    Celsius Holdings, Inc.         Consumer Defensive         7.1B    57%    83%    49%    15%    98   2.4  0.03   62%   82.1
+    4 NVDA    NVIDIA Corporation             Technology              5149.2B   100%    83%    75%    42%   125  16.8  0.20   37%   71.4
+    5 RGLD    Royal Gold, Inc.               Basic Materials           20.1B    20%    94%    67%     0%    94  13.1  0.14   41%   64.3
+    6 APP     AppLovin Corporation           Technology                85.6B    25%    48%    88%    66%   114  12.6  0.26   71%   64.3
+    7 HRMY    Harmony Biosciences Holdings,  Healthcare                 2.2B    26%    24%    75%    37%    61   1.8  0.07   40%   60.7
+    8 NBIX    Neurocrine Biosciences, Inc.   Healthcare                14.9B    24%    34%    98%    26%    60   4.4  0.13   34%   53.6
+    9 LLY     Eli Lilly and Company          Healthcare              1292.5B    32%    46%    79%    23%    68  15.5  0.34   36%   42.9
+   10 ANET    Arista Networks, Inc.          Technology               232.3B    27%    33%    63%    49%    81  20.8  0.64   54%   32.1
+   11 APPF    AppFolio Inc.                  Technology                 7.3B    26%    20%    63%    26%    46   6.5  0.33   45%   32.1
+   12 NOW     ServiceNow, Inc.               Technology               113.4B    22%    22%    73%    31%    53   7.6  0.35   64%   28.6
+   13 DT      Dynatrace, Inc.                Technology                17.7B    20%    18%    81%    27%    45   8.0  0.45   43%   17.9
+   14 HEI     HEICO Corporation              Industrials               45.5B    27%    21%    40%    20%    41   9.2  0.45   33%   10.7
+  * already on the quality research list
+
+Sector count in the top 30: Technology 8, Healthcare 3, Consumer Defensive 1, Basic Materials 1, Industrials 1
+
+All 177 companies that reached the full checks: data/phase3/growth_screen_scores.csv
+
+Notes: FMP statements (4 fiscal years; 8 quarters, TTM = last 4); market values from FMP on the run date;
+prices and volume from Yahoo (adjusted). Volatility is annualized and reported only. FMP total debt may include
+leases (stricter debt filter for heavy lessees). The screen sources ideas only: Landon cleans the top 10 (one-offs,
+corporate actions under the 10% standard), picks 4-5 for full research, and 2 enter the portfolio.
