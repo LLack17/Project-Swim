@@ -1,0 +1,61 @@
+PHASE 3 LONG-TERM COMPOUNDER SCREEN
+====================================================================================================
+Run date 2026-11-01; rules: docs/phase3_compounder_screen_rules.md
+
+UNIVERSE (companies left after each step)
+  US, not a fund, actively trading, $2B+                 1650
+  no banks/insurers/REITs (payments, exchanges in)       1309
+  common stock, one class, not a partnership             1278
+  11 years of consistent statements                       952   (removed 326 as missing data)
+  revenue +10%/yr over 10 yrs, up in 8+ of 10             249
+  balance sheet, cash flow, valuation history complete    249   (removed 0 as missing data)
+  ROIC >= 15% in 8+ of 10 years                            56
+  gross margin within 5 pts of 10-yr average               53
+  free cash flow positive in 8+ of 10 years                51
+  net debt <= 2x EBITDA (or net cash)                      47
+  diluted shares +2%/yr at most (10 yrs)                   46
+  estimated long-run return >= 9%/yr                       35
+  price history available (Yahoo)                          35   (removed 0 as missing data)
+  average daily trading >= $20M (last 3 months)            35
+
+TOP 30 by score (half durability: 10-yr median ROIC and steady growth; half estimated long-run return)
+    # symbol  company                      sector                mkt cap 10y gr ROIC md  gross FCF yld  drift exp ret   vol  score
+    1 ADBE    Adobe Inc.                   Technology              97.4B    17%     38%    89%    8.5%  12.1%   31.8%   41%   83.6
+    2 DECK    Deckers Outdoor Corporation  Consumer Cyclical       10.9B    11%     54%    58%    9.7%   2.9%   20.7%   41%   77.9
+    3 PAYC    Paycom Software, Inc.        Technology              11.9B    25%     40%    83%    2.6%   7.4%   24.9%   48%   75.0
+    4 VEEV    Veeva Systems Inc.           Technology              50.7B    23%     70%    76%    2.0%  -0.2%   15.7%   43%   72.9
+    5 CPRT    Copart, Inc.                 Industrials             27.9B    14%     32%    45%    4.4%   5.8%   19.7%   32%   65.0
+    6 PCTY    Paylocity Holding Corporatio Technology               8.9B    23%     25%    69%    4.3%   5.2%   23.3%   42%   64.3
+    7 TTD     The Trade Desk, Inc.         Communication Servic     5.8B    38%     27%    79%    7.0%  24.7%   46.7%   57%   64.3
+    8 QLYS    Qualys, Inc.                 Technology               7.8B    15%    104%    83%    3.1%  -1.4%   11.8%   58%   64.3
+    9 RMD     ResMed Inc.                  Healthcare              32.3B    12%     19%    61%    4.8%   2.6%   15.9%   30%   62.1
+   10 MOH     Molina Healthcare, Inc.      Healthcare              10.7B    12%     n/m     9%   -6.3%  11.3%   13.7%   51%   61.8
+   11 META    Meta Platforms, Inc.         Communication Servic  1361.9B    27%     40%    82%    2.2%   2.1%   19.3%   43%   61.4
+   12 ALGN    Align Technology, Inc.       Healthcare              10.6B    17%     28%    68%    3.2%  12.1%   26.2%   39%   60.7
+   13 BKNG    Booking Holdings Inc.        Consumer Cyclical      111.3B    11%     41%   100%    7.7%   5.0%   20.8%   38%   59.3
+   14 OLED    Universal Display Corporatio Technology               3.8B    13%     35%    76%    3.2%  11.5%   23.8%   43%   57.1
+   15 MA      Mastercard Incorporated      Financial Services     559.2B    13%     95%   100%    2.9%  -0.7%   11.1%   23%   55.0
+   16 NVDA    NVIDIA Corporation           Technology            4931.8B    46%    120%    71%    1.9%  -1.7%   15.1%   37%   54.3
+   17 VRTX    Vertex Pharmaceuticals Incor Healthcare             141.7B    28%     48%    85%    1.9%  -1.8%   15.1%   29%   52.9
+   18 FTNT    Fortinet, Inc.               Technology              99.8B    21%     n/m    81%    2.0%  -5.1%    9.9%   48%   52.5
+   19 UI      Ubiquiti Inc.                Technology              34.1B    17%    120%    46%    2.6%  -1.5%   12.2%   52%   52.1
+   20 TREX    Trex Company, Inc.           Basic Materials          5.2B    10%     39%    39%    2.3%   2.9%   12.8%   50%   51.4
+   21 IDXX    IDEXX Laboratories, Inc.     Healthcare              43.4B    10%     44%    62%    2.4%  -0.2%   10.0%   33%   48.6
+   22 ULTA    Ulta Beauty, Inc.            Consumer Cyclical       27.4B    12%     36%    39%    3.8%   0.5%   12.8%   36%   47.9
+   23 MSFT    Microsoft Corporation        Technology            3875.8B    14%     57%    68%    1.5%  -1.0%    9.8%   33%   46.4
+   24 YETI    YETI Holdings, Inc.          Consumer Cyclical        3.2B    15%     26%    57%    5.5%   3.6%   19.0%   40%   45.7
+   25 V       Visa Inc.                    Financial Services     773.0B    12%     35%    80%    2.8%  -0.5%   10.6%   22%   45.0
+   26 IPAR    Inter Parfums, Inc.          Consumer Defensive       3.7B    12%     30%    64%    5.1%   1.8%   15.5%   30%   45.0
+   27 ISRG    Intuitive Surgical, Inc.     Healthcare             152.6B    15%     24%    66%    1.2%   0.7%   12.1%   34%   42.9
+   28 GOOG    Alphabet Inc.                Communication Servic  3410.6B    18%     37%    60%    1.6%  -3.0%   10.3%   33%   39.3
+   29 CORT    Corcept Therapeutics Incorpo Healthcare               8.8B    31%     94%    98%    0.9%  -5.3%   10.5%   83%   37.1
+   30 AMZN    Amazon.com, Inc.             Consumer Cyclical     2592.5B    21%     19%    50%   -0.3%  -1.0%   11.7%   35%   34.3
+  * already on the quality research list
+
+Sector count in the top 30: Technology 10, Healthcare 7, Consumer Cyclical 5, Communication Services 3, Financial Services 2, Industrials 1, Basic Materials 1, Consumer Defensive 1
+
+All 249 companies that reached the full checks: data/phase3/compounder_screen_scores.csv
+
+Notes: FMP annual statements (11 fiscal years) and key metrics; market values on the run date; prices from Yahoo.
+ROIC n/m = invested capital at or below zero with profits (counted as above 15%). Expected return = FCF yield after
+stock pay + faded growth + EV/sales drift toward its 10-yr median. The screen sources ideas only: review step next.
