@@ -1,0 +1,14 @@
+rank,ticker,sector,exp_return_12_18m_incl_div,bear_case,bull_case_price_only,durability_10,corr_sp500,score,status
+1,GNTX,Consumer cyclical,0.36,-0.16,0.85,6,0.38,79.8,picked
+2,EOG,Energy,0.20,-0.17,0.47,6,0.19,73.7,picked
+3,ITW,Industrials,0.078,-0.16,0.24,8,0.50,68.3,picked
+4,AOS,Industrials,0.077,-0.19,0.30,7,0.39,59.8,cut
+5,BYD,Consumer cyclical,0.15,-0.19,0.42,6,0.47,59.6,cut
+6,CL,Consumer defensive,0.017,-0.21,0.18,7,0.02,59.4,dip slot (buy below 87)
+7,CARG,Communication services,0.21,-0.28,0.71,6,0.42,58.5,cut
+8,INGR,Consumer defensive,0.20,-0.22,0.53,5,0.21,58.1,picked
+9,EHC,Healthcare,0.024,-0.28,0.35,8,0.24,54.6,dip slot (buy below 120)
+10,SHW,Materials,0.013,-0.22,,8,0.47,48.3,cut
+11,GILD,Healthcare,0.003,-0.28,,6,0.18,38.5,cut
+12,EEFT,Technology,0.13,-0.32,0.56,4,0.47,33.8,cut
+13,VNT,Technology,0.002,-0.33,,3,0.57,7.7,cut
