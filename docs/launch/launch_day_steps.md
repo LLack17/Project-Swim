@@ -31,21 +31,23 @@ decide with Claude, then log what was decided and why. Times are US Eastern.
 
 For each of orders 1–7, in order (IEF, KMLM, GNTX, EOG, ITW, INGR, MA):
 
-1. **Buy · Limit · DAY · shares from the sheet.** Limit price = the current **ask**, but **never above the max limit**.
+1. **Buy · Limit · DAY · shares from the sheet · limit price = the sheet's MAX LIMIT.** This is a "marketable limit"
+   order: it fills right away at the best available price, and the max limit is only a ceiling that is never exceeded.
+   (IBKR paper shows DELAYED quotes, so don't set the limit from IBKR's ask; use the sheet.)
 2. **Preview** → check ticker, side (BUY), shares, limit, account DUT162870 → **Transmit**.
-3. Wait up to 15 minutes. **Not filled?** Move the limit to the new ask, still at or under the max limit.
-4. **Ask is above the max limit?** Don't chase. Wait 30 minutes; if still above, re-run the order sheet with the new
-   price (shares shrink slightly), commit it with a note, and use the new max limit.
-5. **Partial fill?** Leave the rest working at the same limit; log each fill as its own row.
-6. **Log the fill** in `data/trades/trade_log.csv` right away (one row per fill; see `data/trades/README.md`).
+3. **Not filled within 5 minutes?** The price has moved above the max limit. Don't chase: wait 30 minutes. If it is
+   still unfilled, cancel, re-run the order sheet for that ticker with a fresh price, commit it with a note, and
+   re-place at the new max limit.
+4. **Partial fill?** Leave the rest working at the same limit; log each fill as its own row.
+5. **Log the fill** in `data/trades/trade_log.csv` right away (one row per fill; see `data/trades/README.md`).
 
 Notes by ticker:
 - **IEF** is very liquid: should fill within seconds at the ask.
-- **KMLM** trades less and has a wider spread: start at the midpoint between bid and ask, move toward the ask after
-  10 minutes; max limit is 1% over the reference.
+- **KMLM** trades less and has a wider spread; its max limit is 1% over the reference, so it still fills at the best
+  available price under that ceiling.
 
 **Order 8, VTI (after 1–7 have filled):** shares = (1,000,000 − total $ actually spent on 1–7 incl. commissions) ÷ VTI ask,
-rounded down. Same limit rules (max limit on the sheet). Log it.
+rounded down. Limit = the sheet's VTI max limit. Log it.
 
 **Stop placing new orders at 3:45.** Anything unfilled is cancelled at the close (DAY orders); re-place it the next
 morning from the same sheet and log the delay.
@@ -58,7 +60,7 @@ morning from the same sheet and log the delay.
 | A stock is halted | Skip it, finish the rest, retry it next day. Its money stays in cash (not VTI) until then. |
 | IBKR app down / "Load failed" | Restart the app; if still down, use IBKR Client Portal in the browser. Same orders. |
 | Order rejected | Screenshot the message, send to Claude; don't work around it. |
-| Price moved >2% since 9:40 | Re-run the sheet for that ticker (step 4 above). |
+| Order sits unfilled (price above max limit) | Step 3 above: wait 30 min, then re-run the sheet for that ticker. |
 
 ## After the close (4:00–5:00)
 
