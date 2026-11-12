@@ -1,0 +1,29 @@
+MANAGED-FUTURES FUND RE-CHECK, AQMIX NOT TRADEABLE, DATA-VERIFIED (sets 5% or 10%)
+====================================================================================================
+Index: AQR official trend factor + T-bill - 1.0 pt/yr, 1985-01 to 2026-05
+Pass = at least 60 months, correlation 0.7+ AND annual return at most 1.0 pt/yr below the index (same months);
+only funds that passed the IBKR order preview can be chosen
+
+  DATA FIX KMLM 2022: Yahoo +24.2% -> published +30.4% (Dec-2022 return scaled)
+
+  DBMF   2019-06 to 2026-05 (84 months): correlation 0.60, lags the index by -4.59 pts/yr -> fail
+  KMLM   2021-01 to 2026-05 (65 months): correlation 0.67, lags the index by +1.71 pts/yr -> fail
+  WTMF   2011-02 to 2026-05 (184 months): correlation 0.32, lags the index by +3.45 pts/yr -> fail
+  FMF    2013-09 to 2026-05 (153 months): correlation 0.52, lags the index by +2.55 pts/yr -> fail
+  AQMIX  2010-02 to 2026-05 (196 months): correlation 0.76, lags the index by +0.78 pts/yr -> PASS  [reference only: not tradeable]
+
+Calendar-year total returns (compare by hand with each fund's published returns before accepting; Yahoo has
+mis-adjusted mutual-fund distributions in the past):
+  DBMF   2020 +1.8%, 2021 +11.5%, 2022 +21.6%, 2023 -8.9%, 2024 +7.2%, 2025 +13.8%
+  KMLM   2021 +7.0%, 2022 +30.4%, 2023 -5.7%, 2024 -1.7%, 2025 -3.0%
+  WTMF   2012 -10.9%, 2013 +3.0%, 2014 +5.0%, 2015 -4.1%, 2016 -0.8%, 2017 -3.4%, 2018 +0.2%, 2019 -2.7%, 2020 +0.5%, 2021 +9.5%, 2022 -6.5%, 2023 +16.7%, 2024 +3.2%, 2025 +12.2%
+  FMF    2014 -2.0%, 2015 -0.7%, 2016 -4.1%, 2017 +1.7%, 2018 -2.6%, 2019 -5.2%, 2020 +5.7%, 2021 +3.6%, 2022 +5.2%, 2023 -0.2%, 2024 +8.2%, 2025 +4.5%
+  AQMIX  2011 -6.4%, 2012 +3.0%, 2013 +9.4%, 2014 +9.7%, 2015 +2.0%, 2016 -8.4%, 2017 -1.0%, 2018 -8.9%, 2019 +1.9%, 2020 -0.4%, 2021 -1.0%, 2022 +35.5%, 2023 +2.1%, 2024 +8.1%, 2025 +14.6%
+
+RESULT: managed futures 5% using KMLM
+  Portfolio: 52.25% US stocks / 42.75% Treasuries 7-10y / 5% managed futures
+
+Notes: fund histories are short (5-16 years) and cover one inflation shock (2022); the comparison checks whether a
+real fund delivers the index, not whether trend-following works (2B-A tested that). Yahoo adjusted closes include
+distributions; the index is hypothetical and charged a 1.0 pt/yr fee. Each fund starts with its first full month
+after launch; '5 years' is counted as months overlapping the index (for these funds the same as by the check date).
