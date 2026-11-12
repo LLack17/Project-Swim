@@ -1,1 +1,9 @@
 date,time_et,account,ticker,action,shares,order_type,limit_price,fill_price,commission,amount,planned_price,price_vs_plan_pct,reason,ips_rule,notes
+2026-11-12,09:43,DUT162870,IEF,BUY,4713,LMT,90.98,90.81,,427987.53,90.71,0.11,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:45,DUT162870,KMLM,BUY,1703,LMT,29.64,29.38,,50034.14,29.35,0.10,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:47,DUT162870,EOG,BUY,260,LMT,155.19,154.75,,40235.00,154.42,0.21,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:48,DUT162870,ITW,BUY,138,LMT,292.09,291.97,,40291.86,290.64,0.46,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:48,DUT162870,GNTX,BUY,2074,LMT,19.50,19.50,,40443.00,19.40,0.52,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:50,DUT162870,MA,BUY,45,LMT,665.25,663.45,,29855.25,661.95,0.23,launch,IPS 4; decision 2026-11-11,commission pending (fill from IBKR statement)
+2026-11-12,09:53,DUT162870,VTI,BUY,882,LMT,374.82,373.00,,328986.00,372.96,0.01,launch (holding for unbought stock money),IPS 4; decision 2026-11-11,"commission pending; sized excluding INGR's 40,171.68 (still working)"
+2026-11-12,10:20,DUT162870,INGR,BUY,432,LMT,93.45,93.134,,40233.89,92.99,0.15,launch,IPS 4; decision 2026-11-11,commission pending; avg price of possibly several partial fills; exact fill time to confirm from IBKR (time shown = when seen filled)
