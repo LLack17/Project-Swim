@@ -1,0 +1,9 @@
+order,ticker,sleeve,full_weight,launch_fraction,ref_price,shares,planned_usd,weight_at_launch,max_limit
+1,IEF,Bonds,0.4275,1.0,90.94,4700,427418.00,0.427418,91.21
+2,KMLM,Managed futures,0.05,1.0,29.26,1708,49976.08,0.049976,29.55
+3,GNTX,Quality,0.0805,0.5,19.58,2055,40236.90,0.040237,19.68
+4,EOG,Quality,0.0805,0.5,153.77,261,40133.97,0.040134,154.54
+5,ITW,Quality,0.0805,0.5,288.72,139,40132.08,0.040132,290.16
+6,INGR,Quality,0.0805,0.5,92.83,433,40195.39,0.040195,93.29
+7,MA,Long-term growth,0.06,0.5,660.73,45,29732.85,0.029733,664.03
+8,VTI,Holding (unbought stock money),,,374.25,887,331959.75,0.331960,376.12
